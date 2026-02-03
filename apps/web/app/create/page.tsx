@@ -1,5 +1,6 @@
 "use client"
 
+import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@workspace/ui/components/button"
 import {
   Form,
@@ -11,7 +12,6 @@ import {
   FormMessage,
 } from "@workspace/ui/components/form"
 import { cn } from "@workspace/ui/lib/utils"
-import { zodResolver } from "@hookform/resolvers/zod"
 import { motion } from "framer-motion"
 import { ChevronDown } from "lucide-react"
 import { useState } from "react"
@@ -179,9 +179,15 @@ export default function CreatePage() {
                       <motion.div
                         className={cn(
                           "flex h-40 flex-col rounded-xl border bg-secondary p-4",
-                          form.formState.errors.lyrics_prompt ? "border-destructive" : "border-border"
+                          form.formState.errors.lyrics_prompt
+                            ? "border-destructive"
+                            : "border-border"
                         )}
-                        whileHover={{ borderColor: form.formState.errors.lyrics_prompt ? undefined : "var(--border)" }}
+                        whileHover={{
+                          borderColor: form.formState.errors.lyrics_prompt
+                            ? undefined
+                            : "var(--border)",
+                        }}
                         transition={{ duration: 0.2 }}
                       >
                         <textarea
@@ -266,7 +272,9 @@ Your lyrics"
               animate={{ scale: [1, 1.02, 1] }}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             />
-            <span className="text-sm text-muted-foreground">Your recent creations will appear here</span>
+            <span className="text-sm text-muted-foreground">
+              Your recent creations will appear here
+            </span>
           </motion.div>
         </motion.div>
       </form>

@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { SongCard } from "../_components/song-card"
+import { SongCard } from "../../components/song-card"
 
 const songs = [
   { id: "1", title: "Untitled (v1)", duration: "2:00", artist: "fspecil" },

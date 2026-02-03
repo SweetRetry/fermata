@@ -2,25 +2,25 @@
 // https://fal.ai/models/fal-ai/minimax-music/v2
 
 export {
-  FalClient,
   createFalClient,
-  getFalClient,
-  generateMusic,
+  FalClient,
   type FalClientOptions,
-} from "./client";
+  generateMusic,
+  getFalClient,
+} from "./client"
 
 export {
-  // Schemas
-  MiniMaxMusicV2InputSchema,
-  MiniMaxMusicV2OutputSchema,
+  type AsyncRequest,
+  type AudioSetting,
   AudioSettingSchema,
+  type FalError,
+  type GeneratedAudio,
   GeneratedAudioSchema,
   // Types
   type MiniMaxMusicV2Input,
+  // Schemas
+  MiniMaxMusicV2InputSchema,
   type MiniMaxMusicV2Output,
-  type GeneratedAudio,
-  type AudioSetting,
-  type FalError,
+  MiniMaxMusicV2OutputSchema,
   type RequestStatus,
-  type AsyncRequest,
-} from "./types";
+} from "./types"
