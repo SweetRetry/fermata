@@ -1,0 +1,1514 @@
+{
+  "version": "2.6",
+  "children": [
+    {
+      "type": "frame",
+      "id": "K7a7V",
+      "x": 0,
+      "y": 0,
+      "name": "Minimal Music Player",
+      "width": 1400,
+      "height": 900,
+      "fill": "#0a0a0a",
+      "children": [
+        {
+          "type": "frame",
+          "id": "4GbCB",
+          "name": "Sidebar",
+          "width": 80,
+          "height": "fill_container",
+          "fill": "#0a0a0a",
+          "layout": "vertical",
+          "gap": 16,
+          "padding": 16,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "PMMon",
+              "name": "Logo",
+              "width": 48,
+              "height": 48,
+              "fill": "#fff",
+              "cornerRadius": 12,
+              "layout": "none"
+            },
+            {
+              "type": "frame",
+              "id": "96BUf",
+              "name": "Divider",
+              "width": 32,
+              "height": 1,
+              "fill": "#222",
+              "layout": "none"
+            },
+            {
+              "type": "frame",
+              "id": "OkOOL",
+              "name": "Home Item",
+              "layout": "vertical",
+              "gap": 8,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "G0rud",
+                  "name": "Home Icon",
+                  "width": 44,
+                  "height": 44,
+                  "fill": "#1a1a1a",
+                  "cornerRadius": 10,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#333"
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "text",
+                  "id": "OwNmL",
+                  "name": "homeLabel",
+                  "fill": "#888",
+                  "content": "Home",
+                  "fontFamily": "Inter",
+                  "fontSize": 11,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "NfdbX",
+              "name": "Create Item",
+              "layout": "vertical",
+              "gap": 8,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "1QuBK",
+                  "name": "Create Icon",
+                  "width": 44,
+                  "height": 44,
+                  "fill": "#fff",
+                  "cornerRadius": 10,
+                  "layout": "none"
+                },
+                {
+                  "type": "text",
+                  "id": "FEVs4",
+                  "name": "createLabel",
+                  "fill": "#fff",
+                  "content": "创作",
+                  "fontFamily": "Inter",
+                  "fontSize": 11,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "AqsDM",
+              "name": "Spacer",
+              "width": 48,
+              "height": "fill_container",
+              "layout": "none"
+            },
+            {
+              "type": "frame",
+              "id": "ElN41",
+              "name": "Settings Item",
+              "layout": "vertical",
+              "gap": 8,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "xBikG",
+                  "name": "Settings Icon",
+                  "width": 40,
+                  "height": 40,
+                  "fill": "#1a1a1a",
+                  "cornerRadius": 8,
+                  "layout": "none"
+                },
+                {
+                  "type": "text",
+                  "id": "oXhis",
+                  "name": "settingsLabel",
+                  "fill": "#666",
+                  "content": "设置",
+                  "fontFamily": "Inter",
+                  "fontSize": 11,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "CCLPJ",
+          "name": "Main Content",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "#0a0a0a",
+          "layout": "vertical",
+          "gap": 32,
+          "padding": [
+            48,
+            64
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "y9O4u",
+              "name": "Content Header",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Qz3CO",
+                  "name": "pageTitle",
+                  "fill": "#fff",
+                  "content": "Your Library",
+                  "fontFamily": "Inter",
+                  "fontSize": 32,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "u8x62",
+                  "name": "User Avatar",
+                  "width": 40,
+                  "height": 40,
+                  "fill": "#333",
+                  "cornerRadius": 20,
+                  "layout": "none"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "6okY0",
+              "name": "subHeader",
+              "fill": "#666",
+              "content": "Recently created tracks",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "e59KK",
+              "name": "Song Grid",
+              "width": "fill_container",
+              "gap": 24,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "UQtng",
+                  "name": "Song Card 1",
+                  "width": 200,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "rATis",
+                      "name": "Song Thumb 1",
+                      "width": 200,
+                      "height": 200,
+                      "fill": "#1a1a1a",
+                      "cornerRadius": 12,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "#222"
+                      },
+                      "layout": "none"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "UhmVG",
+                      "name": "Song Info 1",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "AQF7K",
+                          "name": "songTitle1",
+                          "fill": "#fff",
+                          "content": "Untitled (v1)",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "text",
+                          "id": "SIy9L",
+                          "name": "songMeta1",
+                          "fill": "#666",
+                          "content": "2:00 · fspecil",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "ocDQB",
+                  "name": "Song Card 2",
+                  "width": 200,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "0Is6o",
+                      "name": "Song Thumb 2",
+                      "width": 200,
+                      "height": 200,
+                      "fill": "#1a1a1a",
+                      "cornerRadius": 12,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "#222"
+                      },
+                      "layout": "none"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "yBbhg",
+                      "name": "Song Info 2",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "R0s98",
+                          "name": "songTitle2",
+                          "fill": "#fff",
+                          "content": "Untitled (v2)",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "text",
+                          "id": "L8AUt",
+                          "name": "songMeta2",
+                          "fill": "#666",
+                          "content": "2:00 · fspecil",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "FlAmg",
+                  "name": "Song Card 3",
+                  "width": 200,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "CavNC",
+                      "name": "Song Thumb 3",
+                      "width": 200,
+                      "height": 200,
+                      "fill": "#1a1a1a",
+                      "cornerRadius": 12,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "#222"
+                      },
+                      "layout": "none"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "M8br9",
+                      "name": "Song Info 3",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "w8DhC",
+                          "name": "songTitle3",
+                          "fill": "#fff",
+                          "content": "Midnight Dreams",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "text",
+                          "id": "5d3yK",
+                          "name": "songMeta3",
+                          "fill": "#666",
+                          "content": "3:24 · fspecil",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "oc2V6",
+      "x": 0,
+      "y": 950,
+      "name": "Song Details Page",
+      "width": 1400,
+      "height": 900,
+      "fill": "#0a0a0a",
+      "placeholder": true,
+      "children": [
+        {
+          "type": "frame",
+          "id": "3lKqY",
+          "name": "Artwork Section",
+          "width": 620,
+          "height": "fill_container",
+          "fill": "#0a0a0a",
+          "layout": "vertical",
+          "gap": 32,
+          "padding": 64,
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "IE8cF",
+              "name": "Large Artwork",
+              "width": 400,
+              "height": 400,
+              "fill": "#1a1a1a",
+              "cornerRadius": 16,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "#222"
+              },
+              "layout": "none"
+            },
+            {
+              "type": "text",
+              "id": "jprQO",
+              "name": "artworkTitle",
+              "fill": "#fff",
+              "content": "Untitled (v2)",
+              "fontFamily": "Inter",
+              "fontSize": 28,
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "dbkZe",
+              "name": "artworkMeta",
+              "fill": "#666",
+              "content": "fspecil · v3.5 · 2:00",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "0OvC9",
+          "name": "Details Section",
+          "width": 620,
+          "height": "fill_container",
+          "fill": "#0a0a0a",
+          "layout": "vertical",
+          "gap": 32,
+          "padding": [
+            64,
+            48
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "qeLl0",
+              "name": "Details Header",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "lCDVY",
+                  "name": "backBtn",
+                  "fill": "#666",
+                  "content": "← Back to Library",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "uP4Nc",
+                  "name": "More Button",
+                  "width": 32,
+                  "height": 32,
+                  "fill": "#1a1a1a",
+                  "cornerRadius": 6,
+                  "layout": "none"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "nZzvi",
+              "name": "Stats Row",
+              "width": "fill_container",
+              "gap": 24,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "UbmsA",
+                  "name": "Stat 1",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Q07J4",
+                      "name": "Stat 1 Icon",
+                      "width": 20,
+                      "height": 20,
+                      "fill": "#333",
+                      "cornerRadius": 4,
+                      "layout": "none"
+                    },
+                    {
+                      "type": "text",
+                      "id": "Q1xlX",
+                      "name": "stat1Text",
+                      "fill": "#888",
+                      "content": "0 likes",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "ZhB1V",
+                  "name": "Stat 2",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "SoAFv",
+                      "name": "Stat 2 Icon",
+                      "width": 20,
+                      "height": 20,
+                      "fill": "#333",
+                      "cornerRadius": 4,
+                      "layout": "none"
+                    },
+                    {
+                      "type": "text",
+                      "id": "K6nMM",
+                      "name": "stat2Text",
+                      "fill": "#888",
+                      "content": "0 comments",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "J3fjJ",
+              "name": "Tags Section",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "yJs89",
+                  "name": "tagsLabel",
+                  "fill": "#555",
+                  "content": "STYLE",
+                  "fontFamily": "Inter",
+                  "fontSize": 11,
+                  "fontWeight": "600",
+                  "letterSpacing": 1
+                },
+                {
+                  "type": "frame",
+                  "id": "dU5qL",
+                  "name": "Tags Row",
+                  "width": "fill_container",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "sk2yI",
+                      "name": "Tag 1",
+                      "height": 32,
+                      "fill": "#1a1a1a",
+                      "cornerRadius": 6,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "#2a2a2a"
+                      },
+                      "padding": [
+                        8,
+                        12
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Xs4df",
+                          "name": "tag1Text",
+                          "fill": "#aaa",
+                          "content": "Industrial Metal",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Ak0Ot",
+                      "name": "Tag 2",
+                      "height": 32,
+                      "fill": "#1a1a1a",
+                      "cornerRadius": 6,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "#2a2a2a"
+                      },
+                      "padding": [
+                        8,
+                        12
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "2MPs7",
+                          "name": "tag2Text",
+                          "fill": "#aaa",
+                          "content": "Heavy",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "zuuo6",
+                      "name": "Tag 3",
+                      "height": 32,
+                      "fill": "#1a1a1a",
+                      "cornerRadius": 6,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "#2a2a2a"
+                      },
+                      "padding": [
+                        8,
+                        12
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "kGv8u",
+                          "name": "tag3Text",
+                          "fill": "#aaa",
+                          "content": "Dark",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "J1XX3",
+              "name": "Lyrics Section",
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "Nr8mT",
+                  "name": "Lyrics Header",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "02YXO",
+                      "name": "lyricsLabel",
+                      "fill": "#555",
+                      "content": "LYRICS",
+                      "fontFamily": "Inter",
+                      "fontSize": 11,
+                      "fontWeight": "600",
+                      "letterSpacing": 1
+                    },
+                    {
+                      "type": "text",
+                      "id": "4KnMw",
+                      "name": "copyBtn",
+                      "fill": "#444",
+                      "content": "Copy",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "GD2js",
+                  "name": "lyricsContent",
+                  "fill": "#999",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "[Intro]\nEins, zwei, Polizei\nDrei, vier, Grenadier\nFünf, sechs, alte Hex'\nSieben, acht, gute Nacht\n\n[Verse 1]\nDie Maschine raucht und bebt\nEin Herz aus Stahl, das niemals lebt\nIn den Tiefen, dunkel und kalt\nEine Geschichte, die man erzählt",
+                  "lineHeight": 1.7,
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "JsS5f",
+      "x": 80,
+      "y": 820,
+      "name": "Player Bar Fixed",
+      "width": 1320,
+      "height": 80,
+      "fill": "#0a0a0a",
+      "gap": 32,
+      "padding": [
+        20,
+        32
+      ],
+      "justifyContent": "space_between",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "Cega2",
+          "name": "Mini Player",
+          "gap": 16,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "jLJjg",
+              "name": "Cover Button (Click for Details)",
+              "width": 56,
+              "height": 56,
+              "fill": "#1a1a1a",
+              "cornerRadius": 8,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "#333"
+              },
+              "layout": "none"
+            },
+            {
+              "type": "frame",
+              "id": "l5sKd",
+              "name": "Mini Info",
+              "layout": "vertical",
+              "gap": 4,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "EsPGv",
+                  "name": "miniTitle",
+                  "fill": "#fff",
+                  "content": "Untitled (v2)",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "text",
+                  "id": "uODC7",
+                  "name": "miniArtist",
+                  "fill": "#666",
+                  "content": "fspecil",
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "cpo1V",
+          "name": "Center Controls",
+          "gap": 20,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "WjlrV",
+              "name": "Prev Button",
+              "width": 32,
+              "height": 32,
+              "fill": "#222",
+              "cornerRadius": 16,
+              "layout": "none"
+            },
+            {
+              "type": "frame",
+              "id": "X2mRX",
+              "name": "Play Button",
+              "width": 40,
+              "height": 40,
+              "fill": "#fff",
+              "cornerRadius": 20,
+              "layout": "none"
+            },
+            {
+              "type": "frame",
+              "id": "NdeGs",
+              "name": "Next Button",
+              "width": 32,
+              "height": 32,
+              "fill": "#222",
+              "cornerRadius": 16,
+              "layout": "none"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "upRHp",
+          "name": "Right Player",
+          "gap": 16,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "2kLLP",
+              "name": "Progress Mini",
+              "width": 120,
+              "height": 3,
+              "fill": "#222",
+              "cornerRadius": 2,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "P9Akq",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Progress Fill",
+                  "width": 35,
+                  "height": 3,
+                  "fill": "#fff",
+                  "cornerRadius": 2,
+                  "layout": "none"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "SuhcB",
+              "name": "timeText",
+              "fill": "#666",
+              "content": "0:16 / 2:00",
+              "fontFamily": "Inter",
+              "fontSize": 12,
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "1SC9z",
+      "x": 0,
+      "y": 1900,
+      "name": "Create Page",
+      "width": 1400,
+      "height": 900,
+      "fill": "#0a0a0a",
+      "placeholder": true,
+      "children": [
+        {
+          "type": "frame",
+          "id": "OKHRF",
+          "name": "Create Left Panel",
+          "width": 480,
+          "height": "fill_container",
+          "fill": "#0a0a0a",
+          "layout": "vertical",
+          "gap": 32,
+          "padding": [
+            48,
+            40
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "xq7AC",
+              "name": "Create Header",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "orRqf",
+                  "name": "createTitle",
+                  "fill": "#fff",
+                  "content": "Create Music",
+                  "fontFamily": "Inter",
+                  "fontSize": 28,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "T4J6X",
+                  "name": "Model Selector",
+                  "height": 36,
+                  "fill": "#1a1a1a",
+                  "cornerRadius": 8,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#2a2a2a"
+                  },
+                  "gap": 8,
+                  "padding": [
+                    12,
+                    16
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "qwB0W",
+                      "name": "modelText",
+                      "fill": "#ccc",
+                      "content": "ACE-Step v1.5",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "geX2A",
+              "name": "Toggle Row",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "W1tTu",
+                  "name": "Simple Toggle",
+                  "height": 36,
+                  "fill": "#1a1a1a",
+                  "cornerRadius": 8,
+                  "padding": [
+                    12,
+                    20
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "G5cFC",
+                      "name": "simpleToggleText",
+                      "fill": "#888",
+                      "content": "Simple",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "0eMEn",
+                  "name": "Custom Toggle",
+                  "height": 36,
+                  "fill": "#fff",
+                  "cornerRadius": 8,
+                  "padding": [
+                    12,
+                    20
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "5wsuy",
+                      "name": "customToggleText",
+                      "fill": "#000",
+                      "content": "Custom",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "gpRRh",
+              "name": "Lyrics Input Section",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "GfXOz",
+                  "name": "lyricsLabel",
+                  "fill": "#555",
+                  "content": "LYRICS",
+                  "fontFamily": "Inter",
+                  "fontSize": 11,
+                  "fontWeight": "600",
+                  "letterSpacing": 1
+                },
+                {
+                  "type": "frame",
+                  "id": "wpL13",
+                  "name": "Lyrics Textarea",
+                  "width": "fill_container",
+                  "height": 160,
+                  "fill": "#111",
+                  "cornerRadius": 12,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#222"
+                  },
+                  "layout": "vertical",
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "uBG5X",
+                      "name": "lyricsPlaceholder",
+                      "fill": "#444",
+                      "content": "Enter your lyrics here...\n\n[Verse 1]\nYour lyrics",
+                      "lineHeight": 1.6,
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "SDoZa",
+              "name": "Style Input Section",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "WMLSV",
+                  "name": "styleLabel",
+                  "fill": "#555",
+                  "content": "STYLE OF MUSIC",
+                  "fontFamily": "Inter",
+                  "fontSize": 11,
+                  "fontWeight": "600",
+                  "letterSpacing": 1
+                },
+                {
+                  "type": "frame",
+                  "id": "PesTk",
+                  "name": "Style Input",
+                  "width": "fill_container",
+                  "height": 80,
+                  "fill": "#111",
+                  "cornerRadius": 12,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#222"
+                  },
+                  "layout": "vertical",
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "SQkSn",
+                      "name": "stylePlaceholder",
+                      "fill": "#444",
+                      "content": "Describe your music style (e.g., Industrial Metal, Dark, Heavy)",
+                      "lineHeight": 1.5,
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "9TDXA",
+              "name": "Genre Section",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "PeGij",
+                  "name": "genreLabel",
+                  "fill": "#555",
+                  "content": "GENRE",
+                  "fontFamily": "Inter",
+                  "fontSize": 11,
+                  "fontWeight": "600",
+                  "letterSpacing": 1
+                },
+                {
+                  "type": "frame",
+                  "id": "tA6Z6",
+                  "name": "Genre Tags Row",
+                  "width": "fill_container",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "bYQl2",
+                      "name": "Genre Tag 1",
+                      "height": 32,
+                      "fill": "#1a1a1a",
+                      "cornerRadius": 16,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "#2a2a2a"
+                      },
+                      "padding": [
+                        10,
+                        16
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "QOs8L",
+                          "name": "genreTag1Text",
+                          "fill": "#888",
+                          "content": "Pop",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "kAfYD",
+                      "name": "Genre Tag 2",
+                      "height": 32,
+                      "fill": "#1a1a1a",
+                      "cornerRadius": 16,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "#2a2a2a"
+                      },
+                      "padding": [
+                        10,
+                        16
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "4GEBt",
+                          "name": "genreTag2Text",
+                          "fill": "#888",
+                          "content": "Rock",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "WCsAb",
+                      "name": "Genre Tag 3",
+                      "height": 32,
+                      "fill": "#1a1a1a",
+                      "cornerRadius": 16,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "#2a2a2a"
+                      },
+                      "padding": [
+                        10,
+                        16
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "E1WE4",
+                          "name": "genreTag3Text",
+                          "fill": "#888",
+                          "content": "Electronic",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "UoyFh",
+                      "name": "Genre Tag 4",
+                      "height": 32,
+                      "fill": "#1a1a1a",
+                      "cornerRadius": 16,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "#2a2a2a"
+                      },
+                      "padding": [
+                        10,
+                        16
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "wkRbU",
+                          "name": "genreTag4Text",
+                          "fill": "#888",
+                          "content": "Hip Hop",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "tydBr",
+                      "name": "Genre Tag 5",
+                      "height": 32,
+                      "fill": "#1a1a1a",
+                      "cornerRadius": 16,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "#2a2a2a"
+                      },
+                      "padding": [
+                        10,
+                        16
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Y9Iyc",
+                          "name": "genreTag5Text",
+                          "fill": "#888",
+                          "content": "Jazz",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "E7RtT",
+              "name": "Title Input Section",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "BtSI0",
+                  "name": "titleLabel",
+                  "fill": "#555",
+                  "content": "TITLE",
+                  "fontFamily": "Inter",
+                  "fontSize": 11,
+                  "fontWeight": "600",
+                  "letterSpacing": 1
+                },
+                {
+                  "type": "frame",
+                  "id": "5b2Bh",
+                  "name": "Title Input",
+                  "width": "fill_container",
+                  "height": 48,
+                  "fill": "#111",
+                  "cornerRadius": 12,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#222"
+                  },
+                  "padding": [
+                    12,
+                    16
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Pv1dQ",
+                      "name": "titlePlaceholder",
+                      "fill": "#666",
+                      "content": "Untitled (v1)",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "LLhM3",
+              "name": "Instrumental Row",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "TlUCW",
+                  "name": "instrumentalLabel",
+                  "fill": "#ccc",
+                  "content": "Instrumental",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "rXeP0",
+                  "name": "Instrumental Toggle",
+                  "width": 44,
+                  "height": 24,
+                  "fill": "#fff",
+                  "cornerRadius": 12,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "ellipse",
+                      "id": "viiOg",
+                      "x": 22,
+                      "y": 2,
+                      "name": "Toggle Knob",
+                      "fill": "#000",
+                      "width": 20,
+                      "height": 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "pJOPZ",
+              "name": "Create Button",
+              "width": "fill_container",
+              "height": 52,
+              "fill": "#fff",
+              "cornerRadius": 26,
+              "gap": 8,
+              "padding": [
+                16,
+                24
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "1GGgy",
+                  "name": "createButtonText",
+                  "fill": "#000",
+                  "content": "Create 2 Songs",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "SgVY1",
+          "name": "Create Right Panel",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "#0a0a0a",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            48,
+            40
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "ftAaC",
+              "name": "Right Panel Header",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "eMe6X",
+                  "name": "recentTitle",
+                  "fill": "#fff",
+                  "content": "Recent Creations",
+                  "fontFamily": "Inter",
+                  "fontSize": 20,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "text",
+                  "id": "XUghe",
+                  "name": "viewAllLink",
+                  "fill": "#666",
+                  "content": "View all",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "jnZHf",
+              "name": "Empty State",
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "gap": 16,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "Fod8v",
+                  "name": "Empty Icon",
+                  "width": 64,
+                  "height": 64,
+                  "fill": "#1a1a1a",
+                  "cornerRadius": 16,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#222"
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "text",
+                  "id": "sDZhv",
+                  "name": "emptyText",
+                  "fill": "#444",
+                  "content": "Your recent creations will appear here",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
