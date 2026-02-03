@@ -2,7 +2,7 @@
 
 import { cn } from "@workspace/ui/lib/utils"
 import { motion } from "framer-motion"
-import { Home, PlusCircle, Settings } from "lucide-react"
+import { Home, Music, PlusCircle, Settings } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
@@ -56,6 +56,7 @@ export function Sidebar() {
       {/* Navigation */}
       <nav className="flex flex-col items-center gap-4">
         <NavItem href="/library" icon={<Home className="h-5 w-5" />} label="Home" />
+        <NavItem href="/genres" icon={<Music className="h-5 w-5" />} label="流派" />
         <NavItem href="/create" icon={<PlusCircle className="h-5 w-5" />} label="创作" />
       </nav>
 

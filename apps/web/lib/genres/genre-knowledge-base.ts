@@ -14,6 +14,13 @@ const REFERENCES_DIR = path.join(process.cwd(), "lib", "skill", "references");
 /** In-memory knowledge base */
 let knowledgeBase: Map<string, GenreEntry> | null = null;
 let allGenresList: GenreEntry[] | null = null;
+let cachedDatabaseForAI: string | null = null;
+
+/** Cache for main genres list */
+let mainGenresList: GenreEntry[] | null = null;
+
+/** Cache for main genre sub-genres data */
+let mainGenreSubGenresCache: Map<string, GenreEntry[]> | null = null;
 
 /**
  * Initialize the knowledge base by loading all genre data
@@ -139,6 +146,10 @@ export async function getGenreByName(
  * This is the core function that provides all genre data to the AI
  */
 export async function getGenreDatabaseForAI(): Promise<string> {
+  if (cachedDatabaseForAI) {
+    return cachedDatabaseForAI;
+  }
+
   const genres = await getAllGenres();
 
   // Create a compact representation for AI context
@@ -150,7 +161,7 @@ export async function getGenreDatabaseForAI(): Promise<string> {
     subGenres: g.subGenres?.map((s: { name: string }) => s.name),
   }));
 
-  return JSON.stringify(
+  cachedDatabaseForAI = JSON.stringify(
     {
       totalGenres: compactGenres.length,
       genres: compactGenres,
@@ -158,14 +169,105 @@ export async function getGenreDatabaseForAI(): Promise<string> {
     null,
     2,
   );
+
+  return cachedDatabaseForAI;
 }
 
 /**
  * Get main genres only (top-level categories)
+ * Uses cached list if available
  */
 export async function getMainGenres(): Promise<GenreEntry[]> {
+  if (mainGenresList) {
+    return mainGenresList;
+  }
   const genres = await getAllGenres();
-  return genres.filter((g) => g.level === "main");
+  mainGenresList = genres.filter((g) => g.level === "main");
+  return mainGenresList;
+}
+
+/**
+ * Get main genres formatted for AI context (compact)
+ * Returns only name and description for the 49 main genres
+ */
+export async function getMainGenresForAI(): Promise<string> {
+  const mainGenres = await getMainGenres();
+  const compact = mainGenres.map((g) => ({
+    name: g.name,
+    description: g.description.slice(0, 150),
+  }));
+  return JSON.stringify(
+    { totalMainGenres: compact.length, mainGenres: compact },
+    null,
+    2,
+  );
+}
+
+/**
+ * Load sub-genres for specific main genres from their JSON files
+ * This is done on-demand for selected main genres only
+ */
+export async function loadSubGenresForMains(
+  mainGenreNames: string[],
+): Promise<GenreEntry[]> {
+  if (!mainGenreSubGenresCache) {
+    mainGenreSubGenresCache = new Map<string, GenreEntry[]>();
+  }
+
+  const result: GenreEntry[] = [];
+
+  for (const mainName of mainGenreNames) {
+    // Check cache first
+    const cached = mainGenreSubGenresCache.get(mainName.toLowerCase());
+    if (cached) {
+      result.push(...cached);
+      continue;
+    }
+
+    // Find the main genre file
+    const mainGenres = await getMainGenres();
+    const mainGenre = mainGenres.find(
+      (g) => g.name.toLowerCase() === mainName.toLowerCase(),
+    );
+
+    if (!mainGenre || !mainGenre.subGenres) {
+      continue;
+    }
+
+    // Convert sub-genres to GenreEntry format
+    const subEntries: GenreEntry[] = mainGenre.subGenres.map((sub) => ({
+      name: sub.name,
+      description: sub.description,
+      url: sub.url,
+      level: "sub",
+      parent: mainGenre.name,
+    }));
+
+    // Cache and add to result
+    mainGenreSubGenresCache.set(mainName.toLowerCase(), subEntries);
+    result.push(...subEntries);
+  }
+
+  return result;
+}
+
+/**
+ * Get sub-genres for selected main genres formatted for AI
+ */
+export async function getSubGenresForAI(
+  mainGenreNames: string[],
+): Promise<string> {
+  const subGenres = await loadSubGenresForMains(mainGenreNames);
+  const compact = subGenres.map((g) => ({
+    name: g.name,
+    description: g.description.slice(0, 150),
+    parent: g.parent,
+  }));
+  return JSON.stringify(
+    { totalSubGenres: compact.length, subGenres: compact },
+    null,
+    2,
+  );
 }
 
 /**
@@ -193,3 +295,13 @@ export async function searchGenresByName(
 
   return matches.slice(0, limit);
 }
+
+// ============================================================================
+// Preload on module initialization
+// ============================================================================
+
+// Start preloading knowledge base immediately on module load
+// This eliminates cold start latency for the first request
+void getKnowledgeBase().catch(() => {
+  // Silent fail - will retry on first actual request
+});
