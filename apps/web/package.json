@@ -13,12 +13,13 @@
   },
   "dependencies": {
     "@ai-sdk/deepseek": "^2.0.17",
-    "@ai-sdk/openai": "^3.0.25",
-    "@ai-sdk/openai-compatible": "^2.0.26",
+    "@fal-ai/client": "^1.8.5",
     "@hookform/resolvers": "^5.2.2",
-    "@sweetretry/ai-sdk-volcengine-adapter": "^0.1.5",
+    "@tanstack/react-query": "^5.90.20",
     "@workspace/ui": "workspace:*",
     "ai": "^6.0.68",
+    "better-sqlite3": "^12.6.2",
+    "drizzle-orm": "^0.45.1",
     "framer-motion": "^12.30.0",
     "lucide-react": "^0.475.0",
     "next": "16.0.10",
@@ -26,14 +27,16 @@
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
     "react-hook-form": "^7.71.1",
-    "zod": "^3.25.76"
+    "zod": "^4.0.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.17",
+    "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^20.19.25",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@workspace/typescript-config": "workspace:*",
+    "drizzle-kit": "^0.31.8",
     "typescript": "^5.9.3"
   }
 }

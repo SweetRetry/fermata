@@ -3,26 +3,10 @@
 import { Button } from "@workspace/ui/components/button"
 import { Input } from "@workspace/ui/components/input"
 import { cn } from "@workspace/ui/lib/utils"
-import { motion, AnimatePresence } from "framer-motion"
-import { Search, Loader2 } from "lucide-react"
-import { useState } from "react"
-
-interface GenreMatch {
-  name: string
-  description: string
-  url: string
-  level: string
-  parent?: string
-  reason: string
-  confidence: number
-}
-
-interface SearchResponse {
-  query: string
-  matches: GenreMatch[]
-  relatedTerms: string[]
-  summary: string
-}
+import { AnimatePresence, motion } from "framer-motion"
+import { Loader2, Search, Wand2 } from "lucide-react"
+import Link from "next/link"
+import { useGenreSearchForm } from "@/hooks"
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -47,53 +31,25 @@ const itemVariants = {
   },
 }
 
-const exampleQueries = [
+// Static data - defined outside component to avoid re-creation
+const EXAMPLE_QUERIES = [
   "深夜加班写代码",
   "雨天咖啡馆看书",
   "冥想放松",
   "健身房跑步",
   "开车兜风",
-]
+] as const
 
 export default function GenresPage() {
-  const [query, setQuery] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
-  const [result, setResult] = useState<SearchResponse | null>(null)
-  const [error, setError] = useState<string | null>(null)
-
-  const handleSearch = async (searchQuery: string = query) => {
-    if (!searchQuery.trim()) return
-
-    setIsLoading(true)
-    setError(null)
-    setResult(null)
-
-    try {
-      const response = await fetch("/api/genres/search", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query: searchQuery, limit: 5 }),
-      })
-
-      if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.message || "Search failed")
-      }
-
-      const data: SearchResponse = await response.json()
-      setResult(data)
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong")
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      handleSearch()
-    }
-  }
+  const {
+    query,
+    setQuery,
+    result,
+    isLoading,
+    error,
+    handleSearch,
+    handleKeyDown,
+  } = useGenreSearchForm()
 
   return (
     <div className="flex h-full flex-col">
@@ -155,7 +111,7 @@ export default function GenresPage() {
           transition={{ delay: 0.35, duration: 0.4 }}
         >
           <span className="text-sm text-muted-foreground/50">试试：</span>
-          {exampleQueries.map((example) => (
+          {EXAMPLE_QUERIES.map((example) => (
             <Button
               key={example}
               variant="ghost"
@@ -218,9 +174,7 @@ export default function GenresPage() {
                       className="group max-w-2xl"
                     >
                       <div className="flex items-baseline gap-4">
-                        <h3 className="text-xl font-medium">
-                          {match.name}
-                        </h3>
+                        <h3 className="text-xl font-medium">{match.name}</h3>
                         {match.parent && (
                           <span className="text-sm text-muted-foreground/50">
                             {match.parent}
@@ -234,7 +188,7 @@ export default function GenresPage() {
                                 ? "bg-emerald-500"
                                 : match.confidence >= 0.7
                                   ? "bg-amber-500"
-                                  : "bg-primary"
+                                  : "bg-primary",
                             )}
                           />
                           <span className="text-xs text-muted-foreground/40">
@@ -251,14 +205,23 @@ export default function GenresPage() {
                         {match.reason}
                       </p>
 
-                      <a
-                        href={match.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="mt-3 inline-block text-xs text-muted-foreground/40 hover:text-primary transition-colors"
-                      >
-                        了解更多 →
-                      </a>
+                      <div className="mt-4 flex items-center gap-4">
+                        <a
+                          href={match.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs text-muted-foreground/40 hover:text-primary transition-colors"
+                        >
+                          了解更多 →
+                        </a>
+                        <Link
+                          href={`/create?style=${encodeURIComponent(match.name)}&description=${encodeURIComponent(match.description)}&context=${encodeURIComponent(query)}`}
+                          className="inline-flex items-center gap-1.5 text-xs font-medium text-primary hover:text-primary/80 transition-colors"
+                        >
+                          <Wand2 className="h-3 w-3" />
+                          使用此风格创作
+                        </Link>
+                      </div>
                     </motion.div>
                   ))}
                 </div>

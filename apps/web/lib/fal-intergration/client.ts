@@ -1,56 +1,21 @@
-import type { MiniMaxMusicV2Input, MiniMaxMusicV2Output } from "./types"
+import { fal } from "@fal-ai/client";
+import type { MiniMaxMusicV2Input, MiniMaxMusicV2Output } from "./types";
 
-const FAL_API_BASE = "https://fal.run"
+fal.config({
+  credentials: process.env.FAL_API_KEY,
+});
 
-export interface FalClientOptions {
-  apiKey?: string
-}
+/**
+ * Generate music using MiniMax Music v2 model
+ * @param input - Music generation parameters
+ * @returns Generated audio file metadata
+ */
+export async function generateMusic(
+  input: MiniMaxMusicV2Input,
+): Promise<MiniMaxMusicV2Output> {
+  const result = await fal.run("fal-ai/minimax-music/v2", {
+    input,
+  });
 
-export class FalClient {
-  private apiKey: string
-
-  constructor(options: FalClientOptions = {}) {
-    this.apiKey = options.apiKey || process.env.FAL_API_KEY || ""
-    if (!this.apiKey) {
-      throw new Error("FAL_API_KEY is required")
-    }
-  }
-
-  async run<TInput, TOutput>(modelId: string, input: TInput): Promise<TOutput> {
-    const response = await fetch(`${FAL_API_BASE}/${modelId}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Key ${this.apiKey}`,
-      },
-      body: JSON.stringify(input),
-    })
-
-    if (!response.ok) {
-      const error = await response.text()
-      throw new Error(`Fal API error: ${response.status} - ${error}`)
-    }
-
-    return response.json() as Promise<TOutput>
-  }
-}
-
-// Singleton instance
-let defaultClient: FalClient | null = null
-
-export function getFalClient(): FalClient {
-  if (!defaultClient) {
-    defaultClient = new FalClient()
-  }
-  return defaultClient
-}
-
-export function createFalClient(options: FalClientOptions): FalClient {
-  return new FalClient(options)
-}
-
-// MiniMax Music v2 specific function
-export async function generateMusic(input: MiniMaxMusicV2Input): Promise<MiniMaxMusicV2Output> {
-  const client = getFalClient()
-  return client.run<MiniMaxMusicV2Input, MiniMaxMusicV2Output>("fal-ai/minimax-music/v2", input)
+  return result.data as MiniMaxMusicV2Output;
 }

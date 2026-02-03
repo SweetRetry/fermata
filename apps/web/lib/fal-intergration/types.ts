@@ -1,11 +1,15 @@
 import { z } from "zod"
 
-// MiniMax Music v2 Zod Schemas
+// MiniMax Music v2 Zod Schemas - 与 Fal SDK 类型兼容
 export const AudioSettingSchema = z.object({
-  /** Audio bitrate in kbps (e.g., 128, 192, 320) */
-  bitrate: z.number().optional(),
-  /** Sample rate in Hz (e.g., 44100, 48000) */
-  sample_rate: z.number().optional(),
+  /** Audio bitrate - 使用 Fal SDK 支持的字符串值 */
+  bitrate: z.enum(["32000", "64000", "128000", "256000"]).optional(),
+  /** Sample rate - 使用 Fal SDK 支持的字符串值 */
+  sample_rate: z.enum(["8000", "16000", "22050", "24000", "32000", "44100"]).optional(),
+  /** Audio format */
+  format: z.enum(["mp3", "pcm", "flac"]).optional(),
+  /** Number of channels (1=mono, 2=stereo) */
+  channel: z.enum(["1", "2"]).optional(),
 })
 
 export const MiniMaxMusicV2InputSchema = z.object({
@@ -15,14 +19,14 @@ export const MiniMaxMusicV2InputSchema = z.object({
    */
   prompt: z
     .string()
-    .min(10, "Prompt must be at least 10 characters")
-    .max(300, "Prompt must be at most 300 characters"),
+    .min(10, { error: "Prompt must be at least 10 characters" })
+    .max(300, { error: "Prompt must be at most 300 characters" }),
 
   /**
-   * Lyrics of the song. Use \n to separate lines.
+   * Lyrics of the song. Use \\n to separate lines.
    * Supports tags: [Intro], [Verse], [Chorus], [Bridge], [Outro]
    */
-  lyrics_prompt: z.string().min(1, "Lyrics are required"),
+  lyrics_prompt: z.string().min(1, { error: "Lyrics are required" }),
 
   /**
    * Optional audio configuration settings
@@ -49,25 +53,21 @@ export const GeneratedAudioSchema = z.object({
 export const MiniMaxMusicV2OutputSchema = z.object({
   /** The generated audio file */
   audio: GeneratedAudioSchema,
+  /** Request ID for tracking */
+  request_id: z.string().optional(),
 })
 
 // Inferred TypeScript types from Zod schemas
 export type GeneratedAudio = z.infer<typeof GeneratedAudioSchema>
 export type MiniMaxMusicV2Output = z.infer<typeof MiniMaxMusicV2OutputSchema>
 
-// Error types
-export interface FalError {
-  message: string
-  code?: string
-  status?: number
-}
+// Generation status for polling
+export type GenerationStatus = "pending" | "generating" | "completed" | "failed"
 
-// Request status for async operations
-export type RequestStatus = "pending" | "in_progress" | "completed" | "failed"
-
-export interface AsyncRequest<T> {
-  id: string
-  status: RequestStatus
-  result?: T
-  error?: FalError
+export interface GenerationProgress {
+  status: GenerationStatus
+  progress?: number
+  audioUrl?: string
+  duration?: number
+  error?: string
 }

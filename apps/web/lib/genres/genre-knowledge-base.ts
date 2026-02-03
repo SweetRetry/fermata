@@ -29,12 +29,6 @@ async function initializeKnowledgeBase(): Promise<Map<string, GenreEntry>> {
   const kb = new Map<string, GenreEntry>();
   const genresList: GenreEntry[] = [];
 
-  // Load index file to get main genres
-  const indexPath = path.join(REFERENCES_DIR, "_index.json");
-  const indexContent = await fs.readFile(indexPath, "utf-8");
-  // Parse to validate structure, data loaded from main files
-  void JSON.parse(indexContent);
-
   // Load each main genre and its sub-genres
   const mainFiles = await fs.readdir(path.join(REFERENCES_DIR, "main"));
 
