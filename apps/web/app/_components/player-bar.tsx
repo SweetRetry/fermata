@@ -3,6 +3,7 @@
 import { Button } from "@workspace/ui/components/button"
 import { motion } from "framer-motion"
 import { Play, SkipBack, SkipForward } from "lucide-react"
+import Link from "next/link"
 
 export function PlayerBar() {
   return (
@@ -19,7 +20,13 @@ export function PlayerBar() {
         animate={{ x: 0, opacity: 1 }}
         transition={{ delay: 0.1, duration: 0.3 }}
       >
-        <div className="h-14 w-14 rounded-lg border border-border bg-muted" />
+        <Link href="/details/2">
+          <motion.div
+            className="h-14 w-14 rounded-lg border border-border bg-muted"
+            whileHover={{ scale: 1.05, borderColor: "var(--primary)" }}
+            transition={{ duration: 0.2 }}
+          />
+        </Link>
         <div className="flex flex-col gap-1">
           <span className="text-sm font-medium text-foreground">Untitled (v2)</span>
           <span className="text-xs text-muted-foreground">fspecil</span>
