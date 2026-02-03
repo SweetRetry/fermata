@@ -1,0 +1,32 @@
+"use client"
+
+import { motion } from "framer-motion"
+
+interface ErrorStateProps {
+  message: string
+}
+
+export function ErrorState({ message }: ErrorStateProps) {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="mt-8 text-sm text-destructive"
+    >
+      {message}
+    </motion.div>
+  )
+}
+
+export function EmptyState() {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="mt-20 text-sm text-muted-foreground/30"
+    >
+      等待输入...
+    </motion.div>
+  )
+}

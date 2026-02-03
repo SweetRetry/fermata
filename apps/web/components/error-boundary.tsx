@@ -1,9 +1,9 @@
 "use client"
 
-import { Component, type ErrorInfo, type ReactNode } from "react"
 import { Button } from "@workspace/ui/components/button"
-import { AlertCircle, RotateCcw } from "lucide-react"
 import { motion } from "framer-motion"
+import { AlertCircle, RotateCcw } from "lucide-react"
+import { Component, type ErrorInfo, type ReactNode } from "react"
 
 interface Props {
   children: ReactNode

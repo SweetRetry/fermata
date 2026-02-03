@@ -1,10 +1,10 @@
 import { Inter } from "next/font/google"
 
 import "@workspace/ui/globals.css"
-import { Providers } from "@/components/providers"
-import { PlayerBar } from "../components/player-bar"
-import { Sidebar } from "../components/sidebar"
 import { ErrorBoundary } from "@/components/error-boundary"
+import { Providers } from "@/components/providers"
+import { PlayerBar } from "@/features/player"
+import { Sidebar } from "../components/sidebar"
 
 const inter = Inter({
   subsets: ["latin"],
