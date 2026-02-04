@@ -50,12 +50,12 @@ export function SearchHeader({
             </motion.div>
 
             <motion.p
-              className="mt-2 text-sm text-muted-foreground/50 font-light tracking-wide"
+              className="mt-2 text-sm text-muted-foreground font-light tracking-wide"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.15, duration: 0.5 }}
             >
-              用文字触碰节奏。输入你此刻的氛围感，开启一场通往未知律动的发现之旅。
+              Touch the rhythm with words. Enter your current vibe and embark on a journey to discover unknown beats.
             </motion.p>
           </motion.div>
         )}
@@ -90,7 +90,7 @@ export function SearchHeader({
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={onKeyDown}
-                placeholder="在此刻的静谧中，你在寻找什么样的共鸣？"
+                placeholder="What kind of resonance are you looking for in this quiet moment?"
                 className="flex-1 border-0 bg-transparent px-3 text-sm md:text-base placeholder:text-muted-foreground/20 focus-visible:ring-0 focus-visible:ring-offset-0"
               />
             </div>
@@ -100,7 +100,7 @@ export function SearchHeader({
             disabled={isLoading || !query.trim()}
             className={`rounded-xl bg-foreground text-background hover:bg-foreground/90 transition-all font-medium ${isCompact ? "h-10 px-6 text-xs" : "h-12 px-8"}`}
           >
-            {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "发现"}
+            {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Discover"}
           </Button>
         </div>
       </div>

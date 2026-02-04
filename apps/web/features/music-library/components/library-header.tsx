@@ -16,7 +16,7 @@ export function LibraryHeader({ count, isLoading }: LibraryHeaderProps) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
       >
-        <h1 className="text-[32px] font-semibold text-foreground">Your Library</h1>
+        <h1 className="text-4xl font-semibold text-foreground">Your Library</h1>
         <motion.div
           className="h-10 w-10 rounded-full bg-muted"
           whileHover={{ scale: 1.05 }}
@@ -30,7 +30,7 @@ export function LibraryHeader({ count, isLoading }: LibraryHeaderProps) {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.1, duration: 0.4 }}
       >
-        {isLoading ? "加载中..." : `共 ${count} 首创作`}
+        {isLoading ? "Loading..." : `${count} creations`}
       </motion.p>
     </>
   )

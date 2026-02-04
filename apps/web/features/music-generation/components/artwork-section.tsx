@@ -73,7 +73,7 @@ export function ArtworkSection({ generation, isPlaying, onTogglePlay }: ArtworkS
         ) : generation.status === "failed" ? (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
             <AlertCircle className="h-16 w-16 text-muted-foreground" />
-            <span className="text-sm text-muted-foreground">生成失败</span>
+            <span className="text-sm text-muted-foreground">Generation Failed</span>
           </div>
         ) : (
           <div className="absolute inset-0 flex items-center justify-center">
@@ -110,7 +110,7 @@ export function ArtworkSection({ generation, isPlaying, onTogglePlay }: ArtworkS
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.4 }}
       >
-        <h1 className="text-[28px] font-semibold text-foreground">{generation.title}</h1>
+        <h1 className="text-3xl font-semibold text-foreground">{generation.title}</h1>
         <div className="flex items-center gap-2 text-base text-muted-foreground">
           <StatusIndicator status={generation.status} size="sm" />
           {generation.status === "failed" && (

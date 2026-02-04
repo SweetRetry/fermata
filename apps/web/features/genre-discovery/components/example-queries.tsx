@@ -4,10 +4,10 @@ import { Button } from "@workspace/ui/components/button";
 import { motion } from "framer-motion";
 
 const EXAMPLE_QUERIES = [
-  "落日余晖下的独自行走",
-  "70年代的老旧黑胶唱片店",
-  "极简主义风格的清晨工作空间",
-  "穿梭在银河边界的电子灵魂",
+  "A solitary walk under the sunset glow",
+  "A vintage vinyl record shop from the 70s",
+  "A minimalist morning workspace",
+  "An electronic soul traversing the galaxy",
 ] as const;
 
 interface ExampleQueriesProps {
@@ -22,7 +22,7 @@ export function ExampleQueries({ onSelect }: ExampleQueriesProps) {
       animate={{ opacity: 1 }}
       transition={{ delay: 0.35, duration: 0.4 }}
     >
-      <span className="text-sm text-muted-foreground/50">试试：</span>
+      <span className="text-sm text-muted-foreground">Try:</span>
       {EXAMPLE_QUERIES.map((example) => (
         <Button
           key={example}

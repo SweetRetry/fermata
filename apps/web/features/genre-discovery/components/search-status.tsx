@@ -24,9 +24,9 @@ export function EmptyState() {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="mt-20 text-sm md:text-base text-muted-foreground/20 font-light tracking-widest text-center"
+      className="mt-20 text-sm md:text-base text-muted-foreground font-light tracking-widest text-center"
     >
-      在静谧中，开启你的音乐语境探索
+      Begin your musical context exploration in tranquility
     </motion.div>
   );
 }

@@ -62,7 +62,7 @@ export function SongCard({ song, isCurrentSong, onTogglePlay }: SongCardProps) {
             </div>
           ) : song.status === "failed" ? (
             <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-sm text-muted-foreground">生成失败</span>
+              <span className="text-sm text-muted-foreground">Generation Failed</span>
             </div>
           ) : (
             <div className="absolute inset-0 flex items-center justify-center">

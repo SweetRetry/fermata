@@ -66,7 +66,7 @@ export function GenerationStatusCard({
         {generation.status === "failed" && (
           <Button type="button" variant="ghost" size="sm" onClick={onRetry} className="h-8 gap-1">
             <RotateCcw className="h-4 w-4" />
-            重试
+            Retry
           </Button>
         )}
       </div>
@@ -95,7 +95,7 @@ export function GenerationStatusCard({
           <Link href={`/details/${generation.id}`}>
             <Button type="button" variant="ghost" size="sm" className="gap-2">
               <Eye className="h-4 w-4" />
-              查看详情
+              View Details
             </Button>
           </Link>
         </motion.div>

@@ -55,8 +55,8 @@ export function SearchResults({ result, onSelectTerm }: SearchResultsProps) {
         {/* Related Terms */}
         {result.relatedTerms.length > 0 && (
           <motion.div variants={itemVariants} className="space-y-4">
-            <h2 className="text-sm font-medium uppercase tracking-wider text-muted-foreground/40">
-              相关探索
+            <h2 className="text-sm font-medium uppercase tracking-wider text-muted-foreground">
+              Related Exploration
             </h2>
             <div className="flex flex-wrap gap-2">
               {result.relatedTerms.map((term) => (
@@ -81,8 +81,8 @@ export function SearchResults({ result, onSelectTerm }: SearchResultsProps) {
           variants={itemVariants}
           className="flex items-center justify-between"
         >
-          <h2 className="text-xs font-bold uppercase tracking-widest text-muted-foreground/30">
-            精选推荐 / Recommended
+          <h2 className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
+            Recommended
           </h2>
           <div className="h-px flex-1 ml-4 bg-gradient-to-r from-border/50 to-transparent" />
         </motion.div>

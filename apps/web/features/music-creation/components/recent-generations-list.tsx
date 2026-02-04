@@ -37,14 +37,11 @@ export function RecentGenerationsList({
     return (
       <motion.div
         className="flex flex-1 flex-col items-center justify-center gap-4 py-20"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
       >
-        <motion.div
-          className="h-16 w-16 rounded-2xl border border-border bg-muted"
-          animate={{ scale: [1, 1.02, 1] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        />
+        <div className="h-16 w-16 rounded-2xl border border-border bg-muted" />
         <span className="text-sm text-muted-foreground">
           Your recent creations will appear here
         </span>
@@ -118,7 +115,7 @@ export function RecentGenerationsList({
             </div>
             <Link href={`/details/${gen.id}`}>
               <Button type="button" variant="ghost" size="sm">
-                查看
+                View
               </Button>
             </Link>
           </motion.div>

@@ -95,14 +95,14 @@ export function DetailsSection({ generation, onRetry }: DetailsSectionProps) {
         initial="hidden"
         animate="visible"
       >
-        <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+        <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
           Style / Prompt
         </span>
         <div className="flex flex-wrap gap-2">
           {generation.prompt.split(",").map((tag, index) => (
             <motion.span
               key={index}
-              className="flex h-8 items-center rounded-md border border-border bg-muted px-3 text-[13px] text-muted-foreground"
+              className="flex h-8 items-center rounded-md border border-border bg-muted px-3 text-sm text-muted-foreground"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.4 + index * 0.05, duration: 0.3 }}
@@ -123,7 +123,7 @@ export function DetailsSection({ generation, onRetry }: DetailsSectionProps) {
         animate="visible"
       >
         <div className="flex items-center justify-between">
-          <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+          <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             {generation.isInstrumental ? "Instrumental" : "Lyrics"}
           </span>
           {!generation.isInstrumental && generation.lyricsPrompt && (
@@ -166,7 +166,7 @@ export function DetailsSection({ generation, onRetry }: DetailsSectionProps) {
           <p className="text-sm text-destructive">{generation.errorMessage}</p>
           <Button onClick={onRetry} variant="outline" size="sm" className="mt-2">
             <RotateCcw className="mr-2 h-3 w-3" />
-            刷新状态
+            Refresh Status
           </Button>
         </motion.div>
       )}

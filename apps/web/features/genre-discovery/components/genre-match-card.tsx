@@ -33,7 +33,7 @@ export function GenreMatchCard({ match, query }: GenreMatchCardProps) {
               {match.name}
             </h3>
             {match.parent && (
-              <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-muted/40 text-muted-foreground/60">
+              <span className="text-xs font-medium px-1.5 py-0.5 rounded bg-muted text-muted-foreground">
                 {match.parent}
               </span>
             )}
@@ -45,9 +45,9 @@ export function GenreMatchCard({ match, query }: GenreMatchCardProps) {
         </p>
 
         <div className="mt-3 pt-3 border-t border-border/20">
-          <p className="text-[13px] text-foreground/70 leading-relaxed">
-            <span className="text-primary/60 font-medium mr-1 text-xs">
-              推荐理由：
+          <p className="text-sm text-foreground/70 leading-relaxed">
+            <span className="text-primary font-medium mr-1 text-xs">
+              Why:
             </span>
             {match.reason}
           </p>
@@ -68,10 +68,10 @@ export function GenreMatchCard({ match, query }: GenreMatchCardProps) {
 
           <Link
             href={`/create?style=${encodeURIComponent(match.name)}&description=${encodeURIComponent(match.description)}&context=${encodeURIComponent(query)}`}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-all text-[11px] font-semibold"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-all text-xs font-semibold"
           >
             <Wand2 className="h-3 w-3" />
-            以此风格创作
+            Create with this style
           </Link>
         </div>
       </div>

@@ -10,6 +10,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@workspace/ui/components/form"
+import { Switch } from "@workspace/ui/components/switch"
 import { cn } from "@workspace/ui/lib/utils"
 import { AnimatePresence, motion } from "framer-motion"
 import { AlertCircle, ChevronDown, Sparkles } from "lucide-react"
@@ -71,13 +72,13 @@ export const LeftPanel = memo(function LeftPanel({
           initial="hidden"
           animate="visible"
         >
-          <h1 className="text-[28px] font-semibold text-foreground">Create Music</h1>
+          <h1 className="text-3xl font-semibold text-foreground">Create Music</h1>
           <motion.div
             className="flex h-9 items-center gap-2 rounded-lg border border-border bg-muted px-3"
             whileHover={{ scale: 1.02 }}
             transition={{ duration: 0.2 }}
           >
-            <span className="text-[13px] text-muted-foreground">MiniMax Music v2</span>
+            <span className="text-sm text-muted-foreground">MiniMax Music v2</span>
             <ChevronDown className="h-4 w-4 text-muted-foreground" />
           </motion.div>
         </motion.div>
@@ -89,7 +90,7 @@ export const LeftPanel = memo(function LeftPanel({
             name="title"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                <FormLabel className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   Title
                 </FormLabel>
                 <FormControl>
@@ -115,13 +116,13 @@ export const LeftPanel = memo(function LeftPanel({
             render={({ field }) => (
               <FormItem>
                 <div className="flex items-center justify-between">
-                  <FormLabel className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  <FormLabel className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                     Style of Music
                   </FormLabel>
                   {hasGenreContext && (
-                    <span className="inline-flex items-center gap-1 text-[10px] text-primary">
+                    <span className="inline-flex items-center gap-1 text-xs text-primary">
                       <Sparkles className="h-3 w-3" />
-                      从流派发现带入
+                      From genre discovery
                     </span>
                   )}
                 </div>
@@ -163,7 +164,7 @@ export const LeftPanel = memo(function LeftPanel({
                 name="lyrics_prompt"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                    <FormLabel className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                       Lyrics
                     </FormLabel>
                     <FormControl>
@@ -200,22 +201,11 @@ export const LeftPanel = memo(function LeftPanel({
         >
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
-              <span className="text-sm text-secondary-foreground">纯音乐</span>
-              <motion.button
-                type="button"
-                onClick={() => setInstrumental(!instrumental)}
-                className={cn(
-                  "relative h-5 w-9 rounded-full transition-colors",
-                  instrumental ? "bg-primary" : "bg-muted"
-                )}
-                whileTap={{ scale: 0.95 }}
-              >
-                <motion.span
-                  className="absolute top-0.5 h-4 w-4 rounded-full bg-primary-foreground"
-                  animate={{ left: instrumental ? 18 : 2 }}
-                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                />
-              </motion.button>
+              <span className="text-sm text-secondary-foreground">Instrumental</span>
+              <Switch
+                checked={instrumental}
+                onCheckedChange={setInstrumental}
+              />
             </div>
 
             <button
@@ -224,7 +214,7 @@ export const LeftPanel = memo(function LeftPanel({
               className="text-xs text-muted-foreground hover:text-foreground transition-colors"
             >
               {AUDIO_PRESETS[audioPreset].label}
-              <span className="ml-1 text-[10px] opacity-50">
+              <span className="ml-1 text-xs opacity-50">
                 {audioPreset === "high" ? "256k" : "128k"}
               </span>
             </button>
@@ -238,7 +228,7 @@ export const LeftPanel = memo(function LeftPanel({
               showAudioSettings ? "text-primary" : "text-muted-foreground hover:text-foreground"
             )}
           >
-            高级
+            Advanced
           </button>
         </motion.div>
 
@@ -253,7 +243,7 @@ export const LeftPanel = memo(function LeftPanel({
             >
               <div className="rounded-lg bg-muted/30 p-3 space-y-2">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="text-muted-foreground">音质预设</span>
+                  <span className="text-muted-foreground">Quality Preset</span>
                   <div className="flex gap-1">
                     {(Object.keys(AUDIO_PRESETS) as AudioPresetKey[]).map((key) => (
                       <button
@@ -261,7 +251,7 @@ export const LeftPanel = memo(function LeftPanel({
                         type="button"
                         onClick={() => setAudioPreset(key)}
                         className={cn(
-                          "px-2 py-1 rounded text-[11px] transition-colors",
+                          "px-2 py-1 rounded text-xs transition-colors",
                           audioPreset === key
                             ? "bg-primary text-primary-foreground"
                             : "bg-muted hover:bg-muted/80"
@@ -272,10 +262,10 @@ export const LeftPanel = memo(function LeftPanel({
                     ))}
                   </div>
                 </div>
-                <div className="text-[10px] text-muted-foreground/60 space-y-0.5">
-                  <p>采样率: {AUDIO_PRESETS[audioPreset].sample_rate}Hz</p>
+                <div className="text-xs text-muted-foreground space-y-0.5">
+                  <p>Sample Rate: {AUDIO_PRESETS[audioPreset].sample_rate}Hz</p>
                   <p>
-                    比特率: {Number(AUDIO_PRESETS[audioPreset].bitrate) / 1000}
+                    Bitrate: {Number(AUDIO_PRESETS[audioPreset].bitrate) / 1000}
                     kbps
                   </p>
                 </div>
@@ -307,7 +297,7 @@ export const LeftPanel = memo(function LeftPanel({
               disabled={isSubmitting}
               className="h-[52px] w-full rounded-[26px] text-base font-semibold"
             >
-              {isSubmitting ? "生成中..." : "Create Music"}
+              {isSubmitting ? "Generating..." : "Create Music"}
             </Button>
           </motion.div>
         </motion.div>
