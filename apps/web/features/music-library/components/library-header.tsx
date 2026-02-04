@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
+import { motion } from "framer-motion";
 
 interface LibraryHeaderProps {
-  count: number
-  isLoading: boolean
+  count: number;
+  isLoading: boolean;
 }
 
 export function LibraryHeader({ count, isLoading }: LibraryHeaderProps) {
@@ -17,11 +17,6 @@ export function LibraryHeader({ count, isLoading }: LibraryHeaderProps) {
         transition={{ duration: 0.4 }}
       >
         <h1 className="text-4xl font-semibold text-foreground">Your Library</h1>
-        <motion.div
-          className="h-10 w-10 rounded-full bg-muted"
-          whileHover={{ scale: 1.05 }}
-          transition={{ duration: 0.2 }}
-        />
       </motion.div>
 
       <motion.p
@@ -33,5 +28,5 @@ export function LibraryHeader({ count, isLoading }: LibraryHeaderProps) {
         {isLoading ? "Loading..." : `${count} creations`}
       </motion.p>
     </>
-  )
+  );
 }

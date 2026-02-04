@@ -4,7 +4,12 @@
  * TanStack Query hooks for music library
  */
 
-import { type UseQueryOptions, useQuery } from "@tanstack/react-query"
+import {
+  type UseQueryOptions,
+  useQuery,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query"
 import type { LibraryResponse } from "../types"
 
 // ============================================================================
@@ -44,5 +49,31 @@ export function useLibrary(
     queryKey: libraryKeys.list(limit),
     queryFn: () => fetchLibrary(limit),
     ...options,
+  })
+}
+
+// ============================================================================
+// Mutations
+// ============================================================================
+
+async function deleteSong(id: string): Promise<void> {
+  const response = await fetch(`/api/music/library?id=${id}`, {
+    method: "DELETE",
+  })
+
+  if (!response.ok) {
+    throw new Error("Failed to delete song")
+  }
+}
+
+export function useDeleteSong() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: deleteSong,
+    onSuccess: () => {
+      // Invalidate library queries to refresh the list
+      queryClient.invalidateQueries({ queryKey: libraryKeys.all })
+    },
   })
 }

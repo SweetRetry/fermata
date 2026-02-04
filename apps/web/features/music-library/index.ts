@@ -13,7 +13,7 @@
  */
 
 // API
-export { libraryKeys, useLibrary } from "./api/client"
+export { libraryKeys, useLibrary, useDeleteSong } from "./api/client"
 
 // Components
 export {

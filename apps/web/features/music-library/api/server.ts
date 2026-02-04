@@ -4,7 +4,7 @@
  * Business logic for music library - called by API routes
  */
 
-import { desc, sql } from "drizzle-orm"
+import { desc, sql, eq } from "drizzle-orm"
 import { db } from "@/core/db"
 import { generations, audioFiles } from "@/core/db/schema"
 import type { LibraryQueryParams, LibraryResponse } from "../types"
@@ -49,4 +49,12 @@ export async function getLibrary(params: LibraryQueryParams = {}): Promise<Libra
     }),
     total,
   }
+}
+
+/**
+ * Delete a generation and its related data
+ * Cascades to audio_files and generation_params due to foreign key constraints
+ */
+export async function deleteGeneration(id: string): Promise<void> {
+  await db.delete(generations).where(eq(generations.id, id))
 }

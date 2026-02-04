@@ -10,14 +10,14 @@ import {
 } from "@workspace/ui/components/sheet";
 import { motion } from "framer-motion";
 import {
+  ListMusic,
   Pause,
   Play,
   SkipBack,
   SkipForward,
-  Volume2,
   Volume1,
+  Volume2,
   VolumeX,
-  ListMusic,
 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -51,7 +51,11 @@ function PlaylistItem({ track, index, isActive, onClick }: PlaylistItemProps) {
     >
       <div className="relative h-10 w-10 flex-shrink-0 overflow-hidden rounded-md border border-border bg-muted">
         {track.coverUrl ? (
-          <img src={track.coverUrl} alt={track.title} className="h-full w-full object-cover" />
+          <img
+            src={track.coverUrl}
+            alt={track.title}
+            className="h-full w-full object-cover"
+          />
         ) : (
           <div className="flex h-full w-full items-center justify-center">
             <ListMusic className="h-4 w-4 text-muted-foreground" />
@@ -80,7 +84,9 @@ function PlaylistItem({ track, index, isActive, onClick }: PlaylistItemProps) {
         )}
       </div>
       <div className="flex min-w-0 flex-1 flex-col">
-        <span className={`truncate text-sm font-medium ${isActive ? "text-primary" : "text-foreground"}`}>
+        <span
+          className={`truncate text-sm font-medium ${isActive ? "text-primary" : "text-foreground"}`}
+        >
           {track.title}
         </span>
         <span className="truncate text-xs text-muted-foreground">
@@ -105,6 +111,7 @@ export function PlayerBar() {
     duration,
     volume,
     setVolume,
+    setCurrentTime,
     initAudio,
     next,
     previous,
@@ -125,6 +132,23 @@ export function PlayerBar() {
   const handlePlayFromPlaylist = (index: number) => {
     const { playlist, setPlaylist } = usePlayerStore.getState();
     setPlaylist(playlist, index);
+  };
+
+  const [seekingTime, setSeekingTime] = useState<number | null>(null);
+
+  const handleSeekStart = (value: number) => {
+    setSeekingTime(value);
+  };
+
+  const handleSeekChange = (value: number) => {
+    setSeekingTime(value);
+  };
+
+  const handleSeekEnd = () => {
+    if (seekingTime !== null) {
+      setCurrentTime(seekingTime);
+      setSeekingTime(null);
+    }
   };
 
   return (
@@ -205,19 +229,37 @@ export function PlayerBar() {
         {/* Progress Bar */}
         <div className="flex items-center gap-3">
           <span className="w-10 text-right text-xs text-muted-foreground">
-            {formatTime(currentTime)}
+            {formatTime(seekingTime ?? currentTime)}
           </span>
-          <div className="h-1 w-64 overflow-hidden rounded-full bg-muted">
-            <motion.div
-              className="h-full rounded-full bg-primary"
-              animate={{
-                width: duration > 0 ? `${(currentTime / duration) * 100}%` : 0,
-              }}
-              transition={{ duration: 0.1 }}
+          <div className="group relative flex h-4 w-64 items-center">
+            <div className="h-1 w-full cursor-pointer overflow-hidden rounded-full bg-muted">
+              <motion.div
+                className="h-full rounded-full bg-primary"
+                animate={{
+                  width: duration > 0 ? `${((seekingTime ?? currentTime) / duration) * 100}%` : "0%",
+                }}
+                transition={{ duration: 0.1 }}
+              />
+            </div>
+            <input
+              type="range"
+              min={0}
+              max={duration || 0}
+              step={0.1}
+              value={seekingTime ?? currentTime}
+              onMouseDown={(e) => handleSeekStart(parseFloat(e.currentTarget.value))}
+              onTouchStart={(e) => handleSeekStart(parseFloat(e.currentTarget.value))}
+              onChange={(e) => handleSeekChange(parseFloat(e.target.value))}
+              onMouseUp={handleSeekEnd}
+              onTouchEnd={handleSeekEnd}
+              onBlur={handleSeekEnd}
+              disabled={!currentTrack || duration <= 0}
+              className="absolute inset-0 h-full w-full cursor-pointer opacity-0 disabled:cursor-not-allowed"
+              aria-label="Progress"
             />
           </div>
           <span className="w-10 text-xs text-muted-foreground">
-            {formatTime(Math.max(0, duration - currentTime))}
+            {formatTime(Math.max(0, duration - (seekingTime ?? currentTime)))}
           </span>
         </div>
       </div>

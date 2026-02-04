@@ -7,13 +7,14 @@ import {
   ContextMenuTrigger,
 } from "@workspace/ui/components/context-menu";
 import { motion } from "framer-motion";
-import { Download } from "lucide-react";
+import { Download, Trash2 } from "lucide-react";
 import {
   EmptyState,
   LibraryHeader,
   LoadingState,
   type Song,
   SongCard,
+  useDeleteSong,
   useLibrary,
 } from "@/features/music-library";
 import { usePlayerStore } from "@/features/player";
@@ -33,6 +34,7 @@ export default function LibraryPage() {
   const { data: libraryData, isLoading } = useLibrary(50);
   const songs = libraryData?.items ?? [];
   const { currentTrack, setPlaylist, toggle } = usePlayerStore();
+  const deleteSong = useDeleteSong();
 
   const handleTogglePlay = (song: Song) => {
     if (!song.audioUrl) return;
@@ -67,8 +69,14 @@ export default function LibraryPage() {
     document.body.removeChild(link);
   };
 
+  const handleDelete = (song: Song) => {
+    if (confirm(`确定要删除 "${song.title}" 吗？`)) {
+      deleteSong.mutate(song.id);
+    }
+  };
+
   return (
-    <div className="flex h-full flex-col gap-8 p-12">
+    <div className="flex flex-col gap-4 p-12">
       <LibraryHeader count={songs.length} isLoading={isLoading} />
 
       {isLoading ? (
@@ -100,6 +108,13 @@ export default function LibraryPage() {
                 >
                   <Download className="mr-2 h-4 w-4" />
                   下载
+                </ContextMenuItem>
+                <ContextMenuItem
+                  onClick={() => handleDelete(song)}
+                  className="text-destructive focus:text-destructive"
+                >
+                  <Trash2 className="mr-2 h-4 w-4" />
+                  删除
                 </ContextMenuItem>
               </ContextMenuContent>
             </ContextMenu>
