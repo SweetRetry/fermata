@@ -1,19 +1,18 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Clock, Pause, Play } from "lucide-react";
+import { Pause, Play } from "lucide-react";
 import Link from "next/link";
 import { StatusIndicator } from "@/components/status-indicator";
 import { formatDate, getStatusText } from "../lib/utils";
 import type { Song } from "../types";
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    y: 0,
     transition: {
-      duration: 0.4,
+      duration: 0.3,
       ease: "easeOut" as const,
     },
   },
@@ -102,23 +101,21 @@ export function SongCard({ song, isCurrentSong, onTogglePlay }: SongCardProps) {
         </div>
 
         {/* Info */}
-        <div className="space-y-1.5">
+        <div className="space-y-1">
           <h3 className="line-clamp-1 font-medium text-foreground/90 transition-colors group-hover:text-foreground">
             {song.title}
           </h3>
-          <div className="flex items-center justify-between text-xs">
-            <div className="flex items-center gap-2">
-              <StatusIndicator status={song.status} size="sm" />
-              {song.status === "failed" && (
-                <span className="text-muted-foreground">
-                  {getStatusText(song.status)}
-                </span>
-              )}
-            </div>
-            <span className="flex items-center gap-1 text-muted-foreground/70">
-              <Clock className="h-3 w-3" />
-              {formatDate(song.createdAt)}
-            </span>
+          <div className="flex items-center gap-2 text-xs">
+            <StatusIndicator status={song.status} size="sm" />
+            {song.status === "failed" ? (
+              <span className="text-muted-foreground">
+                {getStatusText(song.status)}
+              </span>
+            ) : (
+              <span className="text-muted-foreground/60">
+                {formatDate(song.createdAt)}
+              </span>
+            )}
           </div>
         </div>
       </Link>

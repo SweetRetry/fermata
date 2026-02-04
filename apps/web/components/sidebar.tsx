@@ -2,7 +2,7 @@
 
 import { cn } from "@workspace/ui/lib/utils"
 import { motion } from "framer-motion"
-import { Home, Music, PlusCircle, Settings } from "lucide-react"
+import { AudioLines, Home, Music, PlusCircle, Settings } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
@@ -46,8 +46,14 @@ export function Sidebar() {
   return (
     <aside className="flex h-full w-20 flex-col items-center gap-4 bg-sidebar p-4">
       {/* Logo */}
-      <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-        <Link href="/library" className="block h-12 w-12 rounded-xl bg-primary" />
+      <motion.div
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-primary-foreground"
+      >
+        <Link href="/library" className="flex items-center justify-center">
+          <AudioLines className="h-6 w-6" />
+        </Link>
       </motion.div>
 
       {/* Divider */}
