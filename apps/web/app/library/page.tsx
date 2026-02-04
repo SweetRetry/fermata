@@ -40,8 +40,9 @@ export default function LibraryPage() {
         .map((s) => ({
           id: s.id,
           title: s.title,
-          artist: "AI Generated",
+          artist: "MiniMax Music v2",
           audioUrl: s.audioUrl!,
+          duration: s.duration,
           model: "MiniMax Music v2",
         }));
       const startIndex = tracks.findIndex((t) => t.id === song.id);

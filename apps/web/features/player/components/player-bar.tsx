@@ -84,9 +84,14 @@ function PlaylistItem({ track, index, isActive, onClick }: PlaylistItemProps) {
           {track.title}
         </span>
         <span className="truncate text-xs text-muted-foreground">
-          {track.artist || track.model || "Unknown"}
+          {track.artist}
         </span>
       </div>
+      {track.duration !== undefined && (
+        <span className="ml-2 text-xs text-muted-foreground">
+          {formatTime(track.duration)}
+        </span>
+      )}
     </motion.div>
   );
 }
