@@ -46,7 +46,7 @@ export function ExampleQueries({ onSelect }: ExampleQueriesProps) {
       initial="hidden"
       animate="visible"
     >
-      <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground/40">
+      <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
         Suggestions:
       </span>
       {EXAMPLE_QUERIES.map((example) => (
@@ -55,10 +55,10 @@ export function ExampleQueries({ onSelect }: ExampleQueriesProps) {
             variant="ghost"
             size="sm"
             onClick={() => onSelect(example)}
-            className="h-auto px-0 text-sm font-light text-muted-foreground/60 hover:text-primary transition-colors hover:bg-transparent relative group"
+            className="h-auto px-0 text-sm font-normal text-muted-foreground hover:text-primary transition-colors hover:bg-transparent relative group"
           >
             {example}
-            <span className="absolute -bottom-1 left-0 w-0 h-px bg-primary/20 group-hover:w-full transition-all duration-500" />
+            <span className="absolute -bottom-1 left-0 w-0 h-px bg-primary/40 group-hover:w-full transition-all duration-500" />
           </Button>
         </motion.div>
       ))}

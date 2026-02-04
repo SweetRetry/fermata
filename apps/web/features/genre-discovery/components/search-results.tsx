@@ -58,7 +58,7 @@ export function SearchResults({ result, onSelectTerm }: SearchResultsProps) {
         {/* Related Terms */}
         {result.relatedTerms.length > 0 && (
           <motion.div variants={itemVariants} className="space-y-6">
-            <h2 className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground/50 border-b border-border/10 pb-2">
+            <h2 className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground border-b border-border/50 pb-2">
               Related Exploration
             </h2>
             <div className="flex flex-wrap gap-2.5">
@@ -68,7 +68,7 @@ export function SearchResults({ result, onSelectTerm }: SearchResultsProps) {
                   variant="outline"
                   size="sm"
                   onClick={() => onSelectTerm(term)}
-                  className="rounded-lg border-white/[0.03] bg-muted/10 hover:bg-primary/5 hover:border-primary/20 hover:text-primary transition-all text-[11px] font-medium tracking-tight px-4"
+                  className="rounded-lg border-border/50 bg-muted/40 hover:bg-primary/10 hover:border-primary/30 hover:text-primary transition-all text-[11px] font-semibold tracking-tight px-4 shadow-sm"
                 >
                   {term}
                 </Button>

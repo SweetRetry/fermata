@@ -112,7 +112,7 @@ export function PlayerBar() {
             />
           </div>
           <span className="w-10 text-xs text-muted-foreground">
-            {formatTime(duration)}
+            {formatTime(Math.max(0, duration - currentTime))}
           </span>
         </div>
       </div>

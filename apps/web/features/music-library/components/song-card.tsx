@@ -1,14 +1,14 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { Pause, Play } from "lucide-react"
-import Link from "next/link"
-import { StatusIndicator } from "@/components/status-indicator"
-import { formatDate, getStatusText } from "../lib/utils"
-import type { Song } from "../types"
+import { motion } from "framer-motion";
+import { Pause, Play } from "lucide-react";
+import Link from "next/link";
+import { StatusIndicator } from "@/components/status-indicator";
+import { formatDate, getStatusText } from "../lib/utils";
+import type { Song } from "../types";
 
-const SPRING_TACTILE = { stiffness: 380, damping: 30, mass: 0.8 }
-const EASE_REVEAL = [0.16, 1, 0.3, 1] as const
+const SPRING_TACTILE = { stiffness: 380, damping: 30, mass: 0.8 };
+const EASE_REVEAL = [0.16, 1, 0.3, 1] as const;
 
 const itemVariants = {
   hidden: { opacity: 0, y: 16 },
@@ -20,12 +20,12 @@ const itemVariants = {
       ease: EASE_REVEAL,
     },
   },
-}
+};
 
 interface SongCardProps {
-  song: Song
-  isCurrentSong: boolean
-  onTogglePlay: (song: Song) => void
+  song: Song;
+  isCurrentSong: boolean;
+  onTogglePlay: (song: Song) => void;
 }
 
 export function SongCard({ song, isCurrentSong, onTogglePlay }: SongCardProps) {
@@ -33,10 +33,10 @@ export function SongCard({ song, isCurrentSong, onTogglePlay }: SongCardProps) {
     <motion.div
       variants={itemVariants}
       layoutId={`card-${song.id}`}
-      className="group relative rounded-xl overflow-hidden cursor-pointer bg-card shadow-[0_0_0_1px_rgba(255,255,255,0.05),0_4px_20px_rgba(0,0,0,0.3)]"
-      whileHover={{ 
+      className="group relative rounded-xl overflow-hidden cursor-pointer bg-card shadow-sm"
+      whileHover={{
         scale: 1.02,
-        transition: SPRING_TACTILE
+        transition: SPRING_TACTILE,
       }}
       whileTap={{ scale: 0.98 }}
     >
@@ -48,9 +48,7 @@ export function SongCard({ song, isCurrentSong, onTogglePlay }: SongCardProps) {
         >
           {song.status === "completed" ? (
             <div className="absolute inset-0 flex items-center justify-center">
-              <div
-                className="flex h-14 w-14 items-center justify-center rounded-full transition-all duration-300 group-hover:scale-110 bg-primary/10 backdrop-blur-sm"
-              >
+              <div className="flex h-14 w-14 items-center justify-center rounded-full transition-all duration-300 group-hover:scale-110 bg-primary/10 backdrop-blur-sm">
                 {isCurrentSong ? (
                   <motion.div
                     className="flex gap-0.5 items-end h-5"
@@ -104,9 +102,9 @@ export function SongCard({ song, isCurrentSong, onTogglePlay }: SongCardProps) {
             <motion.button
               type="button"
               onClick={(e) => {
-                e.preventDefault()
-                e.stopPropagation()
-                onTogglePlay(song)
+                e.preventDefault();
+                e.stopPropagation();
+                onTogglePlay(song);
               }}
               className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
               style={{
@@ -133,7 +131,7 @@ export function SongCard({ song, isCurrentSong, onTogglePlay }: SongCardProps) {
 
         {/* Info */}
         <div className="space-y-2">
-          <motion.h3 
+          <motion.h3
             className="line-clamp-1 font-medium text-foreground/90 transition-colors group-hover:text-foreground tracking-tight"
             layoutId={`title-${song.id}`}
           >
@@ -154,5 +152,5 @@ export function SongCard({ song, isCurrentSong, onTogglePlay }: SongCardProps) {
         </div>
       </Link>
     </motion.div>
-  )
+  );
 }
