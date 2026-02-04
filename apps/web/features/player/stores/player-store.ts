@@ -20,6 +20,8 @@ function getAudio(): HTMLAudioElement {
 
 interface PlayerState {
   currentTrack: Track | null
+  playlist: Track[]
+  currentIndex: number
   isPlaying: boolean
   currentTime: number
   duration: number
@@ -28,10 +30,13 @@ interface PlayerState {
 
 interface PlayerActions {
   setTrack: (track: Track) => void
+  setPlaylist: (tracks: Track[], startIndex?: number) => void
   play: () => void
   pause: () => void
   toggle: () => void
   stop: () => void
+  next: () => void
+  previous: () => void
   setCurrentTime: (time: number) => void
   setDuration: (duration: number) => void
   setVolume: (volume: number) => void
@@ -41,6 +46,8 @@ interface PlayerActions {
 export const usePlayerStore = create<PlayerState & PlayerActions>((set, get) => ({
   // State
   currentTrack: null,
+  playlist: [],
+  currentIndex: -1,
   isPlaying: false,
   currentTime: 0,
   duration: 0,
@@ -54,7 +61,25 @@ export const usePlayerStore = create<PlayerState & PlayerActions>((set, get) => 
     const audio = getAudio()
 
     audio.addEventListener("ended", () => {
-      set({ isPlaying: false, currentTime: 0 })
+      const { playlist, currentIndex } = get()
+
+      if (playlist.length > 0) {
+        // Loop to first track when reaching the end
+        const nextIndex = (currentIndex + 1) % playlist.length
+        const nextTrack = playlist[nextIndex]
+        audio.src = nextTrack.audioUrl
+        audio.play().catch(() => {
+          set({ isPlaying: false })
+        })
+        set({
+          currentTrack: nextTrack,
+          currentIndex: nextIndex,
+          isPlaying: true,
+          currentTime: 0,
+        })
+      } else {
+        set({ isPlaying: false, currentTime: 0 })
+      }
     })
 
     audio.addEventListener("error", () => {
@@ -80,6 +105,26 @@ export const usePlayerStore = create<PlayerState & PlayerActions>((set, get) => 
       set({ isPlaying: false })
     })
     set({ currentTrack: track, isPlaying: true, currentTime: 0 })
+  },
+
+  setPlaylist: (tracks, startIndex = 0) => {
+    const audio = getAudio()
+    const startTrack = tracks[startIndex]
+    if (!startTrack) return
+
+    if (audio.src !== startTrack.audioUrl) {
+      audio.src = startTrack.audioUrl
+    }
+    audio.play().catch(() => {
+      set({ isPlaying: false })
+    })
+    set({
+      playlist: tracks,
+      currentIndex: startIndex,
+      currentTrack: startTrack,
+      isPlaying: true,
+      currentTime: 0,
+    })
   },
 
   play: () => {
@@ -118,6 +163,46 @@ export const usePlayerStore = create<PlayerState & PlayerActions>((set, get) => 
     audio.pause()
     audio.currentTime = 0
     set({ isPlaying: false, currentTime: 0 })
+  },
+
+  next: () => {
+    const { playlist, currentIndex } = get()
+    if (playlist.length === 0) return
+
+    // Loop to first track when reaching the end
+    const nextIndex = (currentIndex + 1) % playlist.length
+    const nextTrack = playlist[nextIndex]
+    const audio = getAudio()
+    audio.src = nextTrack.audioUrl
+    audio.play().catch(() => {
+      set({ isPlaying: false })
+    })
+    set({
+      currentTrack: nextTrack,
+      currentIndex: nextIndex,
+      isPlaying: true,
+      currentTime: 0,
+    })
+  },
+
+  previous: () => {
+    const { playlist, currentIndex } = get()
+    if (playlist.length === 0) return
+
+    // Loop to last track when at the beginning
+    const prevIndex = (currentIndex - 1 + playlist.length) % playlist.length
+    const prevTrack = playlist[prevIndex]
+    const audio = getAudio()
+    audio.src = prevTrack.audioUrl
+    audio.play().catch(() => {
+      set({ isPlaying: false })
+    })
+    set({
+      currentTrack: prevTrack,
+      currentIndex: prevIndex,
+      isPlaying: true,
+      currentTime: 0,
+    })
   },
 
   setCurrentTime: (time) => {

@@ -5,8 +5,8 @@ import {
   EmptyState,
   LibraryHeader,
   LoadingState,
-  SongCard,
   type Song,
+  SongCard,
   useLibrary,
 } from "@/features/music-library";
 import { usePlayerStore } from "@/features/player";
@@ -25,7 +25,7 @@ const containerVariants = {
 export default function LibraryPage() {
   const { data: libraryData, isLoading } = useLibrary(50);
   const songs = libraryData?.items ?? [];
-  const { currentTrack, setTrack, toggle } = usePlayerStore();
+  const { currentTrack, setPlaylist, toggle } = usePlayerStore();
 
   const handleTogglePlay = (song: Song) => {
     if (!song.audioUrl) return;
@@ -34,13 +34,18 @@ export default function LibraryPage() {
     if (isCurrentTrack) {
       toggle();
     } else {
-      setTrack({
-        id: song.id,
-        title: song.title,
-        artist: "AI Generated",
-        audioUrl: song.audioUrl,
-        model: "MiniMax Music v2",
-      });
+      // Convert songs to tracks and set as playlist
+      const tracks = songs
+        .filter((s) => s.audioUrl)
+        .map((s) => ({
+          id: s.id,
+          title: s.title,
+          artist: "AI Generated",
+          audioUrl: s.audioUrl!,
+          model: "MiniMax Music v2",
+        }));
+      const startIndex = tracks.findIndex((t) => t.id === song.id);
+      setPlaylist(tracks, Math.max(0, startIndex));
     }
   };
 
