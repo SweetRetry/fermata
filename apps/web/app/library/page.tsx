@@ -1,6 +1,5 @@
 "use client"
 
-import { useState } from "react"
 import {
   EmptyState,
   LibraryHeader,
@@ -9,21 +8,27 @@ import {
   SongGrid,
   useLibrary,
 } from "@/features/music-library"
-import { useAudioPlayer } from "@/features/player"
+import { usePlayerStore } from "@/features/player"
 
 export default function LibraryPage() {
   const { data: libraryData, isLoading } = useLibrary(50)
   const songs = libraryData?.items ?? []
-  const { isPlaying, togglePlay } = useAudioPlayer()
-  const [playingId, setPlayingId] = useState<string | null>(null)
+  const { currentTrack, isPlaying, setTrack, toggle } = usePlayerStore()
 
   const handleTogglePlay = (song: Song) => {
-    if (playingId === song.id) {
-      togglePlay()
-      setPlayingId(null)
-    } else if (song.audioUrl) {
-      togglePlay(song.audioUrl)
-      setPlayingId(song.id)
+    if (!song.audioUrl) return
+
+    const isCurrentTrack = currentTrack?.id === song.id
+    if (isCurrentTrack) {
+      toggle()
+    } else {
+      setTrack({
+        id: song.id,
+        title: song.title,
+        artist: "AI Generated",
+        audioUrl: song.audioUrl,
+        model: "MiniMax Music v2",
+      })
     }
   }
 
@@ -38,7 +43,7 @@ export default function LibraryPage() {
       ) : (
         <SongGrid
           songs={songs}
-          playingId={playingId}
+          currentTrackId={currentTrack?.id}
           isPlaying={isPlaying}
           onTogglePlay={handleTogglePlay}
         />

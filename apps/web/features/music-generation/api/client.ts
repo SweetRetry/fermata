@@ -72,7 +72,7 @@ export function useGeneration(
     refetchInterval: (query) => {
       const data = query.state.data
       if (data?.status === "pending" || data?.status === "generating") {
-        return 2000
+        return 5000
       }
       return false
     },

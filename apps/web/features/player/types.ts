@@ -17,6 +17,7 @@ export interface Track {
   audioUrl: string
   duration?: number
   coverUrl?: string
+  model?: string
 }
 
 export interface UseAudioPlayerOptions {

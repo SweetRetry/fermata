@@ -41,7 +41,7 @@ export function useMusicCreationForm(options: UseMusicCreationFormOptions = {}) 
     resolver: zodResolver(CreateMusicFormSchema),
     defaultValues: {
       prompt: defaultPrompt,
-      lyrics_prompt: "",
+      lyrics_prompt: "[Instrumental]",
       title: defaultTitle,
     },
   })

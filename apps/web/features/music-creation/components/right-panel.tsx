@@ -3,11 +3,10 @@
 import { Button } from "@workspace/ui/components/button"
 import { AnimatePresence, motion } from "framer-motion"
 import Link from "next/link"
-import { memo, useCallback } from "react"
+import { memo } from "react"
 import { useGeneration } from "@/features/music-generation/api/client"
 import { useLibrary } from "@/features/music-library/api/client"
 import { fadeInVariants } from "../animations/variants"
-import { useAudioPlayer } from "../hooks/use-audio-player"
 import { GenerationStatusCard } from "./generation-status"
 import { RecentGenerationsList } from "./recent-generations-list"
 
@@ -30,8 +29,6 @@ export const RightPanel = memo(function RightPanel({
   const recentGenerations = libraryData?.items ?? []
 
   const { data: currentGenData } = useGeneration(currentGeneration?.id || "")
-
-  const { isPlaying, audioRef, togglePlay, handleEnded } = useAudioPlayer()
 
   const displayGeneration = currentGenData || currentGeneration
 
@@ -57,11 +54,7 @@ export const RightPanel = memo(function RightPanel({
           <GenerationStatusCard
             generation={displayGeneration}
             currentGenData={currentGenData}
-            isPlaying={isPlaying}
-            onTogglePlay={togglePlay}
             onRetry={onRetry}
-            audioRef={audioRef}
-            onEnded={handleEnded}
           />
         )}
       </AnimatePresence>

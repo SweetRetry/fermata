@@ -1,84 +1,67 @@
 "use client"
 
-import { useCallback, useRef, useState } from "react"
-import type { UseAudioPlayerOptions, UseAudioPlayerReturn } from "../types"
+import { useCallback, useEffect } from "react"
+import { usePlayerStore } from "../stores/player-store"
+import type { Track, UseAudioPlayerOptions, UseAudioPlayerReturn } from "../types"
 
 export function useAudioPlayer(options: UseAudioPlayerOptions = {}): UseAudioPlayerReturn {
-  const [isPlaying, setIsPlaying] = useState(false)
-  const audioRef = useRef<HTMLAudioElement | null>(null)
+  const {
+    isPlaying,
+    currentTrack,
+    setTrack,
+    toggle,
+    stop: storeStop,
+    pause: storePause,
+    initAudio,
+  } = usePlayerStore()
 
-  const stop = useCallback(() => {
-    if (audioRef.current) {
-      audioRef.current.pause()
-      audioRef.current.currentTime = 0
-    }
-    setIsPlaying(false)
-  }, [])
-
-  const pause = useCallback(() => {
-    if (audioRef.current) {
-      audioRef.current.pause()
-    }
-    setIsPlaying(false)
-  }, [])
+  // Initialize audio on mount
+  useEffect(() => {
+    initAudio()
+  }, [initAudio])
 
   const play = useCallback(
     (audioUrl: string) => {
-      // Stop any currently playing audio
-      if (audioRef.current) {
-        audioRef.current.pause()
-        audioRef.current.currentTime = 0
+      // Create a minimal track from URL
+      const track: Track = {
+        id: audioUrl,
+        title: "Unknown",
+        artist: "Unknown",
+        audioUrl,
       }
-
-      const audio = new Audio(audioUrl)
-      audio.onended = () => {
-        setIsPlaying(false)
-        options.onEnded?.()
-      }
-      audio.onerror = () => {
-        setIsPlaying(false)
-      }
-
-      audio.play().catch(() => {
-        setIsPlaying(false)
-      })
-
-      audioRef.current = audio
-      setIsPlaying(true)
+      setTrack(track)
     },
-    [options]
+    [setTrack]
   )
 
   const togglePlay = useCallback(
     (audioUrl?: string) => {
       if (!audioUrl) {
-        // Toggle current audio
-        if (audioRef.current) {
-          if (isPlaying) {
-            pause()
-          } else {
-            audioRef.current.play().catch(() => {
-              setIsPlaying(false)
-            })
-            setIsPlaying(true)
-          }
-        }
+        toggle()
         return
       }
 
       // New audio URL
-      if (isPlaying && audioRef.current?.src === audioUrl) {
-        pause()
+      if (isPlaying && currentTrack?.audioUrl === audioUrl) {
+        toggle()
       } else {
         play(audioUrl)
       }
     },
-    [isPlaying, pause, play]
+    [isPlaying, currentTrack, play, toggle]
   )
+
+  const stop = useCallback(() => {
+    storeStop()
+  }, [storeStop])
+
+  const pause = useCallback(() => {
+    storePause()
+  }, [storePause])
 
   return {
     isPlaying,
-    audioRef,
+    audioRef: { current: null },
     togglePlay,
     play,
     pause,

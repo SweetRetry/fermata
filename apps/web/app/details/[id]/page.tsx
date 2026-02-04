@@ -8,16 +8,32 @@ import {
   LoadingState,
   useGeneration,
 } from "@/features/music-generation"
-import { useAudioPlayer } from "@/features/player"
+import { usePlayerStore } from "@/features/player"
 
 export default function DetailsPage() {
   const params = useParams()
   const id = params.id as string
 
   const { data: generation, isLoading, error, refetch } = useGeneration(id)
-  const { isPlaying, togglePlay } = useAudioPlayer({
-    onEnded: () => {},
-  })
+  const { currentTrack, isPlaying, setTrack, toggle } = usePlayerStore()
+
+  const isCurrentTrack = currentTrack?.id === id
+
+  const handleTogglePlay = () => {
+    if (!generation?.audioUrl) return
+
+    if (isCurrentTrack) {
+      toggle()
+    } else {
+      setTrack({
+        id: generation.id,
+        title: generation.title,
+        artist: "AI Generated",
+        audioUrl: generation.audioUrl,
+        model: "MiniMax Music v2",
+      })
+    }
+  }
 
   const handleRetry = async () => {
     await refetch()
@@ -35,12 +51,8 @@ export default function DetailsPage() {
     <div className="flex h-full">
       <ArtworkSection
         generation={generation}
-        isPlaying={isPlaying}
-        onTogglePlay={() => {
-          if (generation.audioUrl) {
-            togglePlay(generation.audioUrl)
-          }
-        }}
+        isPlaying={isPlaying && isCurrentTrack}
+        onTogglePlay={handleTogglePlay}
       />
       <DetailsSection generation={generation} onRetry={handleRetry} />
     </div>

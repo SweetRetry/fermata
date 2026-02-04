@@ -23,7 +23,6 @@ export { RecentGenerationsList } from "./components/recent-generations-list"
 export { RightPanel } from "./components/right-panel"
 // Config
 export { AUDIO_PRESETS, type AudioPresetKey } from "./config/audio-presets"
-export { useAudioPlayer } from "./hooks/use-audio-player"
 // Hooks
 export { useMusicCreationForm } from "./hooks/use-music-creation-form"
 // Utils

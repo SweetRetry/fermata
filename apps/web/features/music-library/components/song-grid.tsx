@@ -17,12 +17,12 @@ const containerVariants = {
 
 interface SongGridProps {
   songs: Song[]
-  playingId: string | null
+  currentTrackId?: string
   isPlaying: boolean
   onTogglePlay: (song: Song) => void
 }
 
-export function SongGrid({ songs, playingId, isPlaying, onTogglePlay }: SongGridProps) {
+export function SongGrid({ songs, currentTrackId, isPlaying, onTogglePlay }: SongGridProps) {
   return (
     <motion.div
       className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3"
@@ -35,7 +35,7 @@ export function SongGrid({ songs, playingId, isPlaying, onTogglePlay }: SongGrid
           key={song.id}
           song={song}
           isPlaying={isPlaying}
-          isCurrentSong={playingId === song.id}
+          isCurrentSong={currentTrackId === song.id}
           onTogglePlay={onTogglePlay}
         />
       ))}

@@ -2,7 +2,9 @@
 
 import { Button } from "@workspace/ui/components/button"
 import { motion } from "framer-motion"
-import { CheckCircle2, Pause, Play, RotateCcw } from "lucide-react"
+import { CheckCircle2, Eye, Pause, Play, RotateCcw } from "lucide-react"
+import Link from "next/link"
+import { usePlayerStore } from "@/features/player"
 import type { Generation } from "@/features/music-generation"
 import { getStatusDisplay } from "../lib/get-status-display"
 
@@ -13,22 +15,35 @@ interface GenerationStatusProps {
     status: "pending" | "generating" | "completed" | "failed"
   }
   currentGenData?: Generation | null
-  isPlaying: boolean
-  onTogglePlay: () => void
   onRetry: () => void
-  audioRef: React.RefObject<HTMLAudioElement | null>
-  onEnded: () => void
 }
 
 export function GenerationStatusCard({
   generation,
   currentGenData,
-  isPlaying,
-  onTogglePlay,
   onRetry,
-  audioRef,
-  onEnded,
 }: GenerationStatusProps) {
+  const { currentTrack, isPlaying, setTrack, toggle } = usePlayerStore()
+
+  const isCurrentTrack = currentTrack?.id === generation.id
+  const showPlaying = isCurrentTrack && isPlaying
+
+  const handlePlay = () => {
+    if (!currentGenData?.audioUrl) return
+
+    if (isCurrentTrack) {
+      toggle()
+    } else {
+      setTrack({
+        id: generation.id,
+        title: generation.title,
+        artist: "AI Generated",
+        audioUrl: currentGenData.audioUrl,
+        model: "MiniMax Music v2",
+      })
+    }
+  }
+
   return (
     <motion.div
       key="current"
@@ -53,44 +68,33 @@ export function GenerationStatusCard({
         )}
       </div>
 
-      {/* Audio Player */}
+      {/* Play & View Buttons */}
       {generation.status === "completed" && currentGenData?.audioUrl && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className="mt-4 flex items-center gap-4"
+          className="mt-4 flex items-center gap-3"
         >
           <Button
             type="button"
             variant="outline"
             size="icon"
-            onClick={onTogglePlay}
+            onClick={handlePlay}
             className="h-12 w-12 rounded-full"
           >
-            {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5 ml-0.5" />}
+            {showPlaying ? (
+              <Pause className="h-5 w-5" />
+            ) : (
+              <Play className="h-5 w-5 ml-0.5" />
+            )}
           </Button>
-          <audio
-            ref={audioRef}
-            src={currentGenData.audioUrl}
-            onEnded={onEnded}
-            className="hidden"
-          />
-          <div className="flex-1">
-            <div className="h-1 rounded-full bg-muted">
-              <motion.div
-                className="h-full rounded-full bg-primary"
-                initial={{ width: "0%" }}
-                animate={{
-                  width: isPlaying ? "100%" : "0%",
-                }}
-                transition={{
-                  duration: currentGenData.duration || 120,
-                  ease: "linear",
-                }}
-              />
-            </div>
-          </div>
+          <Link href={`/details/${generation.id}`}>
+            <Button type="button" variant="ghost" size="sm" className="gap-2">
+              <Eye className="h-4 w-4" />
+              查看详情
+            </Button>
+          </Link>
         </motion.div>
       )}
 
