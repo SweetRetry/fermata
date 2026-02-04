@@ -7,7 +7,7 @@
 import { randomUUID } from "node:crypto"
 import { eq } from "drizzle-orm"
 import { db } from "@/core/db"
-import { generations } from "@/core/db/schema"
+import { generations, generationParams, audioFiles } from "@/core/db/schema"
 import { saveAudioFile } from "@/core/storage"
 import { generateMusic } from "@/lib/fal-integration/client"
 import type { CreateGenerationInput, CreateGenerationResponse, Generation } from "../types"
@@ -18,7 +18,13 @@ import type { CreateGenerationInput, CreateGenerationResponse, Generation } from
 export async function createGeneration(
   input: CreateGenerationInput
 ): Promise<CreateGenerationResponse> {
-  const { title, prompt, lyrics_prompt, is_instrumental = true } = input
+  const {
+    title,
+    prompt,
+    lyrics_prompt,
+    is_instrumental = true,
+    audio_setting,
+  } = input
 
   if (!prompt || typeof prompt !== "string") {
     throw new Error("Prompt is required")
@@ -26,14 +32,36 @@ export async function createGeneration(
 
   const id = randomUUID()
 
-  // Create generation record
+  // Create generation record (status only)
   await db.insert(generations).values({
     id,
     title: title || "Untitled",
+    status: "pending",
+  })
+
+  // Create generation params record for traceability
+  // Extract numeric values from string settings (e.g., "128000" -> 128000)
+  const bitrateNum = audio_setting?.bitrate ? Number.parseInt(audio_setting.bitrate, 10) : null
+  const sampleRateNum = audio_setting?.sample_rate ? Number.parseInt(audio_setting.sample_rate, 10) : null
+  const channelsNum = audio_setting?.channel ? Number.parseInt(audio_setting.channel, 10) : null
+
+  // Build raw parameters JSON for complete traceability
+  const rawParams = JSON.stringify({
+    bitrate: audio_setting?.bitrate,
+    sample_rate: audio_setting?.sample_rate,
+    format: audio_setting?.format,
+    channel: audio_setting?.channel,
+  })
+
+  await db.insert(generationParams).values({
+    generationId: id,
     prompt,
     lyricsPrompt: lyrics_prompt,
     isInstrumental: is_instrumental,
-    status: "pending",
+    bitrate: Number.isNaN(bitrateNum) ? null : bitrateNum,
+    sampleRate: Number.isNaN(sampleRateNum) ? null : sampleRateNum,
+    channels: Number.isNaN(channelsNum) ? null : channelsNum,
+    rawParameters: rawParams,
   })
 
   // Start generation in background
@@ -48,26 +76,35 @@ export async function createGeneration(
 
 /**
  * Get a generation by ID
+ * Joins with audio_files to get the public URL
  */
 export async function getGeneration(id: string): Promise<Generation | null> {
-  const generation = await db.query.generations.findFirst({
+  const result = await db.query.generations.findFirst({
     where: eq(generations.id, id),
+    with: {
+      params: true,
+      audioFiles: true,
+    },
   })
 
-  if (!generation) return null
+  if (!result) return null
+
+  // Get first audio file (1:1 relationship currently)
+  const audioFile = result.audioFiles?.[0]
+  const params = result.params
 
   return {
-    id: generation.id,
-    title: generation.title,
-    prompt: generation.prompt,
-    lyricsPrompt: generation.lyricsPrompt ?? undefined,
-    isInstrumental: generation.isInstrumental,
-    status: generation.status,
-    audioUrl: generation.audioUrl ?? undefined,
-    duration: generation.duration ?? undefined,
-    errorMessage: generation.errorMessage ?? undefined,
-    createdAt: generation.createdAt.toISOString(),
-    updatedAt: generation.updatedAt.toISOString(),
+    id: result.id,
+    title: result.title,
+    prompt: params?.prompt ?? "",
+    lyricsPrompt: params?.lyricsPrompt ?? undefined,
+    isInstrumental: params?.isInstrumental ?? true,
+    status: result.status,
+    audioUrl: audioFile?.publicUrl ?? undefined,
+    duration: audioFile?.duration ?? undefined,
+    errorMessage: result.errorMessage ?? undefined,
+    createdAt: result.createdAt.toISOString(),
+    updatedAt: result.updatedAt.toISOString(),
   }
 }
 
@@ -89,14 +126,28 @@ async function generateMusicAsync(id: string, prompt: string, lyrics: string): P
     })
 
     // Download and save audio file
-    const { publicUrl } = await saveAudioFile(id, result.audio.url)
+    const { filePath, publicUrl, fileSize } = await saveAudioFile(id, result.audio.url)
 
-    // Update generation with success
+    // Create audio file record
+    const audioFileId = randomUUID()
+    await db.insert(audioFiles).values({
+      id: audioFileId,
+      generationId: id,
+      storageType: "local",
+      filePath,
+      publicUrl,
+      fileName: result.audio.file_name ?? `${id}.mp3`,
+      fileSize,
+      contentType: result.audio.content_type ?? "audio/mpeg",
+      sourceUrl: result.audio.url,
+      downloadedAt: new Date(),
+    })
+
+    // Update generation status
     await db
       .update(generations)
       .set({
         status: "completed",
-        audioUrl: publicUrl,
         falRequestId: result.request_id,
         updatedAt: new Date(),
       })

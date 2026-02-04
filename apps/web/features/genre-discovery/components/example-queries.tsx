@@ -1,18 +1,17 @@
-"use client"
+"use client";
 
-import { Button } from "@workspace/ui/components/button"
-import { motion } from "framer-motion"
+import { Button } from "@workspace/ui/components/button";
+import { motion } from "framer-motion";
 
 const EXAMPLE_QUERIES = [
-  "深夜加班写代码",
-  "雨天咖啡馆看书",
-  "冥想放松",
-  "健身房跑步",
-  "开车兜风",
-] as const
+  "落日余晖下的独自行走",
+  "70年代的老旧黑胶唱片店",
+  "极简主义风格的清晨工作空间",
+  "穿梭在银河边界的电子灵魂",
+] as const;
 
 interface ExampleQueriesProps {
-  onSelect: (query: string) => void
+  onSelect: (query: string) => void;
 }
 
 export function ExampleQueries({ onSelect }: ExampleQueriesProps) {
@@ -36,5 +35,5 @@ export function ExampleQueries({ onSelect }: ExampleQueriesProps) {
         </Button>
       ))}
     </motion.div>
-  )
+  );
 }

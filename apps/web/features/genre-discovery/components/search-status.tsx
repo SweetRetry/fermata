@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
+import { motion } from "framer-motion";
 
 interface ErrorStateProps {
-  message: string
+  message: string;
 }
 
 export function ErrorState({ message }: ErrorStateProps) {
@@ -16,7 +16,7 @@ export function ErrorState({ message }: ErrorStateProps) {
     >
       {message}
     </motion.div>
-  )
+  );
 }
 
 export function EmptyState() {
@@ -24,9 +24,9 @@ export function EmptyState() {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="mt-20 text-sm text-muted-foreground/30"
+      className="mt-20 text-sm md:text-base text-muted-foreground/20 font-light tracking-widest text-center"
     >
-      等待输入...
+      在静谧中，开启你的音乐语境探索
     </motion.div>
-  )
+  );
 }

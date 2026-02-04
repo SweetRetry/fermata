@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
   let queryForError: string | undefined
   try {
     const body = await request.json()
-    const { query, limit = 5 } = body
+    const { query, limit = 3 } = body
     queryForError = query
 
     if (!query || typeof query !== "string") {

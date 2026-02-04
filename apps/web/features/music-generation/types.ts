@@ -24,6 +24,8 @@ export interface CreateGenerationInput {
   audio_setting?: {
     bitrate: string
     sample_rate: string
+    format?: string
+    channel?: string
   }
 }
 

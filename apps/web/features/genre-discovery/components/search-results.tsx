@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import { Button } from "@workspace/ui/components/button"
-import { motion } from "framer-motion"
-import type { GenreSearchResponse } from "../types"
-import { GenreMatchCard } from "./genre-match-card"
+import { Button } from "@workspace/ui/components/button";
+import { motion } from "framer-motion";
+import type { GenreSearchResponse } from "../types";
+import { GenreMatchCard } from "./genre-match-card";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -14,7 +14,7 @@ const containerVariants = {
       delayChildren: 0.1,
     },
   },
-}
+};
 
 const itemVariants = {
   hidden: { opacity: 0, y: 16 },
@@ -26,11 +26,11 @@ const itemVariants = {
       ease: "easeOut" as const,
     },
   },
-}
+};
 
 interface SearchResultsProps {
-  result: GenreSearchResponse
-  onSelectTerm: (term: string) => void
+  result: GenreSearchResponse;
+  onSelectTerm: (term: string) => void;
 }
 
 export function SearchResults({ result, onSelectTerm }: SearchResultsProps) {
@@ -39,49 +39,64 @@ export function SearchResults({ result, onSelectTerm }: SearchResultsProps) {
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="mt-8 space-y-16"
+      className="mt-4 grid grid-cols-1 lg:grid-cols-[400px_1fr] gap-12 items-start"
     >
-      {/* Summary */}
-      <motion.div variants={itemVariants} className="max-w-2xl">
-        <p className="text-lg leading-relaxed text-foreground/80">{result.summary}</p>
-      </motion.div>
+      {/* Left Column: Context & Summary */}
+      <div className="lg:sticky lg:top-12 space-y-10">
+        <motion.div variants={itemVariants} className="space-y-6">
+          <div className="relative group">
+            <div className="absolute -inset-4 bg-gradient-to-b from-muted/50 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <p className="relative text-base leading-relaxed text-foreground/90 font-light italic">
+              {result.summary}
+            </p>
+          </div>
+        </motion.div>
 
-      {/* Genre Matches */}
-      <div>
-        <motion.h2
+        {/* Related Terms */}
+        {result.relatedTerms.length > 0 && (
+          <motion.div variants={itemVariants} className="space-y-4">
+            <h2 className="text-sm font-medium uppercase tracking-wider text-muted-foreground/40">
+              相关探索
+            </h2>
+            <div className="flex flex-wrap gap-2">
+              {result.relatedTerms.map((term) => (
+                <Button
+                  key={term}
+                  variant="outline"
+                  size="sm"
+                  onClick={() => onSelectTerm(term)}
+                  className="rounded-full border-border/50 bg-muted/20 hover:bg-muted/40 hover:border-border transition-all text-xs text-muted-foreground"
+                >
+                  {term}
+                </Button>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </div>
+
+      {/* Right Column: Recommended Genres */}
+      <div className="space-y-8">
+        <motion.div
           variants={itemVariants}
-          className="mb-8 text-sm font-medium uppercase tracking-wider text-muted-foreground/50"
+          className="flex items-center justify-between"
         >
-          推荐流派
-        </motion.h2>
-        <div className="space-y-6">
+          <h2 className="text-xs font-bold uppercase tracking-widest text-muted-foreground/30">
+            精选推荐 / Recommended
+          </h2>
+          <div className="h-px flex-1 ml-4 bg-gradient-to-r from-border/50 to-transparent" />
+        </motion.div>
+
+        <div className="grid grid-cols-1 gap-6">
           {result.matches.map((match) => (
-            <GenreMatchCard key={match.name} match={match} query={result.query} />
+            <GenreMatchCard
+              key={match.name}
+              match={match}
+              query={result.query}
+            />
           ))}
         </div>
       </div>
-
-      {/* Related Terms */}
-      {result.relatedTerms.length > 0 && (
-        <motion.div variants={itemVariants}>
-          <h2 className="mb-6 text-sm font-medium uppercase tracking-wider text-muted-foreground/50">
-            相关搜索
-          </h2>
-          <div className="flex flex-wrap gap-3">
-            {result.relatedTerms.map((term) => (
-              <Button
-                key={term}
-                variant="ghost"
-                size="sm"
-                onClick={() => onSelectTerm(term)}
-                className="h-auto px-0 text-sm font-normal text-muted-foreground/60 hover:text-foreground"
-              >
-                {term}
-              </Button>
-            ))}
-          </div>
-        </motion.div>
-      )}
     </motion.div>
-  )
+  );
 }

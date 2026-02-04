@@ -1,4 +1,4 @@
-import { createWriteStream, existsSync, mkdirSync } from "node:fs"
+import { createWriteStream, existsSync, mkdirSync, statSync } from "node:fs"
 import { Readable } from "node:stream"
 import { pipeline } from "node:stream/promises"
 
@@ -22,7 +22,7 @@ ensureStorageDir()
 export async function saveAudioFile(
   generationId: string,
   audioUrl: string
-): Promise<{ filePath: string; publicUrl: string }> {
+): Promise<{ filePath: string; publicUrl: string; fileSize: number }> {
   ensureStorageDir()
 
   const fileName = `${generationId}.mp3`
@@ -40,9 +40,13 @@ export async function saveAudioFile(
 
   await pipeline(bodyStream, fileStream)
 
+  // Get file size for database traceability
+  const stats = statSync(filePath)
+
   return {
     filePath,
     publicUrl: `/generations/${fileName}`,
+    fileSize: stats.size,
   }
 }
 
