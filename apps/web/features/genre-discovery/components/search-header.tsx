@@ -14,6 +14,31 @@ interface SearchHeaderProps {
   isCompact?: boolean;
 }
 
+const containerVariants = {
+  hidden: { opacity: 0, height: 0, marginBottom: 0 },
+  visible: {
+    opacity: 1,
+    height: "auto",
+    marginBottom: 32,
+    transition: {
+      type: "spring",
+      stiffness: 280,
+      damping: 28,
+      mass: 1,
+      duration: 0.4,
+    },
+  },
+  exit: {
+    opacity: 0,
+    height: 0,
+    marginBottom: 0,
+    transition: {
+      duration: 0.3,
+      ease: "easeInOut",
+    },
+  },
+} as const;
+
 export function SearchHeader({
   query,
   setQuery,
@@ -24,83 +49,103 @@ export function SearchHeader({
 }: SearchHeaderProps) {
   return (
     <div
-      className={`transition-all duration-500 ease-in-out px-6 md:px-12 lg:px-16 ${
+      className={`transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] px-6 md:px-12 lg:px-16 ${
         isCompact
-          ? "py-4 bg-background/80 backdrop-blur-xl border-b border-border/40"
-          : "pt-12 pb-8"
+          ? "py-4 bg-background/60 backdrop-blur-2xl border-b border-white/[0.05] shadow-2xl"
+          : "pt-16 pb-12"
       }`}
     >
       <AnimatePresence mode="wait">
         {!isCompact && (
           <motion.div
-            initial={{ opacity: 0, height: 0, marginBottom: 0 }}
-            animate={{ opacity: 1, height: "auto", marginBottom: 32 }}
-            exit={{ opacity: 0, height: 0, marginBottom: 0 }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
             className="overflow-hidden"
           >
             <motion.div
               initial={{ opacity: 0, y: -12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
+              transition={
+                {
+                  type: "spring",
+                  stiffness: 200,
+                  damping: 25,
+                  delay: 0.1,
+                } as const
+              }
             >
-              <h1 className="text-3xl font-light tracking-tight text-foreground">
+              <h1 className="text-4xl md:text-5xl font-medium tracking-tighter text-foreground">
                 Genre Discovery
               </h1>
             </motion.div>
 
             <motion.p
-              className="mt-2 text-sm text-muted-foreground font-light tracking-wide"
+              className="mt-4 text-sm md:text-base text-muted-foreground/60 font-light tracking-wide max-w-xl"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.15, duration: 0.5 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
             >
-              Touch the rhythm with words. Enter your current vibe and embark on a journey to discover unknown beats.
+              Touch the rhythm with words. Enter your current vibe and embark on
+              a journey to discover unknown beats.
             </motion.p>
           </motion.div>
         )}
       </AnimatePresence>
 
       <div
-        className={`flex items-center gap-4 transition-all duration-500 ${isCompact ? "max-w-4xl mx-auto" : "max-w-2xl"}`}
+        className={`flex items-center gap-6 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+          isCompact ? "max-w-5xl mx-auto" : "max-w-3xl"
+        }`}
       >
         {isCompact && (
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
+            initial={{ opacity: 0, x: -16 }}
             animate={{ opacity: 1, x: 0 }}
-            className="text-lg font-medium pr-4 border-r border-border/40 whitespace-nowrap hidden sm:block"
+            className="text-lg font-medium pr-6 border-r border-white/[0.05] whitespace-nowrap hidden sm:block tracking-tighter"
           >
             Genre Discovery
           </motion.div>
         )}
 
-        {/* Search Input */}
-        <div className="flex-1 flex gap-3">
+        {/* Search Input Container */}
+        <div className="flex-1 flex gap-4">
           <div className="relative flex-1 group">
+            {/* Reflective Border Glow */}
+            <div className="absolute -inset-[1px] bg-gradient-to-b from-white/10 to-transparent rounded-xl opacity-0 group-focus-within:opacity-100 transition duration-500" />
+
             <div
-              className={`absolute -inset-0.5 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-xl blur opacity-0 group-focus-within:opacity-100 transition duration-500`}
-            />
-            <div
-              className={`relative flex items-center rounded-xl bg-muted/30 border border-border/50 backdrop-blur-sm group-focus-within:bg-muted/50 group-focus-within:border-primary/30 transition-all ${isCompact ? "h-10" : "h-12"}`}
+              className={`relative flex items-center rounded-xl bg-muted/20 border border-white/[0.05] backdrop-blur-md group-focus-within:bg-muted/40 group-focus-within:border-white/10 transition-all duration-500 ${
+                isCompact ? "h-11" : "h-14"
+              }`}
             >
               <Search
-                className={`ml-4 text-muted-foreground/50 transition-all ${isCompact ? "h-3.5 w-3.5" : "h-4 w-4"}`}
+                className={`ml-4 text-muted-foreground/30 transition-all ${
+                  isCompact ? "h-4 w-4" : "h-5 w-5"
+                }`}
               />
               <Input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={onKeyDown}
-                placeholder="What kind of resonance are you looking for in this quiet moment?"
-                className="flex-1 border-0 bg-transparent px-3 text-sm md:text-base placeholder:text-muted-foreground/20 focus-visible:ring-0 focus-visible:ring-offset-0"
+                placeholder="Describe the sound in your mind..."
+                className="flex-1 border-0 bg-transparent px-4 text-sm md:text-base placeholder:text-muted-foreground/20 focus-visible:ring-0 focus-visible:ring-offset-0 font-light"
               />
             </div>
           </div>
           <Button
             onClick={onSearch}
             disabled={isLoading || !query.trim()}
-            className={`rounded-xl bg-foreground text-background hover:bg-foreground/90 transition-all font-medium ${isCompact ? "h-10 px-6 text-xs" : "h-12 px-8"}`}
+            className={`rounded-xl bg-foreground text-background hover:bg-foreground/90 transition-all font-medium tracking-tight shadow-xl hover:scale-[1.02] active:scale-[0.98] ${
+              isCompact ? "h-11 px-8 text-xs" : "h-14 px-10"
+            }`}
           >
-            {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Discover"}
+            {isLoading ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              "Discover"
+            )}
           </Button>
         </div>
       </div>

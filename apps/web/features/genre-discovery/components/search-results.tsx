@@ -14,19 +14,22 @@ const containerVariants = {
       delayChildren: 0.1,
     },
   },
-};
+} as const;
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 16 },
+  hidden: { opacity: 0, scale: 0.98, y: 12 },
   visible: {
     opacity: 1,
+    scale: 1,
     y: 0,
     transition: {
-      duration: 0.5,
-      ease: "easeOut" as const,
+      type: "spring",
+      stiffness: 260,
+      damping: 28,
+      mass: 1,
     },
   },
-};
+} as const;
 
 interface SearchResultsProps {
   result: GenreSearchResponse;
@@ -39,14 +42,14 @@ export function SearchResults({ result, onSelectTerm }: SearchResultsProps) {
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="mt-4 grid grid-cols-1 lg:grid-cols-[400px_1fr] gap-12 items-start"
+      className="mt-8 grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-16 items-start"
     >
       {/* Left Column: Context & Summary */}
-      <div className="lg:sticky lg:top-12 space-y-10">
+      <div className="lg:sticky lg:top-24 space-y-12">
         <motion.div variants={itemVariants} className="space-y-6">
           <div className="relative group">
-            <div className="absolute -inset-4 bg-gradient-to-b from-muted/50 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <p className="relative text-base leading-relaxed text-foreground/90 font-light italic">
+            <div className="absolute -inset-6 bg-gradient-to-b from-primary/5 to-transparent rounded-[2rem] opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-xl" />
+            <p className="relative text-lg leading-relaxed text-foreground/90 font-light tracking-tight italic">
               {result.summary}
             </p>
           </div>
@@ -54,18 +57,18 @@ export function SearchResults({ result, onSelectTerm }: SearchResultsProps) {
 
         {/* Related Terms */}
         {result.relatedTerms.length > 0 && (
-          <motion.div variants={itemVariants} className="space-y-4">
-            <h2 className="text-sm font-medium uppercase tracking-wider text-muted-foreground">
+          <motion.div variants={itemVariants} className="space-y-6">
+            <h2 className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground/50 border-b border-border/10 pb-2">
               Related Exploration
             </h2>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2.5">
               {result.relatedTerms.map((term) => (
                 <Button
                   key={term}
                   variant="outline"
                   size="sm"
                   onClick={() => onSelectTerm(term)}
-                  className="rounded-full border-border/50 bg-muted/20 hover:bg-muted/40 hover:border-border transition-all text-xs text-muted-foreground"
+                  className="rounded-lg border-white/[0.03] bg-muted/10 hover:bg-primary/5 hover:border-primary/20 hover:text-primary transition-all text-[11px] font-medium tracking-tight px-4"
                 >
                   {term}
                 </Button>

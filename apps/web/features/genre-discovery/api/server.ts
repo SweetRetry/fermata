@@ -37,7 +37,7 @@ function getCache(key: string): GenreSearchResponse | null {
  * Search genres by query
  */
 export async function searchGenres(input: GenreSearchInput): Promise<GenreSearchResponse> {
-  const { query, limit = 5 } = input
+  const { query, limit = 3 } = input
 
   if (!query || typeof query !== "string") {
     throw new Error("Query is required")

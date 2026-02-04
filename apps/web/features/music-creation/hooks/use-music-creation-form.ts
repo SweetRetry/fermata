@@ -28,12 +28,13 @@ export function useMusicCreationForm(options: UseMusicCreationFormOptions = {}) 
   const styleFromGenre = searchParams.get("style")
   const descriptionFromGenre = searchParams.get("description")
   const contextFromGenre = searchParams.get("context")
+  const vibeFromGenre = searchParams.get("vibe")
 
   const hasGenreContext = Boolean(styleFromGenre)
 
   const defaultPrompt =
     options.defaultPrompt ??
-    buildPromptFromGenre(styleFromGenre, descriptionFromGenre, contextFromGenre)
+    buildPromptFromGenre(styleFromGenre, descriptionFromGenre, contextFromGenre, vibeFromGenre)
 
   const defaultTitle = options.defaultTitle ?? buildTitleFromGenre(styleFromGenre, contextFromGenre)
 
@@ -55,6 +56,7 @@ export function useMusicCreationForm(options: UseMusicCreationFormOptions = {}) 
       style: styleFromGenre,
       description: descriptionFromGenre,
       context: contextFromGenre,
+      vibe: vibeFromGenre,
     },
   }
 }

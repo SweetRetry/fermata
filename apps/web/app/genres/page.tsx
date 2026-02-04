@@ -11,6 +11,39 @@ import {
   useGenreSearchForm,
 } from "@/features/genre-discovery";
 
+const pageVariants = {
+  initial: { opacity: 0 },
+  animate: {
+    opacity: 1,
+    transition: {
+      duration: 0.8,
+      ease: [0.16, 1, 0.3, 1] as [number, number, number, number], // TargetLintErrorId: f0bf3aee-03ba-4044-9d85-8350dadb7726
+    },
+  },
+} as const;
+
+const stateTransitionVariants = {
+  initial: { opacity: 0, scale: 0.98, y: 10 },
+  animate: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: {
+      type: "spring",
+      stiffness: 260,
+      damping: 30,
+    },
+  },
+  exit: {
+    opacity: 0,
+    scale: 0.98,
+    y: -10,
+    transition: {
+      duration: 0.2,
+    },
+  },
+} as const;
+
 export default function GenresPage() {
   const {
     query,
@@ -30,9 +63,8 @@ export default function GenresPage() {
       if (scrollContainerRef.current) {
         const scrollTop = scrollContainerRef.current.scrollTop;
         setIsCompact((prevCompact) => {
-          // Hysteresis: prevent rapid switching at the threshold
-          if (!prevCompact && scrollTop > 100) return true;
-          if (prevCompact && scrollTop < 40) return false;
+          if (!prevCompact && scrollTop > 80) return true;
+          if (prevCompact && scrollTop < 20) return false;
           return prevCompact;
         });
       }
@@ -40,7 +72,7 @@ export default function GenresPage() {
 
     const container = scrollContainerRef.current;
     if (container) {
-      container.addEventListener("scroll", handleScroll);
+      container.addEventListener("scroll", handleScroll, { passive: true });
       return () => container.removeEventListener("scroll", handleScroll);
     }
   }, []);
@@ -51,7 +83,12 @@ export default function GenresPage() {
   };
 
   return (
-    <div className="flex h-full flex-col bg-background selection:bg-primary/20 overflow-hidden">
+    <motion.div
+      className="flex h-full flex-col bg-background selection:bg-primary/20 overflow-hidden"
+      variants={pageVariants}
+      initial="initial"
+      animate="animate"
+    >
       {/* Sticky Header Wrapper */}
       <div className="flex-none z-50">
         <SearchHeader
@@ -66,47 +103,63 @@ export default function GenresPage() {
 
       <div
         ref={scrollContainerRef}
-        className="flex-1 overflow-auto scroll-smooth"
+        className="flex-1 overflow-auto scroll-smooth perspective-1000"
       >
-        <div className="px-6 md:px-12 lg:px-16">
+        <div className="px-6 md:px-12 lg:px-20 max-w-7xl mx-auto w-full">
           <div
-            className={`pb-8 transition-opacity duration-300 ${isCompact ? "opacity-0 pointer-events-none" : "opacity-100"}`}
+            className={`transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+              isCompact
+                ? "opacity-0 -translate-y-4 pointer-events-none h-0 mb-0"
+                : "opacity-100 translate-y-0 h-auto mb-8"
+            }`}
           >
             <ExampleQueries onSelect={handleSelectExample} />
           </div>
-        </div>
 
-        <div className="px-6 md:px-12 lg:px-16 pb-20">
-          <AnimatePresence mode="wait">
-            {error && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-              >
-                <ErrorState message={error} />
-              </motion.div>
-            )}
+          <div className="pb-32">
+            <AnimatePresence mode="wait">
+              {error && (
+                <motion.div
+                  key="error"
+                  variants={stateTransitionVariants}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                >
+                  <ErrorState message={error} />
+                </motion.div>
+              )}
 
-            {result && (
-              <SearchResults
-                result={result}
-                onSelectTerm={handleSelectExample}
-              />
-            )}
+              {result && (
+                <motion.div
+                  key="results"
+                  variants={stateTransitionVariants}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                >
+                  <SearchResults
+                    result={result}
+                    onSelectTerm={handleSelectExample}
+                  />
+                </motion.div>
+              )}
 
-            {!result && !error && !isLoading && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-              >
-                <EmptyState />
-              </motion.div>
-            )}
-          </AnimatePresence>
+              {!result && !error && !isLoading && (
+                <motion.div
+                  key="empty"
+                  variants={stateTransitionVariants}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                >
+                  <EmptyState />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

@@ -14,25 +14,53 @@ interface ExampleQueriesProps {
   onSelect: (query: string) => void;
 }
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.05,
+      delayChildren: 0.4,
+    },
+  },
+} as const;
+
+const itemVariants = {
+  hidden: { opacity: 0, x: -8 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      type: "spring",
+      stiffness: 300,
+      damping: 30,
+    },
+  },
+} as const;
+
 export function ExampleQueries({ onSelect }: ExampleQueriesProps) {
   return (
     <motion.div
-      className="mt-8 flex flex-wrap items-center gap-x-4 gap-y-2"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ delay: 0.35, duration: 0.4 }}
+      className="mt-2 flex flex-wrap items-center gap-x-6 gap-y-3"
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
     >
-      <span className="text-sm text-muted-foreground">Try:</span>
+      <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground/40">
+        Suggestions:
+      </span>
       {EXAMPLE_QUERIES.map((example) => (
-        <Button
-          key={example}
-          variant="ghost"
-          size="sm"
-          onClick={() => onSelect(example)}
-          className="h-auto px-0 text-sm font-normal text-muted-foreground/60 hover:text-foreground"
-        >
-          {example}
-        </Button>
+        <motion.div key={example} variants={itemVariants}>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => onSelect(example)}
+            className="h-auto px-0 text-sm font-light text-muted-foreground/60 hover:text-primary transition-colors hover:bg-transparent relative group"
+          >
+            {example}
+            <span className="absolute -bottom-1 left-0 w-0 h-px bg-primary/20 group-hover:w-full transition-all duration-500" />
+          </Button>
+        </motion.div>
       ))}
     </motion.div>
   );

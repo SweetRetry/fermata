@@ -11,6 +11,8 @@ export interface GenreMatch {
   parent?: string
   reason: string
   confidence: number
+  /** AI-generated scene vibe: poetic description of how this genre fits the scene */
+  sceneVibe?: string
 }
 
 /** Search response structure */

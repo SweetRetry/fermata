@@ -33,12 +33,7 @@ export function SongCard({ song, isCurrentSong, onTogglePlay }: SongCardProps) {
     <motion.div
       variants={itemVariants}
       layoutId={`card-${song.id}`}
-      className="group relative rounded-xl overflow-hidden cursor-pointer"
-      style={{
-        // No border, use shadow and background
-        background: "oklch(0.2 0 0)",
-        boxShadow: "0 0 0 1px oklch(1 0 0 / 0.05), 0 4px 20px oklch(0 0 0 / 0.3)",
-      }}
+      className="group relative rounded-xl overflow-hidden cursor-pointer bg-card shadow-[0_0_0_1px_rgba(255,255,255,0.05),0_4px_20px_rgba(0,0,0,0.3)]"
       whileHover={{ 
         scale: 1.02,
         transition: SPRING_TACTILE
@@ -47,21 +42,14 @@ export function SongCard({ song, isCurrentSong, onTogglePlay }: SongCardProps) {
     >
       <Link href={`/details/${song.id}`} className="block p-3">
         {/* Artwork Container - No border */}
-        <motion.div 
-          className="relative mb-3 aspect-square overflow-hidden rounded-lg"
+        <motion.div
+          className="relative mb-3 aspect-square overflow-hidden rounded-lg bg-muted"
           layoutId={`artwork-${song.id}`}
-          style={{
-            background: "oklch(0.16 0 0)",
-          }}
         >
           {song.status === "completed" ? (
             <div className="absolute inset-0 flex items-center justify-center">
-              <div 
-                className="flex h-14 w-14 items-center justify-center rounded-full transition-all duration-300 group-hover:scale-110"
-                style={{
-                  background: "oklch(1 0 0 / 0.1)",
-                  backdropFilter: "blur(4px)",
-                }}
+              <div
+                className="flex h-14 w-14 items-center justify-center rounded-full transition-all duration-300 group-hover:scale-110 bg-primary/10 backdrop-blur-sm"
               >
                 {isCurrentSong ? (
                   <motion.div
@@ -121,19 +109,14 @@ export function SongCard({ song, isCurrentSong, onTogglePlay }: SongCardProps) {
                 onTogglePlay(song)
               }}
               className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-              style={{ 
-                background: "oklch(0.02 0 0 / 0.5)",
+              style={{
+                background: "rgba(0,0,0,0.5)",
               }}
               whileHover={{ scale: 1 }}
               whileTap={{ scale: 0.95 }}
             >
-              <motion.div 
-                className="flex h-14 w-14 items-center justify-center rounded-full"
-                style={{
-                  background: "oklch(0.985 0 0)",
-                  color: "oklch(0.145 0 0)",
-                  boxShadow: "0 4px 24px oklch(0 0 0 / 0.4)",
-                }}
+              <motion.div
+                className="flex h-14 w-14 items-center justify-center rounded-full bg-primary-foreground text-primary shadow-[0_4px_24px_rgba(0,0,0,0.4)]"
                 whileHover={{ scale: 1.08 }}
                 whileTap={{ scale: 0.95 }}
                 transition={SPRING_TACTILE}
