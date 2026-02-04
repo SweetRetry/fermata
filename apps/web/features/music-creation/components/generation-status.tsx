@@ -4,9 +4,9 @@ import { Button } from "@workspace/ui/components/button"
 import { motion } from "framer-motion"
 import { Eye, Pause, Play, RotateCcw } from "lucide-react"
 import Link from "next/link"
-import { usePlayerStore } from "@/features/player"
-import type { Generation } from "@/features/music-generation"
 import { StatusIndicator } from "@/components/status-indicator"
+import type { Generation } from "@/features/music-generation"
+import { usePlayerStore } from "@/features/player"
 import { getStatusDisplay } from "../lib/get-status-display"
 
 interface GenerationStatusProps {
@@ -60,7 +60,9 @@ export function GenerationStatusCard({
             <StatusIndicator status={generation.status} size="md" />
           </div>
           {generation.status === "failed" && (
-            <p className="text-sm text-muted-foreground">{getStatusDisplay(generation.status).text}</p>
+            <p className="text-sm text-muted-foreground">
+              {getStatusDisplay(generation.status).text}
+            </p>
           )}
         </div>
         {generation.status === "failed" && (
@@ -86,11 +88,7 @@ export function GenerationStatusCard({
             onClick={handlePlay}
             className="h-12 w-12 rounded-full"
           >
-            {showPlaying ? (
-              <Pause className="h-5 w-5" />
-            ) : (
-              <Play className="h-5 w-5 ml-0.5" />
-            )}
+            {showPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5 ml-0.5" />}
           </Button>
           <Link href={`/details/${generation.id}`}>
             <Button type="button" variant="ghost" size="sm" className="gap-2">

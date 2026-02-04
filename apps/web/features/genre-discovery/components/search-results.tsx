@@ -1,9 +1,9 @@
-"use client";
+"use client"
 
-import { Button } from "@workspace/ui/components/button";
-import { motion } from "framer-motion";
-import type { GenreSearchResponse } from "../types";
-import { GenreMatchCard } from "./genre-match-card";
+import { Button } from "@workspace/ui/components/button"
+import { motion } from "framer-motion"
+import type { GenreSearchResponse } from "../types"
+import { GenreMatchCard } from "./genre-match-card"
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -14,7 +14,7 @@ const containerVariants = {
       delayChildren: 0.1,
     },
   },
-} as const;
+} as const
 
 const itemVariants = {
   hidden: { opacity: 0, scale: 0.98, y: 12 },
@@ -29,11 +29,11 @@ const itemVariants = {
       mass: 1,
     },
   },
-} as const;
+} as const
 
 interface SearchResultsProps {
-  result: GenreSearchResponse;
-  onSelectTerm: (term: string) => void;
+  result: GenreSearchResponse
+  onSelectTerm: (term: string) => void
 }
 
 export function SearchResults({ result, onSelectTerm }: SearchResultsProps) {
@@ -80,10 +80,7 @@ export function SearchResults({ result, onSelectTerm }: SearchResultsProps) {
 
       {/* Right Column: Recommended Genres */}
       <div className="space-y-8">
-        <motion.div
-          variants={itemVariants}
-          className="flex items-center justify-between"
-        >
+        <motion.div variants={itemVariants} className="flex items-center justify-between">
           <h2 className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
             Recommended
           </h2>
@@ -92,14 +89,10 @@ export function SearchResults({ result, onSelectTerm }: SearchResultsProps) {
 
         <div className="grid grid-cols-1 gap-6">
           {result.matches.map((match) => (
-            <GenreMatchCard
-              key={match.name}
-              match={match}
-              query={result.query}
-            />
+            <GenreMatchCard key={match.name} match={match} query={result.query} />
           ))}
         </div>
       </div>
     </motion.div>
-  );
+  )
 }

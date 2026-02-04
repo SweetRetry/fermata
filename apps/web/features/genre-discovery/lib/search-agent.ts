@@ -117,10 +117,8 @@ const SubGenreMatchingSchema = z.object({
     .array(
       z.object({
         name: z.string().describe("流派名称"),
-        reason: z
-          .string()
-          .describe(
-            `【音乐契合说明】
+        reason: z.string().describe(
+          `【音乐契合说明】
 描述这种音乐如何与场景氛围共鸣。
 要求：
 1. 只描述音乐特征与场景氛围的契合，不要提及"用户"或"需求"
@@ -136,12 +134,10 @@ const SubGenreMatchingSchema = z.object({
 - "用户查询了K-Pop，这是最精确的匹配" ❌
 - "这种音乐适合编程时听" ❌
 - "我推荐这个流派因为..." ❌`
-          ),
+        ),
         confidence: z.number().min(0).max(1).describe("置信度 0-1"),
-        sceneVibe: z
-          .string()
-          .describe(
-            `【音乐氛围描述】
+        sceneVibe: z.string().describe(
+          `【音乐氛围描述】
 只描述音乐本身的听觉特征。
 要求：
 1. 只包含乐器、音色、节奏、情绪
@@ -156,15 +152,13 @@ const SubGenreMatchingSchema = z.object({
 错误示例：
 - "键盘敲击与韩语旋律同步，营造专注又轻快的编码氛围" ❌（包含场景）
 - "适合在雨天听的小提琴曲" ❌（包含场景）`
-          ),
+        ),
       })
     )
     .describe("最匹配的流派列表"),
   relatedTerms: z.array(z.string()).describe("相关的搜索建议词（中文），帮助用户进一步探索"),
-  summary: z
-    .string()
-    .describe(
-      `【场景音乐契合总结】
+  summary: z.string().describe(
+    `【场景音乐契合总结】
 用一句话总结场景与音乐的契合。
 要求：
 1. 50字以内
@@ -179,7 +173,7 @@ const SubGenreMatchingSchema = z.object({
 错误示例：
 - "用户查询了雨天的音乐，我推荐Ambient" ❌
 - "用户直接指定了K-Pop，这是最精确的匹配" ❌`
-    ),
+  ),
 })
 
 /**

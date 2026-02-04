@@ -1,17 +1,17 @@
-"use client";
+"use client"
 
-import { Button } from "@workspace/ui/components/button";
-import { Input } from "@workspace/ui/components/input";
-import { AnimatePresence, motion } from "framer-motion";
-import { Loader2, Search } from "lucide-react";
+import { Button } from "@workspace/ui/components/button"
+import { Input } from "@workspace/ui/components/input"
+import { AnimatePresence, motion } from "framer-motion"
+import { Loader2, Search } from "lucide-react"
 
 interface SearchHeaderProps {
-  query: string;
-  setQuery: (query: string) => void;
-  isLoading: boolean;
-  onSearch: () => void;
-  onKeyDown: (e: React.KeyboardEvent) => void;
-  isCompact?: boolean;
+  query: string
+  setQuery: (query: string) => void
+  isLoading: boolean
+  onSearch: () => void
+  onKeyDown: (e: React.KeyboardEvent) => void
+  isCompact?: boolean
 }
 
 const containerVariants = {
@@ -37,7 +37,7 @@ const containerVariants = {
       ease: "easeInOut",
     },
   },
-} as const;
+} as const
 
 export function SearchHeader({
   query,
@@ -87,8 +87,8 @@ export function SearchHeader({
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3, duration: 0.8 }}
             >
-              Touch the rhythm with words. Enter your current vibe and embark on
-              a journey to discover unknown beats.
+              Touch the rhythm with words. Enter your current vibe and embark on a journey to
+              discover unknown beats.
             </motion.p>
           </motion.div>
         )}
@@ -141,14 +141,10 @@ export function SearchHeader({
               isCompact ? "h-11 px-8 text-xs" : "h-14 px-10"
             }`}
           >
-            {isLoading ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              "Discover"
-            )}
+            {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Discover"}
           </Button>
         </div>
       </div>
     </div>
-  );
+  )
 }

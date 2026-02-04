@@ -1,11 +1,11 @@
-import { ErrorBoundary } from "@/components/error-boundary";
-import { PlayerBar } from "@/features/player";
-import { Sidebar } from "../../components/sidebar";
+import { ErrorBoundary } from "@/components/error-boundary"
+import { PlayerBar } from "@/features/player"
+import { Sidebar } from "../../components/sidebar"
 
 export default function AppLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <div className="flex h-screen w-full bg-background">
@@ -15,5 +15,5 @@ export default function AppLayout({
       </main>
       <PlayerBar />
     </div>
-  );
+  )
 }

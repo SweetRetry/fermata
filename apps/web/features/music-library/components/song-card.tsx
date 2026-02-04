@@ -1,14 +1,14 @@
-"use client";
+"use client"
 
-import { motion } from "framer-motion";
-import { Pause, Play } from "lucide-react";
-import Link from "next/link";
-import { StatusIndicator } from "@/components/status-indicator";
-import { formatDate, getStatusText } from "../lib/utils";
-import type { Song } from "../types";
+import { motion } from "framer-motion"
+import { Pause, Play } from "lucide-react"
+import Link from "next/link"
+import { StatusIndicator } from "@/components/status-indicator"
+import { formatDate, getStatusText } from "../lib/utils"
+import type { Song } from "../types"
 
-const SPRING_TACTILE = { stiffness: 380, damping: 30, mass: 0.8 };
-const EASE_REVEAL = [0.16, 1, 0.3, 1] as const;
+const SPRING_TACTILE = { stiffness: 380, damping: 30, mass: 0.8 }
+const EASE_REVEAL = [0.16, 1, 0.3, 1] as const
 
 const itemVariants = {
   hidden: { opacity: 0, y: 16 },
@@ -20,12 +20,12 @@ const itemVariants = {
       ease: EASE_REVEAL,
     },
   },
-};
+}
 
 interface SongCardProps {
-  song: Song;
-  isCurrentSong: boolean;
-  onTogglePlay: (song: Song) => void;
+  song: Song
+  isCurrentSong: boolean
+  onTogglePlay: (song: Song) => void
 }
 
 export function SongCard({ song, isCurrentSong, onTogglePlay }: SongCardProps) {
@@ -102,9 +102,9 @@ export function SongCard({ song, isCurrentSong, onTogglePlay }: SongCardProps) {
             <motion.button
               type="button"
               onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                onTogglePlay(song);
+                e.preventDefault()
+                e.stopPropagation()
+                onTogglePlay(song)
               }}
               className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
               style={{
@@ -152,5 +152,5 @@ export function SongCard({ song, isCurrentSong, onTogglePlay }: SongCardProps) {
         </div>
       </Link>
     </motion.div>
-  );
+  )
 }

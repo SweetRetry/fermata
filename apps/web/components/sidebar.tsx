@@ -1,31 +1,31 @@
-"use client";
+"use client"
 
-import { cn } from "@workspace/ui/lib/utils";
-import { motion } from "framer-motion";
-import { AudioLines, Home, Moon, Music, PlusCircle, Sun } from "lucide-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useTheme } from "next-themes";
-import * as React from "react";
+import { cn } from "@workspace/ui/lib/utils"
+import { motion } from "framer-motion"
+import { AudioLines, Home, Moon, Music, PlusCircle, Sun } from "lucide-react"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { useTheme } from "next-themes"
+import * as React from "react"
 
 interface NavItemProps {
-  href: string;
-  icon: React.ReactNode;
-  label: string;
+  href: string
+  icon: React.ReactNode
+  label: string
 }
 
 function ThemeToggle() {
-  const { theme, setTheme, resolvedTheme } = useTheme();
-  const [mounted, setMounted] = React.useState(false);
+  const { theme, setTheme, resolvedTheme } = useTheme()
+  const [mounted, setMounted] = React.useState(false)
 
   React.useEffect(() => {
-    setMounted(true);
-  }, []);
+    setMounted(true)
+  }, [])
 
   const toggleTheme = () => {
-    const currentTheme = theme === "system" ? resolvedTheme : theme;
-    setTheme(currentTheme === "dark" ? "light" : "dark");
-  };
+    const currentTheme = theme === "system" ? resolvedTheme : theme
+    setTheme(currentTheme === "dark" ? "light" : "dark")
+  }
 
   return (
     <motion.button
@@ -46,12 +46,12 @@ function ThemeToggle() {
       </div>
       <span className="text-[11px] text-muted-foreground">主题</span>
     </motion.button>
-  );
+  )
 }
 
 function NavItem({ href, icon, label }: NavItemProps) {
-  const pathname = usePathname();
-  const isActive = href === "/" ? pathname === "/" : pathname.startsWith(href);
+  const pathname = usePathname()
+  const isActive = href === "/" ? pathname === "/" : pathname.startsWith(href)
 
   return (
     <Link href={href} className="flex flex-col items-center gap-2">
@@ -62,7 +62,7 @@ function NavItem({ href, icon, label }: NavItemProps) {
           "flex h-11 w-11 items-center justify-center rounded-[10px] transition-colors",
           isActive
             ? "bg-primary text-primary-foreground"
-            : "border border-sidebar-border bg-sidebar-accent hover:bg-sidebar-accent/80",
+            : "border border-sidebar-border bg-sidebar-accent hover:bg-sidebar-accent/80"
         )}
       >
         {icon}
@@ -70,15 +70,13 @@ function NavItem({ href, icon, label }: NavItemProps) {
       <span
         className={cn(
           "text-[11px]",
-          isActive
-            ? "font-medium text-sidebar-foreground"
-            : "text-muted-foreground",
+          isActive ? "font-medium text-sidebar-foreground" : "text-muted-foreground"
         )}
       >
         {label}
       </span>
     </Link>
-  );
+  )
 }
 
 export function Sidebar() {
@@ -100,21 +98,9 @@ export function Sidebar() {
 
       {/* Navigation */}
       <nav className="flex flex-col items-center gap-4">
-        <NavItem
-          href="/library"
-          icon={<Home className="h-5 w-5" />}
-          label="Library"
-        />
-        <NavItem
-          href="/genres"
-          icon={<Music className="h-5 w-5" />}
-          label="Genres"
-        />
-        <NavItem
-          href="/create"
-          icon={<PlusCircle className="h-5 w-5" />}
-          label="Create"
-        />
+        <NavItem href="/library" icon={<Home className="h-5 w-5" />} label="Library" />
+        <NavItem href="/genres" icon={<Music className="h-5 w-5" />} label="Genres" />
+        <NavItem href="/create" icon={<PlusCircle className="h-5 w-5" />} label="Create" />
       </nav>
 
       {/* Spacer */}
@@ -123,5 +109,5 @@ export function Sidebar() {
       {/* Theme Toggle */}
       <ThemeToggle />
     </aside>
-  );
+  )
 }

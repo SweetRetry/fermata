@@ -67,6 +67,7 @@ export const usePlayerStore = create<PlayerState & PlayerActions>((set, get) => 
         // Loop to first track when reaching the end
         const nextIndex = (currentIndex + 1) % playlist.length
         const nextTrack = playlist[nextIndex]
+        if (!nextTrack) return
         audio.src = nextTrack.audioUrl
         audio.play().catch(() => {
           set({ isPlaying: false })
@@ -172,6 +173,7 @@ export const usePlayerStore = create<PlayerState & PlayerActions>((set, get) => 
     // Loop to first track when reaching the end
     const nextIndex = (currentIndex + 1) % playlist.length
     const nextTrack = playlist[nextIndex]
+    if (!nextTrack) return
     const audio = getAudio()
     audio.src = nextTrack.audioUrl
     audio.play().catch(() => {
@@ -192,6 +194,7 @@ export const usePlayerStore = create<PlayerState & PlayerActions>((set, get) => 
     // Loop to last track when at the beginning
     const prevIndex = (currentIndex - 1 + playlist.length) % playlist.length
     const prevTrack = playlist[prevIndex]
+    if (!prevTrack) return
     const audio = getAudio()
     audio.src = prevTrack.audioUrl
     audio.play().catch(() => {

@@ -1,16 +1,16 @@
-import { Inter } from "next/font/google";
-import "@workspace/ui/globals.css";
-import { Providers } from "@/components/providers";
+import { Inter } from "next/font/google"
+import "@workspace/ui/globals.css"
+import { Providers } from "@/components/providers"
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
-});
+})
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -18,5 +18,5 @@ export default function RootLayout({
         <Providers>{children}</Providers>
       </body>
     </html>
-  );
+  )
 }

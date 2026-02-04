@@ -1,10 +1,10 @@
-"use client";
+"use client"
 
-import { motion } from "framer-motion";
+import { motion } from "framer-motion"
 
 interface LibraryHeaderProps {
-  count: number;
-  isLoading: boolean;
+  count: number
+  isLoading: boolean
 }
 
 export function LibraryHeader({ count, isLoading }: LibraryHeaderProps) {
@@ -28,5 +28,5 @@ export function LibraryHeader({ count, isLoading }: LibraryHeaderProps) {
         {isLoading ? "Loading..." : `${count} creations`}
       </motion.p>
     </>
-  );
+  )
 }

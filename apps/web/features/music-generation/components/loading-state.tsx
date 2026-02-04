@@ -25,14 +25,14 @@ export function LoadingState() {
             transition={{ duration: 1.2, repeat: Infinity, ease: "linear" }}
           />
           {/* Subtle glow */}
-          <div 
+          <div
             className="absolute inset-0 rounded-full blur-xl -z-10"
             style={{ background: "oklch(1 0 0 / 0.08)" }}
           />
         </div>
-        
+
         {/* Loading text */}
-        <motion.span 
+        <motion.span
           className="font-mono uppercase tracking-widest text-xs text-muted-foreground"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

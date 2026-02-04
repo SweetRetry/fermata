@@ -17,7 +17,7 @@ const sqlite = new Database(DB_PATH)
 export const db = drizzle(sqlite, { schema, logger: process.env.NODE_ENV === "development" })
 
 // Initialize tables
-export function initDb() {
+function initDb() {
   // Core generations table (status only)
   sqlite.exec(`
     CREATE TABLE IF NOT EXISTS generations (
@@ -80,8 +80,9 @@ export function initDb() {
     CREATE INDEX IF NOT EXISTS idx_audio_files_generation_id ON audio_files(generation_id);
     CREATE INDEX IF NOT EXISTS idx_audio_files_storage_type ON audio_files(storage_type);
   `)
-
 }
 
 // Initialize on module load
 initDb()
+
+export type { schema }

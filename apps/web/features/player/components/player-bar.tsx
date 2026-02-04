@@ -1,14 +1,14 @@
-"use client";
+"use client"
 
-import { Button } from "@workspace/ui/components/button";
+import { Button } from "@workspace/ui/components/button"
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@workspace/ui/components/sheet";
-import { motion } from "framer-motion";
+} from "@workspace/ui/components/sheet"
+import { motion } from "framer-motion"
 import {
   ListMusic,
   Pause,
@@ -18,24 +18,24 @@ import {
   Volume1,
   Volume2,
   VolumeX,
-} from "lucide-react";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import { usePlayerStore } from "../stores/player-store";
-import type { Track } from "../types";
+} from "lucide-react"
+import Link from "next/link"
+import { useEffect, useState } from "react"
+import { usePlayerStore } from "../stores/player-store"
+import type { Track } from "../types"
 
 function formatTime(seconds: number): string {
-  if (!isFinite(seconds) || seconds < 0) return "0:00";
-  const mins = Math.floor(seconds / 60);
-  const secs = Math.floor(seconds % 60);
-  return `${mins}:${secs.toString().padStart(2, "0")}`;
+  if (!Number.isFinite(seconds) || seconds < 0) return "0:00"
+  const mins = Math.floor(seconds / 60)
+  const secs = Math.floor(seconds % 60)
+  return `${mins}:${secs.toString().padStart(2, "0")}`
 }
 
 interface PlaylistItemProps {
-  track: Track;
-  index: number;
-  isActive: boolean;
-  onClick: () => void;
+  track: Track
+  index: number
+  isActive: boolean
+  onClick: () => void
 }
 
 function PlaylistItem({ track, index, isActive, onClick }: PlaylistItemProps) {
@@ -51,11 +51,7 @@ function PlaylistItem({ track, index, isActive, onClick }: PlaylistItemProps) {
     >
       <div className="relative h-10 w-10 flex-shrink-0 overflow-hidden rounded-md border border-border bg-muted">
         {track.coverUrl ? (
-          <img
-            src={track.coverUrl}
-            alt={track.title}
-            className="h-full w-full object-cover"
-          />
+          <img src={track.coverUrl} alt={track.title} className="h-full w-full object-cover" />
         ) : (
           <div className="flex h-full w-full items-center justify-center">
             <ListMusic className="h-4 w-4 text-muted-foreground" />
@@ -89,17 +85,13 @@ function PlaylistItem({ track, index, isActive, onClick }: PlaylistItemProps) {
         >
           {track.title}
         </span>
-        <span className="truncate text-xs text-muted-foreground">
-          {track.artist}
-        </span>
+        <span className="truncate text-xs text-muted-foreground">{track.artist}</span>
       </div>
       {track.duration !== undefined && (
-        <span className="ml-2 text-xs text-muted-foreground">
-          {formatTime(track.duration)}
-        </span>
+        <span className="ml-2 text-xs text-muted-foreground">{formatTime(track.duration)}</span>
       )}
     </motion.div>
-  );
+  )
 }
 
 export function PlayerBar() {
@@ -117,39 +109,39 @@ export function PlayerBar() {
     previous,
     playlist,
     currentIndex,
-  } = usePlayerStore();
+  } = usePlayerStore()
 
-  const [isPlaylistOpen, setIsPlaylistOpen] = useState(false);
+  const [isPlaylistOpen, setIsPlaylistOpen] = useState(false)
 
   useEffect(() => {
-    initAudio();
-  }, [initAudio]);
+    initAudio()
+  }, [initAudio])
 
   const handleToggle = () => {
-    toggle();
-  };
+    toggle()
+  }
 
   const handlePlayFromPlaylist = (index: number) => {
-    const { playlist, setPlaylist } = usePlayerStore.getState();
-    setPlaylist(playlist, index);
-  };
+    const { playlist, setPlaylist } = usePlayerStore.getState()
+    setPlaylist(playlist, index)
+  }
 
-  const [seekingTime, setSeekingTime] = useState<number | null>(null);
+  const [seekingTime, setSeekingTime] = useState<number | null>(null)
 
   const handleSeekStart = (value: number) => {
-    setSeekingTime(value);
-  };
+    setSeekingTime(value)
+  }
 
   const handleSeekChange = (value: number) => {
-    setSeekingTime(value);
-  };
+    setSeekingTime(value)
+  }
 
   const handleSeekEnd = () => {
     if (seekingTime !== null) {
-      setCurrentTime(seekingTime);
-      setSeekingTime(null);
+      setCurrentTime(seekingTime)
+      setSeekingTime(null)
     }
-  };
+  }
 
   return (
     <motion.div
@@ -236,7 +228,8 @@ export function PlayerBar() {
               <motion.div
                 className="h-full rounded-full bg-primary"
                 animate={{
-                  width: duration > 0 ? `${((seekingTime ?? currentTime) / duration) * 100}%` : "0%",
+                  width:
+                    duration > 0 ? `${((seekingTime ?? currentTime) / duration) * 100}%` : "0%",
                 }}
                 transition={{ duration: 0.1 }}
               />
@@ -332,9 +325,7 @@ export function PlayerBar() {
                 <ListMusic className="h-5 w-5" />
                 播放列表
               </SheetTitle>
-              <p className="text-sm text-muted-foreground">
-                共 {playlist.length} 首歌曲
-              </p>
+              <p className="text-sm text-muted-foreground">共 {playlist.length} 首歌曲</p>
             </SheetHeader>
             <div className="mt-4 flex flex-col gap-1 overflow-y-auto pb-4">
               {playlist.length === 0 ? (
@@ -358,5 +349,5 @@ export function PlayerBar() {
         </Sheet>
       </motion.div>
     </motion.div>
-  );
+  )
 }

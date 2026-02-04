@@ -1,9 +1,9 @@
-"use client";
+"use client"
 
-import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
-import { Wand2 } from "lucide-react";
-import Link from "next/link";
-import type { GenreMatch } from "../types";
+import { motion, useMotionTemplate, useMotionValue } from "framer-motion"
+import { Wand2 } from "lucide-react"
+import Link from "next/link"
+import type { GenreMatch } from "../types"
 
 const itemVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -17,33 +17,25 @@ const itemVariants = {
       mass: 1,
     },
   },
-} as const;
+} as const
 
 interface GenreMatchCardProps {
-  match: GenreMatch;
-  query: string;
+  match: GenreMatch
+  query: string
 }
 
 export function GenreMatchCard({ match, query }: GenreMatchCardProps) {
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
+  const mouseX = useMotionValue(0)
+  const mouseY = useMotionValue(0)
 
-  function handleMouseMove({
-    currentTarget,
-    clientX,
-    clientY,
-  }: React.MouseEvent) {
-    const { left, top } = currentTarget.getBoundingClientRect();
-    mouseX.set(clientX - left);
-    mouseY.set(clientY - top);
+  function handleMouseMove({ currentTarget, clientX, clientY }: React.MouseEvent) {
+    const { left, top } = currentTarget.getBoundingClientRect()
+    mouseX.set(clientX - left)
+    mouseY.set(clientY - top)
   }
 
   return (
-    <motion.div
-      variants={itemVariants}
-      onMouseMove={handleMouseMove}
-      className="group relative"
-    >
+    <motion.div variants={itemVariants} onMouseMove={handleMouseMove} className="group relative">
       {/* Spotlight / Radial Gradient Background */}
       <motion.div
         className="pointer-events-none absolute -inset-px rounded-xl opacity-0 transition duration-300 group-hover:opacity-100"
@@ -121,5 +113,5 @@ export function GenreMatchCard({ match, query }: GenreMatchCardProps) {
         </div>
       </div>
     </motion.div>
-  );
+  )
 }

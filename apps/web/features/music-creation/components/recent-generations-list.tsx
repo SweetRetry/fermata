@@ -4,9 +4,9 @@ import { Button } from "@workspace/ui/components/button"
 import { motion } from "framer-motion"
 import { AlertCircle, Pause, Play } from "lucide-react"
 import Link from "next/link"
+import { StatusIndicator } from "@/components/status-indicator"
 import type { Song } from "@/features/music-library"
 import { usePlayerStore } from "@/features/player"
-import { StatusIndicator } from "@/components/status-indicator"
 import { getStatusDisplay } from "../lib/get-status-display"
 
 interface RecentGenerationsListProps {
@@ -109,7 +109,9 @@ export function RecentGenerationsList({
                   <StatusIndicator status={gen.status} size="sm" />
                 </div>
                 {gen.status === "failed" && (
-                  <p className="text-xs text-muted-foreground">{getStatusDisplay(gen.status).text}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {getStatusDisplay(gen.status).text}
+                  </p>
                 )}
               </div>
             </div>

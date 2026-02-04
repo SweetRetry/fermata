@@ -1,7 +1,7 @@
-"use client";
+"use client"
 
 interface ErrorStateProps {
-  message: string;
+  message: string
 }
 
 export function ErrorState({ message }: ErrorStateProps) {
@@ -10,11 +10,9 @@ export function ErrorState({ message }: ErrorStateProps) {
       <span className="font-mono text-[10px] uppercase tracking-widest text-destructive px-1.5 py-0.5 border border-destructive/30 rounded bg-destructive/5">
         Error
       </span>
-      <p className="text-sm text-destructive font-normal tracking-tight">
-        {message}
-      </p>
+      <p className="text-sm text-destructive font-normal tracking-tight">{message}</p>
     </div>
-  );
+  )
 }
 
 export function EmptyState() {
@@ -24,5 +22,5 @@ export function EmptyState() {
         Begin your musical context exploration in tranquility
       </p>
     </div>
-  );
+  )
 }

@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { getLibrary, deleteGeneration } from "@/features/music-library/api/server"
+import { deleteGeneration, getLibrary } from "@/features/music-library/api/server"
 
 // Get all generations (library)
 export async function GET(request: NextRequest) {
@@ -29,10 +29,7 @@ export async function DELETE(request: NextRequest) {
     const id = searchParams.get("id")
 
     if (!id) {
-      return NextResponse.json(
-        { error: "Missing id parameter" },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: "Missing id parameter" }, { status: 400 })
     }
 
     await deleteGeneration(id)

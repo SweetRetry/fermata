@@ -13,7 +13,7 @@
  */
 
 // API
-export { libraryKeys, useLibrary, useDeleteSong } from "./api/client"
+export { useDeleteSong, useLibrary } from "./api/client"
 
 // Components
 export {
@@ -24,7 +24,7 @@ export {
 } from "./components"
 
 // Utils
-export { formatDate, getStatusColor, getStatusText } from "./lib/utils"
+export { formatDate, getStatusText } from "./lib/utils"
 
 // Types
 export type { LibraryQueryParams, LibraryResponse, Song } from "./types"

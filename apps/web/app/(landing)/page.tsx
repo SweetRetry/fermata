@@ -1,13 +1,7 @@
-"use client";
+"use client"
 
-import { Button } from "@workspace/ui/components/button";
-import {
-  motion,
-  useMotionTemplate,
-  useMotionValue,
-  useScroll,
-  useTransform,
-} from "framer-motion";
+import { Button } from "@workspace/ui/components/button"
+import { motion, useMotionTemplate, useMotionValue, useScroll, useTransform } from "framer-motion"
 import {
   ArrowRight,
   AudioLines,
@@ -18,10 +12,10 @@ import {
   Settings,
   Sparkles,
   Zap,
-} from "lucide-react";
-import Link from "next/link";
-import type React from "react";
-import { useRef } from "react";
+} from "lucide-react"
+import Link from "next/link"
+import type React from "react"
+import { useRef } from "react"
 
 // --- Constants from Cinematic UI Guide ---
 const LAYOUT_TRANSITION = {
@@ -29,19 +23,19 @@ const LAYOUT_TRANSITION = {
   stiffness: 280,
   damping: 28,
   mass: 1,
-};
+}
 
 const TACTILE_TRANSITION = {
   type: "spring" as const,
   stiffness: 380,
   damping: 30,
   mass: 0.8,
-};
+}
 
 const REVEAL_TRANSITION = {
   duration: 1,
   ease: [0.16, 1, 0.3, 1] as const,
-};
+}
 
 // --- Sub-components ---
 
@@ -50,24 +44,20 @@ function SpotlightCard({
   className = "",
   delay = 0,
 }: {
-  children: React.ReactNode;
-  className?: string;
-  delay?: number;
+  children: React.ReactNode
+  className?: string
+  delay?: number
 }) {
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
+  const mouseX = useMotionValue(0)
+  const mouseY = useMotionValue(0)
 
   // Use springs for smooth spotlight movement if desired,
   // but the guide mentions mouse tracking.
 
-  function handleMouseMove({
-    currentTarget,
-    clientX,
-    clientY,
-  }: React.MouseEvent) {
-    const { left, top } = currentTarget.getBoundingClientRect();
-    mouseX.set(clientX - left);
-    mouseY.set(clientY - top);
+  function handleMouseMove({ currentTarget, clientX, clientY }: React.MouseEvent) {
+    const { left, top } = currentTarget.getBoundingClientRect()
+    mouseX.set(clientX - left)
+    mouseY.set(clientY - top)
   }
 
   return (
@@ -96,21 +86,21 @@ function SpotlightCard({
 
       <div className="relative z-10 h-full">{children}</div>
     </motion.div>
-  );
+  )
 }
 
 function LandingHeader() {
-  const { scrollY } = useScroll();
+  const { scrollY } = useScroll()
   const backgroundColor = useTransform(
     scrollY,
     [0, 100],
-    ["rgba(0, 0, 0, 0)", "rgba(0, 0, 0, 0.8)"],
-  );
+    ["rgba(0, 0, 0, 0)", "rgba(0, 0, 0, 0.8)"]
+  )
   const borderBottom = useTransform(
     scrollY,
     [0, 100],
-    ["1px solid rgba(255, 255, 255, 0)", "1px solid rgba(255, 255, 255, 0.1)"],
-  );
+    ["1px solid rgba(255, 255, 255, 0)", "1px solid rgba(255, 255, 255, 0.1)"]
+  )
 
   return (
     <motion.header
@@ -144,7 +134,7 @@ function LandingHeader() {
         </nav>
       </div>
     </motion.header>
-  );
+  )
 }
 
 function HeroSection() {
@@ -179,8 +169,8 @@ function HeroSection() {
         transition={{ ...REVEAL_TRANSITION, delay: 0.2 }}
         className="mb-12 max-w-xl text-lg text-white/40 md:text-xl font-light tracking-tight"
       >
-        A cinematic sanctuary for your ears. Immerse yourself in high-fidelity
-        soundscapes and AI-generated original compositions.
+        A cinematic sanctuary for your ears. Immerse yourself in high-fidelity soundscapes and
+        AI-generated original compositions.
       </motion.p>
 
       <motion.div
@@ -206,7 +196,7 @@ function HeroSection() {
         </Link>
       </motion.div>
     </section>
-  );
+  )
 }
 
 function PlusIcon(props: React.ComponentProps<"svg">) {
@@ -224,17 +214,13 @@ function PlusIcon(props: React.ComponentProps<"svg">) {
       <line x1="12" y1="5" x2="12" y2="19" />
       <line x1="5" y1="12" x2="19" y2="12" />
     </svg>
-  );
+  )
 }
 
 function ShowcaseSection() {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const { scrollXProgress } = useScroll({ container: scrollRef });
-  const opacity = useTransform(
-    scrollXProgress,
-    [0, 0.1, 0.9, 1],
-    [0.4, 1, 1, 0.4],
-  );
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const { scrollXProgress } = useScroll({ container: scrollRef })
+  const opacity = useTransform(scrollXProgress, [0, 0.1, 0.9, 1], [0.4, 1, 1, 0.4])
 
   const showcaseItems = [
     {
@@ -262,7 +248,7 @@ function ShowcaseSection() {
       artist: "Bio-Logic",
       tags: ["Neo-Classical", "Folk"],
     },
-  ];
+  ]
 
   return (
     <section className="py-32 overflow-hidden border-y border-white/5 bg-[#050505]">
@@ -275,9 +261,7 @@ function ShowcaseSection() {
           <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-primary mb-4 block">
             The Gallery
           </span>
-          <h2 className="text-5xl font-bold text-white tracking-tighter">
-            Mastered by Machine
-          </h2>
+          <h2 className="text-5xl font-bold text-white tracking-tighter">Mastered by Machine</h2>
         </motion.div>
       </div>
 
@@ -311,9 +295,7 @@ function ShowcaseSection() {
                 </div>
               </div>
               <div>
-                <h4 className="text-2xl font-bold text-white mb-1">
-                  {item.title}
-                </h4>
+                <h4 className="text-2xl font-bold text-white mb-1">{item.title}</h4>
                 <p className="text-white/40 text-sm">{item.artist}</p>
               </div>
             </SpotlightCard>
@@ -323,7 +305,7 @@ function ShowcaseSection() {
         <div className="w-6 flex-shrink-0" />
       </motion.div>
     </section>
-  );
+  )
 }
 
 function WorkflowSection() {
@@ -343,7 +325,7 @@ function WorkflowSection() {
       title: "Aerodynamic Mastering",
       desc: "Automated spatial processing ensures every frequency finds its place.",
     },
-  ];
+  ]
 
   return (
     <section className="py-48 px-6 max-w-[1200px] mx-auto">
@@ -372,7 +354,7 @@ function WorkflowSection() {
         ))}
       </div>
     </section>
-  );
+  )
 }
 
 function GenreSpotlight() {
@@ -383,7 +365,7 @@ function GenreSpotlight() {
     "Lo-fi Jazz",
     "Minimal Techno",
     "Organic Folk",
-  ];
+  ]
 
   return (
     <section className="py-32 px-6">
@@ -398,8 +380,8 @@ function GenreSpotlight() {
             </h2>
           </div>
           <p className="text-white/30 text-lg font-light max-w-sm">
-            From the depths of experimental noise to the peaks of classical
-            elegance. Fermata masters them all.
+            From the depths of experimental noise to the peaks of classical elegance. Fermata
+            masters them all.
           </p>
         </div>
 
@@ -420,7 +402,7 @@ function GenreSpotlight() {
         </div>
       </div>
     </section>
-  );
+  )
 }
 
 function StatsSection() {
@@ -429,7 +411,7 @@ function StatsSection() {
     { label: "Sample Accuracy", value: "32-bit / 48kHz" },
     { label: "Neural Layers", value: "2,048" },
     { label: "Model Latency", value: "12ms" },
-  ];
+  ]
 
   return (
     <section className="py-32 px-6 bg-[#050505] border-t border-white/5 relative overflow-hidden">
@@ -446,14 +428,12 @@ function StatsSection() {
             Raw Power. <br /> Controlled Finesse.
           </h2>
           <p className="text-white/30 text-sm font-light leading-relaxed mb-10">
-            Fermata doesn't just loop sounds. It understands the physics of air
-            and the psychology of rhythm, delivering output that feels alive.
+            Fermata doesn't just loop sounds. It understands the physics of air and the psychology
+            of rhythm, delivering output that feels alive.
           </p>
           <div className="flex gap-4">
             <div className="h-px flex-1 bg-white/10 self-center" />
-            <span className="font-mono text-[9px] text-white/20">
-              SPECS_v2.4.0
-            </span>
+            <span className="font-mono text-[9px] text-white/20">SPECS_v2.4.0</span>
           </div>
         </div>
 
@@ -463,15 +443,13 @@ function StatsSection() {
               <p className="font-mono text-[10px] uppercase tracking-widest text-white/30 mb-2">
                 {stat.label}
               </p>
-              <p className="text-4xl font-bold text-white tracking-tighter">
-                {stat.value}
-              </p>
+              <p className="text-4xl font-bold text-white tracking-tighter">{stat.value}</p>
             </div>
           ))}
         </div>
       </div>
     </section>
-  );
+  )
 }
 
 function FeatureGrid() {
@@ -498,25 +476,19 @@ function FeatureGrid() {
               Intelligent Curation
             </h3>
             <p className="text-white/40 text-lg font-light leading-relaxed">
-              Our neural engine analyzes your circadian rhythm and environment
-              to generate the perfect sonic backdrop for your deep work or
-              relaxation.
+              Our neural engine analyzes your circadian rhythm and environment to generate the
+              perfect sonic backdrop for your deep work or relaxation.
             </p>
           </div>
         </SpotlightCard>
 
         {/* Feature 2: Playback */}
-        <SpotlightCard
-          className="md:col-span-4 p-10 flex flex-col justify-between"
-          delay={0.5}
-        >
+        <SpotlightCard className="md:col-span-4 p-10 flex flex-col justify-between" delay={0.5}>
           <div className="h-12 w-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center">
             <Play className="h-5 w-5 text-white fill-current" />
           </div>
           <div>
-            <h3 className="text-xl font-bold text-white mb-2">
-              Cinematic Audio
-            </h3>
+            <h3 className="text-xl font-bold text-white mb-2">Cinematic Audio</h3>
             <p className="text-white/40 text-sm font-light">
               Studio-grade reproduction with zero compression artifacts.
             </p>
@@ -524,26 +496,20 @@ function FeatureGrid() {
         </SpotlightCard>
 
         {/* Feature 3: Genres */}
-        <SpotlightCard
-          className="md:col-span-4 p-10 flex flex-col justify-between"
-          delay={0.6}
-        >
+        <SpotlightCard className="md:col-span-4 p-10 flex flex-col justify-between" delay={0.6}>
           <div className="h-12 w-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center">
             <Music className="h-5 w-5 text-white" />
           </div>
           <div>
-            <h3 className="text-xl font-bold text-white mb-2">
-              Genre Discovery
-            </h3>
+            <h3 className="text-xl font-bold text-white mb-2">Genre Discovery</h3>
             <p className="text-white/40 text-sm font-light">
-              Explore 200+ micro-genres from ethereal ambient to harsh
-              industrial.
+              Explore 200+ micro-genres from ethereal ambient to harsh industrial.
             </p>
           </div>
         </SpotlightCard>
       </motion.div>
     </section>
-  );
+  )
 }
 
 function ArtistSpotlights() {
@@ -556,10 +522,9 @@ function ArtistSpotlights() {
     {
       name: "Vektor",
       role: "Electronic Pioneer",
-      quote:
-        "It’s like having an entire studio's worth of modular gear in a single prompt.",
+      quote: "It’s like having an entire studio's worth of modular gear in a single prompt.",
     },
-  ];
+  ]
 
   return (
     <section className="py-32 px-6 border-t border-white/5 bg-black">
@@ -580,9 +545,7 @@ function ArtistSpotlights() {
                 "{artist.quote}"
               </p>
               <div>
-                <p className="text-white font-bold tracking-tight">
-                  {artist.name}
-                </p>
+                <p className="text-white font-bold tracking-tight">{artist.name}</p>
                 <p className="text-primary text-xs font-mono uppercase tracking-widest">
                   {artist.role}
                 </p>
@@ -592,7 +555,7 @@ function ArtistSpotlights() {
         </div>
       </div>
     </section>
-  );
+  )
 }
 
 function CTASection() {
@@ -628,7 +591,7 @@ function CTASection() {
         </motion.div>
       </div>
     </section>
-  );
+  )
 }
 
 export default function LandingPage() {
@@ -661,10 +624,7 @@ export default function LandingPage() {
               <Link href="/" className="hover:text-white transition-colors">
                 Terms
               </Link>
-              <Link
-                href="https://github.com"
-                className="hover:text-white transition-colors"
-              >
+              <Link href="https://github.com" className="hover:text-white transition-colors">
                 Github
               </Link>
             </div>
@@ -679,5 +639,5 @@ export default function LandingPage() {
       />
       <div className="fixed bottom-0 right-1/4 w-[600px] h-[600px] bg-blue-500/5 blur-[180px] -z-10" />
     </div>
-  );
+  )
 }

@@ -11,13 +11,13 @@
  * ```
  */
 
-export { PlayerBar } from "./components/player-bar";
+export { PlayerBar } from "./components/player-bar"
 
-export { usePlayerStore } from "./stores/player-store";
+export { usePlayerStore } from "./stores/player-store"
 
 export type {
   PlayerState,
   Track,
   UseAudioPlayerOptions,
   UseAudioPlayerReturn,
-} from "./types";
+} from "./types"

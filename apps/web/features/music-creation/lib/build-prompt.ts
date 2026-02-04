@@ -5,7 +5,7 @@
 export function buildPromptFromGenre(
   style: string | null,
   description: string | null,
-  context: string | null,
+  _context: string | null,
   vibe: string | null
 ): string {
   if (!style) return ""

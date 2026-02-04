@@ -1,6 +1,5 @@
-import { sql } from "drizzle-orm"
-import { index, integer, real, sqliteTable, text, primaryKey } from "drizzle-orm/sqlite-core"
-import { relations } from "drizzle-orm"
+import { relations, sql } from "drizzle-orm"
+import { index, integer, primaryKey, real, sqliteTable, text } from "drizzle-orm/sqlite-core"
 
 // ==================== generations: 核心生成记录（只保留状态）====================
 export const generations = sqliteTable(

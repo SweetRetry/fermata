@@ -13,7 +13,7 @@
  */
 
 // API
-export { genreKeys, useGenreSearch } from "./api/client"
+export { useGenreSearch } from "./api/client"
 // Components
 export {
   EmptyState,

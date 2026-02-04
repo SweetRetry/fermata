@@ -1,17 +1,17 @@
-"use client";
+"use client"
 
-import { Button } from "@workspace/ui/components/button";
-import { motion } from "framer-motion";
+import { Button } from "@workspace/ui/components/button"
+import { motion } from "framer-motion"
 
 const EXAMPLE_QUERIES = [
   "A solitary walk under the sunset glow",
   "A vintage vinyl record shop from the 70s",
   "A minimalist morning workspace",
   "An electronic soul traversing the galaxy",
-] as const;
+] as const
 
 interface ExampleQueriesProps {
-  onSelect: (query: string) => void;
+  onSelect: (query: string) => void
 }
 
 const containerVariants = {
@@ -23,7 +23,7 @@ const containerVariants = {
       delayChildren: 0.4,
     },
   },
-} as const;
+} as const
 
 const itemVariants = {
   hidden: { opacity: 0, x: -8 },
@@ -36,7 +36,7 @@ const itemVariants = {
       damping: 30,
     },
   },
-} as const;
+} as const
 
 export function ExampleQueries({ onSelect }: ExampleQueriesProps) {
   return (
@@ -63,5 +63,5 @@ export function ExampleQueries({ onSelect }: ExampleQueriesProps) {
         </motion.div>
       ))}
     </motion.div>
-  );
+  )
 }

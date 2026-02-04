@@ -4,56 +4,42 @@
  * Business logic for music generation - called by API routes
  */
 
-import { randomUUID } from "node:crypto";
-import { eq } from "drizzle-orm";
-import { db } from "@/core/db";
-import { audioFiles, generationParams, generations } from "@/core/db/schema";
-import { saveAudioFile } from "@/core/storage";
-import { generateMusic } from "@/lib/fal-integration/client";
-import type {
-  CreateGenerationInput,
-  CreateGenerationResponse,
-  Generation,
-} from "../types";
+import { randomUUID } from "node:crypto"
+import { eq } from "drizzle-orm"
+import { db } from "@/core/db"
+import { audioFiles, generationParams, generations } from "@/core/db/schema"
+import { saveAudioFile } from "@/core/storage"
+import { generateMusic } from "@/lib/fal-integration/client"
+import type { CreateGenerationInput, CreateGenerationResponse, Generation } from "../types"
 
 /**
  * Create a new music generation
  */
 export async function createGeneration(
-  input: CreateGenerationInput,
+  input: CreateGenerationInput
 ): Promise<CreateGenerationResponse> {
-  const {
-    title,
-    prompt,
-    lyrics_prompt,
-    is_instrumental = true,
-    audio_setting,
-  } = input;
+  const { title, prompt, lyrics_prompt, is_instrumental = true, audio_setting } = input
 
   if (!prompt || typeof prompt !== "string") {
-    throw new Error("Prompt is required");
+    throw new Error("Prompt is required")
   }
 
-  const id = randomUUID();
+  const id = randomUUID()
 
   // Create generation record (status only)
   await db.insert(generations).values({
     id,
     title: title || "Untitled",
     status: "pending",
-  });
+  })
 
   // Create generation params record for traceability
   // Extract numeric values from string settings (e.g., "128000" -> 128000)
-  const bitrateNum = audio_setting?.bitrate
-    ? Number.parseInt(audio_setting.bitrate, 10)
-    : null;
+  const bitrateNum = audio_setting?.bitrate ? Number.parseInt(audio_setting.bitrate, 10) : null
   const sampleRateNum = audio_setting?.sample_rate
     ? Number.parseInt(audio_setting.sample_rate, 10)
-    : null;
-  const channelsNum = audio_setting?.channel
-    ? Number.parseInt(audio_setting.channel, 10)
-    : null;
+    : null
+  const channelsNum = audio_setting?.channel ? Number.parseInt(audio_setting.channel, 10) : null
 
   // Build raw parameters JSON for complete traceability
   const rawParams = JSON.stringify({
@@ -61,7 +47,7 @@ export async function createGeneration(
     sample_rate: audio_setting?.sample_rate,
     format: audio_setting?.format,
     channel: audio_setting?.channel,
-  });
+  })
 
   await db.insert(generationParams).values({
     generationId: id,
@@ -72,20 +58,16 @@ export async function createGeneration(
     sampleRate: Number.isNaN(sampleRateNum) ? null : sampleRateNum,
     channels: Number.isNaN(channelsNum) ? null : channelsNum,
     rawParameters: rawParams,
-  });
+  })
 
   // Start generation in background
-  generateMusicAsync(
-    id,
-    prompt,
-    lyrics_prompt || "",
-  );
+  generateMusicAsync(id, prompt, lyrics_prompt || "")
 
   return {
     id,
     status: "pending",
     message: "Generation started",
-  };
+  }
 }
 
 /**
@@ -99,13 +81,13 @@ export async function getGeneration(id: string): Promise<Generation | null> {
       params: true,
       audioFiles: true,
     },
-  });
+  })
 
-  if (!result) return null;
+  if (!result) return null
 
   // Get first audio file (1:1 relationship currently)
-  const audioFile = result.audioFiles?.[0];
-  const params = result.params;
+  const audioFile = result.audioFiles?.[0]
+  const params = result.params
 
   return {
     id: result.id,
@@ -119,38 +101,31 @@ export async function getGeneration(id: string): Promise<Generation | null> {
     errorMessage: result.errorMessage ?? undefined,
     createdAt: result.createdAt.toISOString(),
     updatedAt: result.updatedAt.toISOString(),
-  };
+  }
 }
 
 /**
  * Async generation handler - runs in background
  */
-async function generateMusicAsync(
-  id: string,
-  prompt: string,
-  lyrics: string,
-): Promise<void> {
+async function generateMusicAsync(id: string, prompt: string, lyrics: string): Promise<void> {
   try {
     // Update status to generating
     await db
       .update(generations)
       .set({ status: "generating", updatedAt: new Date() })
-      .where(eq(generations.id, id));
+      .where(eq(generations.id, id))
 
     // Call Fal API
     const result = await generateMusic({
       prompt,
       lyrics_prompt: lyrics,
-    });
+    })
 
     // Download and save audio file
-    const { filePath, publicUrl, fileSize } = await saveAudioFile(
-      id,
-      result.audio.url,
-    );
+    const { filePath, publicUrl, fileSize } = await saveAudioFile(id, result.audio.url)
 
     // Create audio file record
-    const audioFileId = randomUUID();
+    const audioFileId = randomUUID()
     await db.insert(audioFiles).values({
       id: audioFileId,
       generationId: id,
@@ -162,7 +137,7 @@ async function generateMusicAsync(
       contentType: result.audio.content_type ?? "audio/mpeg",
       sourceUrl: result.audio.url,
       downloadedAt: new Date(),
-    });
+    })
 
     // Update generation status
     await db
@@ -172,9 +147,9 @@ async function generateMusicAsync(
         falRequestId: result.request_id,
         updatedAt: new Date(),
       })
-      .where(eq(generations.id, id));
+      .where(eq(generations.id, id))
   } catch (error) {
-    console.error(`Generation ${id} failed:`, error);
+    console.error(`Generation ${id} failed:`, error)
 
     // Update generation with error
     await db
@@ -184,6 +159,6 @@ async function generateMusicAsync(
         errorMessage: error instanceof Error ? error.message : "Unknown error",
         updatedAt: new Date(),
       })
-      .where(eq(generations.id, id));
+      .where(eq(generations.id, id))
   }
 }

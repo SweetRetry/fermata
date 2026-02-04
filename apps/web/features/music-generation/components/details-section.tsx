@@ -40,7 +40,10 @@ interface DetailsSectionProps {
 }
 
 export function DetailsSection({ generation, onRetry }: DetailsSectionProps) {
-  const tags = generation.prompt.split(",").map(tag => tag.trim()).filter(Boolean)
+  const tags = generation.prompt
+    .split(",")
+    .map((tag) => tag.trim())
+    .filter(Boolean)
 
   return (
     <motion.div
@@ -57,8 +60,8 @@ export function DetailsSection({ generation, onRetry }: DetailsSectionProps) {
       >
         {/* Back Button */}
         <motion.div variants={itemVariants}>
-          <Link 
-            href="/library" 
+          <Link
+            href="/library"
             className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 group"
           >
             <span className="transition-transform duration-200 group-hover:-translate-x-1">←</span>
@@ -98,22 +101,22 @@ export function DetailsSection({ generation, onRetry }: DetailsSectionProps) {
           <div className="flex flex-wrap gap-2">
             {tags.map((tag, index) => (
               <motion.span
-                key={index}
+                key={tag}
                 className="inline-flex items-center h-8 px-3.5 text-sm text-muted-foreground rounded-full cursor-default"
                 style={{
                   background: "oklch(0.22 0 0)",
                 }}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ 
-                  delay: 0.5 + index * 0.05, 
+                transition={{
+                  delay: 0.5 + index * 0.05,
                   duration: 0.4,
-                  ease: EASE_REVEAL 
+                  ease: EASE_REVEAL,
                 }}
-                whileHover={{ 
+                whileHover={{
                   scale: 1.04,
                   backgroundColor: "oklch(0.28 0 0)",
-                  transition: SPRING_TACTILE
+                  transition: SPRING_TACTILE,
                 }}
               >
                 {tag}
@@ -154,7 +157,7 @@ export function DetailsSection({ generation, onRetry }: DetailsSectionProps) {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.7, duration: 0.5 }}
           >
-            <pre 
+            <pre
               className="whitespace-pre-wrap text-sm leading-relaxed text-muted-foreground"
               style={{ fontFamily: "inherit" }}
             >
@@ -176,12 +179,10 @@ export function DetailsSection({ generation, onRetry }: DetailsSectionProps) {
               background: "oklch(0.25 0.08 25 / 0.15)",
             }}
           >
-            <p className="text-sm text-destructive-foreground/90 mb-4">
-              {generation.errorMessage}
-            </p>
-            <Button 
-              onClick={onRetry} 
-              variant="outline" 
+            <p className="text-sm text-destructive-foreground/90 mb-4">{generation.errorMessage}</p>
+            <Button
+              onClick={onRetry}
+              variant="outline"
               size="sm"
               className="font-mono uppercase tracking-wider text-xs"
             >

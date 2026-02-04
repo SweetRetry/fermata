@@ -1,13 +1,13 @@
-"use client";
+"use client"
 
 import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
-} from "@workspace/ui/components/context-menu";
-import { motion } from "framer-motion";
-import { Download, Trash2 } from "lucide-react";
+} from "@workspace/ui/components/context-menu"
+import { motion } from "framer-motion"
+import { Download, Trash2 } from "lucide-react"
 import {
   EmptyState,
   LibraryHeader,
@@ -16,8 +16,8 @@ import {
   SongCard,
   useDeleteSong,
   useLibrary,
-} from "@/features/music-library";
-import { usePlayerStore } from "@/features/player";
+} from "@/features/music-library"
+import { usePlayerStore } from "@/features/player"
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -28,20 +28,20 @@ const containerVariants = {
       delayChildren: 0.1,
     },
   },
-};
+}
 
 export default function LibraryPage() {
-  const { data: libraryData, isLoading } = useLibrary(50);
-  const songs = libraryData?.items ?? [];
-  const { currentTrack, setPlaylist, toggle } = usePlayerStore();
-  const deleteSong = useDeleteSong();
+  const { data: libraryData, isLoading } = useLibrary(50)
+  const songs = libraryData?.items ?? []
+  const { currentTrack, setPlaylist, toggle } = usePlayerStore()
+  const deleteSong = useDeleteSong()
 
   const handleTogglePlay = (song: Song) => {
-    if (!song.audioUrl) return;
+    if (!song.audioUrl) return
 
-    const isCurrentTrack = currentTrack?.id === song.id;
+    const isCurrentTrack = currentTrack?.id === song.id
     if (isCurrentTrack) {
-      toggle();
+      toggle()
     } else {
       // Convert songs to tracks and set as playlist
       const tracks = songs
@@ -53,27 +53,27 @@ export default function LibraryPage() {
           audioUrl: s.audioUrl,
           duration: s.duration,
           model: "MiniMax Music v2",
-        }));
-      const startIndex = tracks.findIndex((t) => t.id === song.id);
-      setPlaylist(tracks, Math.max(0, startIndex));
+        }))
+      const startIndex = tracks.findIndex((t) => t.id === song.id)
+      setPlaylist(tracks, Math.max(0, startIndex))
     }
-  };
+  }
 
   const handleDownload = (song: Song) => {
-    if (!song.audioUrl) return;
-    const link = document.createElement("a");
-    link.href = song.audioUrl;
-    link.download = `${song.title}.mp3`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
+    if (!song.audioUrl) return
+    const link = document.createElement("a")
+    link.href = song.audioUrl
+    link.download = `${song.title}.mp3`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
 
   const handleDelete = (song: Song) => {
     if (confirm(`确定要删除 "${song.title}" 吗？`)) {
-      deleteSong.mutate(song.id);
+      deleteSong.mutate(song.id)
     }
-  };
+  }
 
   return (
     <div className="flex flex-col gap-4 p-12">
@@ -102,10 +102,7 @@ export default function LibraryPage() {
                 </div>
               </ContextMenuTrigger>
               <ContextMenuContent>
-                <ContextMenuItem
-                  onClick={() => handleDownload(song)}
-                  disabled={!song.audioUrl}
-                >
+                <ContextMenuItem onClick={() => handleDownload(song)} disabled={!song.audioUrl}>
                   <Download className="mr-2 h-4 w-4" />
                   下载
                 </ContextMenuItem>
@@ -122,5 +119,5 @@ export default function LibraryPage() {
         </motion.div>
       )}
     </div>
-  );
+  )
 }

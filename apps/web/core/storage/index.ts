@@ -1,11 +1,11 @@
-import { createWriteStream, existsSync, mkdirSync, statSync } from "node:fs"
+import { createWriteStream, mkdirSync, statSync } from "node:fs"
 import { Readable } from "node:stream"
 import { pipeline } from "node:stream/promises"
 
 const STORAGE_DIR = "./public/generations"
 
 // Ensure storage directory exists
-export function ensureStorageDir() {
+function ensureStorageDir() {
   try {
     mkdirSync(STORAGE_DIR, { recursive: true })
   } catch {
@@ -48,25 +48,4 @@ export async function saveAudioFile(
     publicUrl: `/generations/${fileName}`,
     fileSize: stats.size,
   }
-}
-
-/**
- * Get the local file path for a generation
- */
-export function getAudioFilePath(generationId: string): string {
-  return `${STORAGE_DIR}/${generationId}.mp3`
-}
-
-/**
- * Check if audio file exists locally
- */
-export function audioFileExists(generationId: string): boolean {
-  return existsSync(getAudioFilePath(generationId))
-}
-
-/**
- * Get public URL for a generation's audio
- */
-export function getAudioPublicUrl(generationId: string): string {
-  return `/generations/${generationId}.mp3`
 }

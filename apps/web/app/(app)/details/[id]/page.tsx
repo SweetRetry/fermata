@@ -1,7 +1,7 @@
 "use client"
 
-import { useParams } from "next/navigation"
 import { AnimatePresence, motion } from "framer-motion"
+import { useParams } from "next/navigation"
 import {
   ArtworkSection,
   DetailsSection,
@@ -43,7 +43,7 @@ export default function DetailsPage() {
   }
 
   return (
-    <motion.div 
+    <motion.div
       className="flex h-full"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}

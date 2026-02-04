@@ -67,7 +67,7 @@ export function useGeneration(
 ) {
   return useQuery({
     queryKey: generationKeys.detail(id || ""),
-    queryFn: () => fetchGeneration(id!),
+    queryFn: () => fetchGeneration(id || ""),
     enabled: !!id,
     refetchInterval: (query) => {
       const data = query.state.data

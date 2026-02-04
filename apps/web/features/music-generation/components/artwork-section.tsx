@@ -28,11 +28,11 @@ export function ArtworkSection({ generation, isPlaying, onTogglePlay }: ArtworkS
   // Mouse tracking for spotlight effect
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
-  
+
   // Smooth spring-based mouse movement
   const spotlightX = useSpring(mouseX, SPRING_CINEMATIC)
   const spotlightY = useSpring(mouseY, SPRING_CINEMATIC)
-  
+
   // Create radial gradient spotlight
   const spotlightBackground = useMotionTemplate`
     radial-gradient(
@@ -77,7 +77,7 @@ export function ArtworkSection({ generation, isPlaying, onTogglePlay }: ArtworkS
           className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
           style={{ background: spotlightBackground }}
         />
-        
+
         {/* Content */}
         <div className="absolute inset-0 flex items-center justify-center">
           {generation.status === "completed" ? (
@@ -141,7 +141,7 @@ export function ArtworkSection({ generation, isPlaying, onTogglePlay }: ArtworkS
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4, duration: 0.6, ease: EASE_REVEAL }}
       >
-        <motion.h1 
+        <motion.h1
           layoutId={titleLayoutId}
           className="text-4xl font-semibold tracking-tight text-foreground"
         >
@@ -166,7 +166,9 @@ export function ArtworkSection({ generation, isPlaying, onTogglePlay }: ArtworkS
               strokeWidth="1.5"
               strokeLinecap="round"
               strokeLinejoin="round"
+              aria-label="Created at"
             >
+              <title>Clock icon</title>
               <circle cx="12" cy="12" r="10" />
               <polyline points="12 6 12 12 16 14" />
             </svg>
@@ -181,17 +183,18 @@ export function ArtworkSection({ generation, isPlaying, onTogglePlay }: ArtworkS
 // Audio Visualizer Component
 function AudioVisualizer({ isPlaying }: { isPlaying: boolean }) {
   const barCount = 8
-  
+
   if (!isPlaying) {
     return (
       <div className="flex items-end gap-1.5 h-28 opacity-40">
         {[...Array(barCount)].map((_, i) => (
           <div
-            key={i}
+            // biome-ignore lint/suspicious/noArrayIndexKey: static visualizer bars
+            key={`static-bar-${i}`}
             className="w-3 rounded-full bg-muted-foreground"
-            style={{ 
+            style={{
               height: `${32 + Math.sin(i * 0.8) * 24}px`,
-              opacity: 0.6 + Math.sin(i * 0.5) * 0.4
+              opacity: 0.6 + Math.sin(i * 0.5) * 0.4,
             }}
           />
         ))}
@@ -203,7 +206,8 @@ function AudioVisualizer({ isPlaying }: { isPlaying: boolean }) {
     <div className="flex items-end gap-1.5 h-36">
       {[...Array(barCount)].map((_, i) => (
         <motion.div
-          key={i}
+          // biome-ignore lint/suspicious/noArrayIndexKey: static visualizer bars
+          key={`animated-bar-${i}`}
           className="w-3 rounded-full bg-primary"
           animate={{
             height: [40, 100 + Math.random() * 40, 60, 120 + Math.random() * 30, 50],
