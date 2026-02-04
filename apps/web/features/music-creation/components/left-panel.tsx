@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { Button } from "@workspace/ui/components/button"
+import { Button } from "@workspace/ui/components/button";
 import {
   Form,
   FormControl,
@@ -9,28 +9,28 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@workspace/ui/components/form"
-import { cn } from "@workspace/ui/lib/utils"
-import { motion } from "framer-motion"
-import { AlertCircle, ChevronDown, Sparkles } from "lucide-react"
-import { memo, useState } from "react"
-import { slideInVariants } from "../animations/variants"
-import { AUDIO_PRESETS, type AudioPresetKey } from "../config/audio-presets"
-import { useMusicCreationForm } from "../hooks/use-music-creation-form"
+} from "@workspace/ui/components/form";
+import { cn } from "@workspace/ui/lib/utils";
+import { AnimatePresence, motion } from "framer-motion";
+import { AlertCircle, ChevronDown, Sparkles } from "lucide-react";
+import { memo, useState } from "react";
+import { slideInVariants } from "../animations/variants";
+import { AUDIO_PRESETS, type AudioPresetKey } from "../config/audio-presets";
+import { useMusicCreationForm } from "../hooks/use-music-creation-form";
 
 interface LeftPanelProps {
-  isSubmitting: boolean
-  error: string | null
+  isSubmitting: boolean;
+  error: string | null;
   onSubmit: (data: {
-    title?: string
-    prompt: string
-    lyrics_prompt?: string
-    is_instrumental: boolean
+    title?: string;
+    prompt: string;
+    lyrics_prompt?: string;
+    is_instrumental: boolean;
     audio_setting: {
-      bitrate: string
-      sample_rate: string
-    }
-  }) => void
+      bitrate: string;
+      sample_rate: string;
+    };
+  }) => void;
 }
 
 export const LeftPanel = memo(function LeftPanel({
@@ -38,13 +38,13 @@ export const LeftPanel = memo(function LeftPanel({
   error,
   onSubmit,
 }: LeftPanelProps) {
-  const { form, hasGenreContext, currentPrompt } = useMusicCreationForm()
+  const { form, hasGenreContext, currentPrompt } = useMusicCreationForm();
   // Note: MiniMax Music v2 doesn't support true instrumental mode, always require lyrics
-  const [audioPreset, setAudioPreset] = useState<AudioPresetKey>("standard")
-  const [showAudioSettings, setShowAudioSettings] = useState(false)
+  const [audioPreset, setAudioPreset] = useState<AudioPresetKey>("standard");
+  const [showAudioSettings, setShowAudioSettings] = useState(false);
 
   const handleSubmit = form.handleSubmit((data) => {
-    const preset = AUDIO_PRESETS[audioPreset]
+    const preset = AUDIO_PRESETS[audioPreset];
     onSubmit({
       title: data.title,
       prompt: data.prompt,
@@ -54,8 +54,8 @@ export const LeftPanel = memo(function LeftPanel({
         bitrate: preset.bitrate,
         sample_rate: preset.sample_rate,
       },
-    })
-  })
+    });
+  });
 
   return (
     <Form {...form}>
@@ -71,19 +71,28 @@ export const LeftPanel = memo(function LeftPanel({
           initial="hidden"
           animate="visible"
         >
-          <h1 className="text-3xl font-semibold text-foreground">Create Music</h1>
+          <h1 className="text-3xl font-semibold text-foreground">
+            Create Music
+          </h1>
           <motion.div
             className="flex h-9 items-center gap-2 rounded-lg border border-border bg-muted px-3"
             whileHover={{ scale: 1.02 }}
             transition={{ duration: 0.2 }}
           >
-            <span className="text-sm text-muted-foreground">MiniMax Music v2</span>
+            <span className="text-sm text-muted-foreground">
+              MiniMax Music v2
+            </span>
             <ChevronDown className="h-4 w-4 text-muted-foreground" />
           </motion.div>
         </motion.div>
 
         {/* Title Input */}
-        <motion.div custom={1} variants={slideInVariants} initial="hidden" animate="visible">
+        <motion.div
+          custom={1}
+          variants={slideInVariants}
+          initial="hidden"
+          animate="visible"
+        >
           <FormField
             control={form.control}
             name="title"
@@ -108,7 +117,12 @@ export const LeftPanel = memo(function LeftPanel({
         </motion.div>
 
         {/* Style Input */}
-        <motion.div custom={2} variants={slideInVariants} initial="hidden" animate="visible">
+        <motion.div
+          custom={2}
+          variants={slideInVariants}
+          initial="hidden"
+          animate="visible"
+        >
           <FormField
             control={form.control}
             name="prompt"
@@ -129,7 +143,9 @@ export const LeftPanel = memo(function LeftPanel({
                   <div
                     className={cn(
                       "flex h-20 flex-col rounded-xl border bg-secondary p-4",
-                      form.formState.errors.prompt ? "border-destructive" : "border-border"
+                      form.formState.errors.prompt
+                        ? "border-destructive"
+                        : "border-border",
                     )}
                   >
                     <textarea
@@ -169,7 +185,7 @@ export const LeftPanel = memo(function LeftPanel({
                       "flex h-40 flex-col rounded-xl border bg-secondary p-4",
                       form.formState.errors.lyrics_prompt
                         ? "border-destructive"
-                        : "border-border"
+                        : "border-border",
                     )}
                   >
                     <textarea
@@ -196,7 +212,9 @@ export const LeftPanel = memo(function LeftPanel({
           <div className="flex items-center gap-4">
             <button
               type="button"
-              onClick={() => setAudioPreset(audioPreset === "standard" ? "high" : "standard")}
+              onClick={() =>
+                setAudioPreset(audioPreset === "standard" ? "high" : "standard")
+              }
               className="text-xs text-muted-foreground hover:text-foreground transition-colors"
             >
               {AUDIO_PRESETS[audioPreset].label}
@@ -211,7 +229,9 @@ export const LeftPanel = memo(function LeftPanel({
             onClick={() => setShowAudioSettings(!showAudioSettings)}
             className={cn(
               "text-xs transition-colors",
-              showAudioSettings ? "text-primary" : "text-muted-foreground hover:text-foreground"
+              showAudioSettings
+                ? "text-primary"
+                : "text-muted-foreground hover:text-foreground",
             )}
           >
             Advanced
@@ -231,21 +251,23 @@ export const LeftPanel = memo(function LeftPanel({
                 <div className="flex items-center justify-between text-xs">
                   <span className="text-muted-foreground">Quality Preset</span>
                   <div className="flex gap-1">
-                    {(Object.keys(AUDIO_PRESETS) as AudioPresetKey[]).map((key) => (
-                      <button
-                        key={key}
-                        type="button"
-                        onClick={() => setAudioPreset(key)}
-                        className={cn(
-                          "px-2 py-1 rounded text-xs transition-colors",
-                          audioPreset === key
-                            ? "bg-primary text-primary-foreground"
-                            : "bg-muted hover:bg-muted/80"
-                        )}
-                      >
-                        {AUDIO_PRESETS[key].label}
-                      </button>
-                    ))}
+                    {(Object.keys(AUDIO_PRESETS) as AudioPresetKey[]).map(
+                      (key) => (
+                        <button
+                          key={key}
+                          type="button"
+                          onClick={() => setAudioPreset(key)}
+                          className={cn(
+                            "px-2 py-1 rounded text-xs transition-colors",
+                            audioPreset === key
+                              ? "bg-primary text-primary-foreground"
+                              : "bg-muted hover:bg-muted/80",
+                          )}
+                        >
+                          {AUDIO_PRESETS[key].label}
+                        </button>
+                      ),
+                    )}
                   </div>
                 </div>
                 <div className="text-xs text-muted-foreground space-y-0.5">
@@ -276,7 +298,12 @@ export const LeftPanel = memo(function LeftPanel({
         </AnimatePresence>
 
         {/* Create Button */}
-        <motion.div custom={5} variants={slideInVariants} initial="hidden" animate="visible">
+        <motion.div
+          custom={5}
+          variants={slideInVariants}
+          initial="hidden"
+          animate="visible"
+        >
           <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
             <Button
               type="submit"
@@ -289,5 +316,5 @@ export const LeftPanel = memo(function LeftPanel({
         </motion.div>
       </form>
     </Form>
-  )
-})
+  );
+});

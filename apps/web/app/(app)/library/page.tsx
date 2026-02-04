@@ -43,12 +43,12 @@ export default function LibraryPage() {
     } else {
       // Convert songs to tracks and set as playlist
       const tracks = songs
-        .filter((s) => s.audioUrl)
+        .filter((s): s is Song & { audioUrl: string } => Boolean(s.audioUrl))
         .map((s) => ({
           id: s.id,
           title: s.title,
           artist: "MiniMax Music v2",
-          audioUrl: s.audioUrl!,
+          audioUrl: s.audioUrl,
           duration: s.duration,
           model: "MiniMax Music v2",
         }));
