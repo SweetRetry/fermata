@@ -1,6 +1,7 @@
 "use client"
 
 import { useParams } from "next/navigation"
+import { AnimatePresence, motion } from "framer-motion"
 import {
   ArtworkSection,
   DetailsSection,
@@ -9,6 +10,8 @@ import {
   useGeneration,
 } from "@/features/music-generation"
 import { usePlayerStore } from "@/features/player"
+
+const EASE_REVEAL = [0.16, 1, 0.3, 1] as const
 
 export default function DetailsPage() {
   const params = useParams()
@@ -39,22 +42,55 @@ export default function DetailsPage() {
     await refetch()
   }
 
-  if (isLoading) {
-    return <LoadingState />
-  }
-
-  if (error || !generation) {
-    return <ErrorState message={error?.message} onRetry={handleRetry} />
-  }
-
   return (
-    <div className="flex h-full">
-      <ArtworkSection
-        generation={generation}
-        isPlaying={isPlaying && isCurrentTrack}
-        onTogglePlay={handleTogglePlay}
-      />
-      <DetailsSection generation={generation} onRetry={handleRetry} />
-    </div>
+    <motion.div 
+      className="flex h-full"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.4, ease: EASE_REVEAL }}
+    >
+      <AnimatePresence mode="wait">
+        {isLoading ? (
+          <motion.div
+            key="loading"
+            className="flex h-full w-full"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <LoadingState />
+          </motion.div>
+        ) : error || !generation ? (
+          <motion.div
+            key="error"
+            className="flex h-full w-full"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <ErrorState message={error?.message} onRetry={handleRetry} />
+          </motion.div>
+        ) : (
+          <motion.div
+            key="content"
+            className="flex h-full w-full"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4, ease: EASE_REVEAL }}
+          >
+            <ArtworkSection
+              generation={generation}
+              isPlaying={isPlaying && isCurrentTrack}
+              onTogglePlay={handleTogglePlay}
+            />
+            <DetailsSection generation={generation} onRetry={handleRetry} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
   )
 }
