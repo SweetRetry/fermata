@@ -10,32 +10,32 @@ export function formatDate(dateString: string): string {
   })
 }
 
-export function getStatusText(status: GenerationStatus): string {
+export function getStatusText(status: GenerationStatus): string | null {
   switch (status) {
     case "pending":
-      return "等待中"
+      return null
     case "generating":
-      return "生成中"
+      return null
     case "completed":
-      return "已完成"
+      return null
     case "failed":
       return "失败"
     default:
-      return "未知"
+      return null
   }
 }
 
-export function getStatusColor(status: GenerationStatus): string {
+export function getStatusColor(status: GenerationStatus): string | null {
   switch (status) {
     case "pending":
-      return "text-muted-foreground"
+      return null
     case "generating":
-      return "text-primary"
+      return null
     case "completed":
-      return "text-emerald-500"
+      return null
     case "failed":
-      return "text-destructive"
-    default:
       return "text-muted-foreground"
+    default:
+      return null
   }
 }

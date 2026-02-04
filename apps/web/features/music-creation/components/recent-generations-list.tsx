@@ -6,6 +6,7 @@ import { AlertCircle, Pause, Play } from "lucide-react"
 import Link from "next/link"
 import type { Song } from "@/features/music-library"
 import { usePlayerStore } from "@/features/player"
+import { StatusIndicator } from "@/components/status-indicator"
 import { getStatusDisplay } from "../lib/get-status-display"
 
 interface RecentGenerationsListProps {
@@ -107,9 +108,12 @@ export function RecentGenerationsList({
               </button>
               <div>
                 <p className="font-medium text-sm text-foreground">{gen.title}</p>
-                <p className={`text-xs ${getStatusDisplay(gen.status).color}`}>
-                  {getStatusDisplay(gen.status).text}
-                </p>
+                <div className="mt-1">
+                  <StatusIndicator status={gen.status} size="sm" />
+                </div>
+                {gen.status === "failed" && (
+                  <p className="text-xs text-muted-foreground">{getStatusDisplay(gen.status).text}</p>
+                )}
               </div>
             </div>
             <Link href={`/details/${gen.id}`}>

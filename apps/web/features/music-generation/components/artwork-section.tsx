@@ -2,7 +2,8 @@
 
 import { motion } from "framer-motion"
 import { AlertCircle, Pause, Play } from "lucide-react"
-import { formatDate, getStatusColor, getStatusText } from "../lib/utils"
+import { StatusIndicator } from "@/components/status-indicator"
+import { formatDate, getStatusText } from "../lib/utils"
 import type { Generation } from "../types"
 
 const slideInLeft = {
@@ -71,8 +72,8 @@ export function ArtworkSection({ generation, isPlaying, onTogglePlay }: ArtworkS
           </div>
         ) : generation.status === "failed" ? (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
-            <AlertCircle className="h-16 w-16 text-destructive" />
-            <span className="text-sm text-destructive">生成失败</span>
+            <AlertCircle className="h-16 w-16 text-muted-foreground" />
+            <span className="text-sm text-muted-foreground">生成失败</span>
           </div>
         ) : (
           <div className="absolute inset-0 flex items-center justify-center">
@@ -111,9 +112,12 @@ export function ArtworkSection({ generation, isPlaying, onTogglePlay }: ArtworkS
       >
         <h1 className="text-[28px] font-semibold text-foreground">{generation.title}</h1>
         <div className="flex items-center gap-2 text-base text-muted-foreground">
-          <span className={getStatusColor(generation.status)}>
-            {getStatusText(generation.status)}
-          </span>
+          <StatusIndicator status={generation.status} size="sm" />
+          {generation.status === "failed" && (
+            <span className="text-muted-foreground">{getStatusText(generation.status)}</span>
+          )}
+          {(generation.status === "pending" || generation.status === "generating") && <span />}
+          {generation.status === "completed" && <span />}
           <span>·</span>
           <span className="flex items-center gap-1">
             <svg

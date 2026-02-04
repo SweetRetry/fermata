@@ -21,7 +21,6 @@ export {
   LibraryHeader,
   LoadingState,
   SongCard,
-  SongGrid,
 } from "./components"
 
 // Utils

@@ -1,26 +1,38 @@
-"use client"
+"use client";
 
+import { motion } from "framer-motion";
 import {
   EmptyState,
   LibraryHeader,
   LoadingState,
+  SongCard,
   type Song,
-  SongGrid,
   useLibrary,
-} from "@/features/music-library"
-import { usePlayerStore } from "@/features/player"
+} from "@/features/music-library";
+import { usePlayerStore } from "@/features/player";
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.1,
+    },
+  },
+};
 
 export default function LibraryPage() {
-  const { data: libraryData, isLoading } = useLibrary(50)
-  const songs = libraryData?.items ?? []
-  const { currentTrack, isPlaying, setTrack, toggle } = usePlayerStore()
+  const { data: libraryData, isLoading } = useLibrary(50);
+  const songs = libraryData?.items ?? [];
+  const { currentTrack, setTrack, toggle } = usePlayerStore();
 
   const handleTogglePlay = (song: Song) => {
-    if (!song.audioUrl) return
+    if (!song.audioUrl) return;
 
-    const isCurrentTrack = currentTrack?.id === song.id
+    const isCurrentTrack = currentTrack?.id === song.id;
     if (isCurrentTrack) {
-      toggle()
+      toggle();
     } else {
       setTrack({
         id: song.id,
@@ -28,9 +40,9 @@ export default function LibraryPage() {
         artist: "AI Generated",
         audioUrl: song.audioUrl,
         model: "MiniMax Music v2",
-      })
+      });
     }
-  }
+  };
 
   return (
     <div className="flex h-full flex-col gap-8 p-12">
@@ -41,13 +53,22 @@ export default function LibraryPage() {
       ) : songs.length === 0 ? (
         <EmptyState />
       ) : (
-        <SongGrid
-          songs={songs}
-          currentTrackId={currentTrack?.id}
-          isPlaying={isPlaying}
-          onTogglePlay={handleTogglePlay}
-        />
+        <motion.div
+          className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          {songs.map((song) => (
+            <SongCard
+              key={song.id}
+              song={song}
+              isCurrentSong={currentTrack?.id === song.id}
+              onTogglePlay={handleTogglePlay}
+            />
+          ))}
+        </motion.div>
       )}
     </div>
-  )
+  );
 }

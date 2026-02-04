@@ -2,10 +2,11 @@
 
 import { Button } from "@workspace/ui/components/button"
 import { motion } from "framer-motion"
-import { CheckCircle2, Eye, Pause, Play, RotateCcw } from "lucide-react"
+import { Eye, Pause, Play, RotateCcw } from "lucide-react"
 import Link from "next/link"
 import { usePlayerStore } from "@/features/player"
 import type { Generation } from "@/features/music-generation"
+import { StatusIndicator } from "@/components/status-indicator"
 import { getStatusDisplay } from "../lib/get-status-display"
 
 interface GenerationStatusProps {
@@ -55,11 +56,13 @@ export function GenerationStatusCard({
       <div className="flex items-start justify-between">
         <div>
           <h3 className="font-medium text-foreground">{generation.title}</h3>
-          <p className={`text-sm ${getStatusDisplay(generation.status).color}`}>
-            {getStatusDisplay(generation.status).text}
-          </p>
+          <div className="mt-1">
+            <StatusIndicator status={generation.status} size="md" />
+          </div>
+          {generation.status === "failed" && (
+            <p className="text-sm text-muted-foreground">{getStatusDisplay(generation.status).text}</p>
+          )}
         </div>
-        {generation.status === "completed" && <CheckCircle2 className="h-5 w-5 text-emerald-500" />}
         {generation.status === "failed" && (
           <Button type="button" variant="ghost" size="sm" onClick={onRetry} className="h-8 gap-1">
             <RotateCcw className="h-4 w-4" />
