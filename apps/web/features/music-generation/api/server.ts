@@ -78,7 +78,7 @@ export async function createGeneration(
   generateMusicAsync(
     id,
     prompt,
-    lyrics_prompt || (is_instrumental ? "[Instrumental]" : ""),
+    lyrics_prompt || "",
   );
 
   return {

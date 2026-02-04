@@ -10,9 +10,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@workspace/ui/components/form"
-import { Switch } from "@workspace/ui/components/switch"
 import { cn } from "@workspace/ui/lib/utils"
-import { AnimatePresence, motion } from "framer-motion"
+import { motion } from "framer-motion"
 import { AlertCircle, ChevronDown, Sparkles } from "lucide-react"
 import { memo, useState } from "react"
 import { slideInVariants } from "../animations/variants"
@@ -40,7 +39,7 @@ export const LeftPanel = memo(function LeftPanel({
   onSubmit,
 }: LeftPanelProps) {
   const { form, hasGenreContext, currentPrompt } = useMusicCreationForm()
-  const [instrumental, setInstrumental] = useState(true)
+  // Note: MiniMax Music v2 doesn't support true instrumental mode, always require lyrics
   const [audioPreset, setAudioPreset] = useState<AudioPresetKey>("standard")
   const [showAudioSettings, setShowAudioSettings] = useState(false)
 
@@ -49,8 +48,8 @@ export const LeftPanel = memo(function LeftPanel({
     onSubmit({
       title: data.title,
       prompt: data.prompt,
-      lyrics_prompt: instrumental ? "[Instrumental]" : data.lyrics_prompt,
-      is_instrumental: instrumental,
+      lyrics_prompt: data.lyrics_prompt,
+      is_instrumental: false,
       audio_setting: {
         bitrate: preset.bitrate,
         sample_rate: preset.sample_rate,
@@ -149,47 +148,42 @@ export const LeftPanel = memo(function LeftPanel({
           />
         </motion.div>
 
-        {/* Lyrics Input */}
-        <AnimatePresence>
-          {!instrumental && (
-            <motion.div
-              custom={3}
-              variants={slideInVariants}
-              initial="hidden"
-              animate="visible"
-              exit={{ opacity: 0, height: 0 }}
-            >
-              <FormField
-                control={form.control}
-                name="lyrics_prompt"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                      Lyrics
-                    </FormLabel>
-                    <FormControl>
-                      <motion.div
-                        className={cn(
-                          "flex h-40 flex-col rounded-xl border bg-secondary p-4",
-                          form.formState.errors.lyrics_prompt
-                            ? "border-destructive"
-                            : "border-border"
-                        )}
-                      >
-                        <textarea
-                          {...field}
-                          placeholder="Enter your lyrics here...&#10;&#10;[Verse 1]&#10;Your lyrics"
-                          className="h-full w-full resize-none bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
-                        />
-                      </motion.div>
-                    </FormControl>
-                    <FormMessage className="text-xs" />
-                  </FormItem>
-                )}
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {/* Lyrics Input - Always shown since MiniMax v2 requires lyrics */}
+        <motion.div
+          custom={3}
+          variants={slideInVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <FormField
+            control={form.control}
+            name="lyrics_prompt"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  Lyrics
+                </FormLabel>
+                <FormControl>
+                  <motion.div
+                    className={cn(
+                      "flex h-40 flex-col rounded-xl border bg-secondary p-4",
+                      form.formState.errors.lyrics_prompt
+                        ? "border-destructive"
+                        : "border-border"
+                    )}
+                  >
+                    <textarea
+                      {...field}
+                      placeholder="Enter your lyrics here...&#10;&#10;[Verse 1]&#10;Your lyrics"
+                      className="h-full w-full resize-none bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
+                    />
+                  </motion.div>
+                </FormControl>
+                <FormMessage className="text-xs" />
+              </FormItem>
+            )}
+          />
+        </motion.div>
 
         {/* Settings Row */}
         <motion.div
@@ -200,14 +194,6 @@ export const LeftPanel = memo(function LeftPanel({
           animate="visible"
         >
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-secondary-foreground">Instrumental</span>
-              <Switch
-                checked={instrumental}
-                onCheckedChange={setInstrumental}
-              />
-            </div>
-
             <button
               type="button"
               onClick={() => setAudioPreset(audioPreset === "standard" ? "high" : "standard")}

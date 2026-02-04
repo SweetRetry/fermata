@@ -1,6 +1,13 @@
 "use client";
 
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuTrigger,
+} from "@workspace/ui/components/context-menu";
 import { motion } from "framer-motion";
+import { Download } from "lucide-react";
 import {
   EmptyState,
   LibraryHeader,
@@ -50,6 +57,16 @@ export default function LibraryPage() {
     }
   };
 
+  const handleDownload = (song: Song) => {
+    if (!song.audioUrl) return;
+    const link = document.createElement("a");
+    link.href = song.audioUrl;
+    link.download = `${song.title}.mp3`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="flex h-full flex-col gap-8 p-12">
       <LibraryHeader count={songs.length} isLoading={isLoading} />
@@ -66,12 +83,26 @@ export default function LibraryPage() {
           animate="visible"
         >
           {songs.map((song) => (
-            <SongCard
-              key={song.id}
-              song={song}
-              isCurrentSong={currentTrack?.id === song.id}
-              onTogglePlay={handleTogglePlay}
-            />
+            <ContextMenu key={song.id}>
+              <ContextMenuTrigger asChild>
+                <div>
+                  <SongCard
+                    song={song}
+                    isCurrentSong={currentTrack?.id === song.id}
+                    onTogglePlay={handleTogglePlay}
+                  />
+                </div>
+              </ContextMenuTrigger>
+              <ContextMenuContent>
+                <ContextMenuItem
+                  onClick={() => handleDownload(song)}
+                  disabled={!song.audioUrl}
+                >
+                  <Download className="mr-2 h-4 w-4" />
+                  下载
+                </ContextMenuItem>
+              </ContextMenuContent>
+            </ContextMenu>
           ))}
         </motion.div>
       )}
